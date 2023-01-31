@@ -7,6 +7,7 @@
 Team members:
 Andres Cadenas Blanco UO282276@uniovi.es
 Pedro Limeres Granado uo282763@uniovi.es
+Diego Villanueva Berros UO283615@uniovi.es
 
 <p float="left">
 <img src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
