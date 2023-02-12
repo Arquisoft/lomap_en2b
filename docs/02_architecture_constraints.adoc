@@ -5,7 +5,9 @@
 [role="arc42help"]
 ****
 .Contents
-Any requirement that constrains software architects in their freedom of design and implementation decisions or decision about the development process. These constraints sometimes go beyond individual systems and are valid for whole organizations and companies.
+Any requirement that constrains software architects in their freedom of design and implementation decisions 
+or decision about the development process. These constraints sometimes go beyond individual systems and are 
+valid for whole organizations and companies.
 
 .Motivation
 Architects should know exactly where they are free in their design decisions and where they must adhere to constraints.
@@ -17,3 +19,15 @@ If needed you can subdivide them into
 technical constraints, organizational and political constraints and
 conventions (e.g. programming or versioning guidelines, documentation or naming conventions)
 ****
+
+During the deveplopment of this LoMap project, there are some constraints that must me taken into account.
+This constraints are the base of the arquitecture process, and are the roots of the final deveplopment. They are summarized and briefly explained in the following table. 
+
+[options="header",cols="1,4"]
+|===
+|Constraint|description
+| _Solid_ | _Provided by the stakeholders. A way of building decentralized social apps, it gives every user a choice about where data is stored, helping the privacy of each user._
+| _Facilitate user navigavility_ | _The app is developed using react, a javascript library used to make the interaction of the user easier, as it helps in the building of the user interface of the web app._
+| _Flexibility_ | _The map which is the base of the app is generated using the Google Maps API, for the possibility of working in any place around the world._
+| _Quality_ | _The application is developed around some quality requirements, later described in section 10._
+|===
