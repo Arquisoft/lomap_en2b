@@ -2,24 +2,6 @@
 == Architecture Constraints
 
 
-[role="arc42help"]
-****
-.Contents
-Any requirement that constrains software architects in their freedom of design and implementation decisions 
-or decision about the development process. These constraints sometimes go beyond individual systems and are 
-valid for whole organizations and companies.
-
-.Motivation
-Architects should know exactly where they are free in their design decisions and where they must adhere to constraints.
-Constraints must always be dealt with; they may be negotiable, though.
-
-.Form
-Simple tables of constraints with explanations.
-If needed you can subdivide them into
-technical constraints, organizational and political constraints and
-conventions (e.g. programming or versioning guidelines, documentation or naming conventions)
-****
-
 During the deveplopment of this LoMap project, there are some constraints that must me taken into account.
 This constraints are the base of the arquitecture process, and are the roots of the final deveplopment. They are summarized and briefly explained in the following table. 
 
