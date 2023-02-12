@@ -2,8 +2,8 @@
 == Architecture Constraints
 
 
-During the deveplopment of this LoMap project, there are some constraints that must me taken into account.
-This constraints are the base of the arquitecture process, and are the roots of the final deveplopment. They are summarized and briefly explained in the following table. 
+During the development of this LoMap project, there are some constraints that must be taken into account.
+These constraints are the base of the architecture process, and are the roots of the final development. They are summarized and briefly explained in the following table. 
 
 [options="header",cols="1,4"]
 |===
