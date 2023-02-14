@@ -3,15 +3,29 @@
 
 
 [role="arc42help"]
-****
-.Contents
-A list of identified technical risks or technical debts, ordered by priority
 
-.Motivation
-“Risk management is project management for grown-ups” (Tim Lister, Atlantic Systems Guild.) 
 
-This should be your motto for systematic detection and evaluation of risks and technical debts in the architecture, which will be needed by management stakeholders (e.g. project managers, product owners) as part of the overall risk analysis and measurement planning.
+As it stands now, we have identified some important risks before starting coding the project.
 
-.Form
-List of risks and/or technical debts, probably including suggested measures to minimize, mitigate or avoid risks or reduce technical debts.
-****
+|===
+|Risk|Mitigation proposed|Consideration
+
+|Use of technologies we are not used to.
+|Consulting the documentation of the languages when necessary, as well as trying to use technologies we know, so as to better concentrate on those we do not. Helping ourselves is also certainly a solution.
+|High
+
+|Github use as explained in class.
+|There is not a real mitigation proposed; the only thing we can really do is remember to use it.
+|Medium
+
+|SOLID
+|Inform ourselves about SOLID, as well as trying to talk about it ourselves to see if there is anything we have missed. Asking the professor when arriving at a doubt.
+|High
+
+|Team members leaving the team during development.
+|Assign a feature to two people instead of one, mitigating (though not avoiding) the consequences of a person leaving mid-development. Doing proper documentation in the code and commit messages should also help.
+|Medium
+
+|===
+
+Regarding the technical debt, it is important to notice that using a new language is a big problem: we will probably write bad or otherwise improvable code, so (as already mentioned) using technologies we are already familiar in conjuction can help. We can incur there in other kind of technical debt there, though, as the used technology might not be appropiate.
