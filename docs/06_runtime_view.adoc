@@ -1,57 +1,79 @@
 [[section-runtime-view]]
 == Runtime View
 
+The following sequence diagrams describe different situtations that happen during the use of LoMap.
+These situations where chosen as they show the impact of our architectural decissions.
 
-[role="arc42help"]
-****
-.Contents
-The runtime view describes concrete behavior and interactions of the system’s building blocks in form of scenarios from the following areas:
-
-* important use cases or features: how do building blocks execute them?
-* interactions at critical external interfaces: how do building blocks cooperate with users and neighboring systems?
-* operation and administration: launch, start-up, stop
-* error and exception scenarios
-
-Remark: The main criterion for the choice of possible scenarios (sequences, workflows) is their *architectural relevance*. It is *not* important to describe a large number of scenarios. You should rather document a representative selection.
-
-.Motivation
-You should understand how (instances of) building blocks of your system perform their job and communicate at runtime.
-You will mainly capture scenarios in your documentation to communicate your architecture to stakeholders that are less willing or able to read and understand the static models (building block view, deployment view).
-
-.Form
-There are many notations for describing scenarios, e.g.
-
-* numbered list of steps (in natural language)
-* activity diagrams or flow charts
-* sequence diagrams
-* BPMN or EPCs (event process chains)
-* state machines
-* ...
-
-****
-
-=== <Runtime Scenario 1>
-
-
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.>_
-
-It is possible to use a sequence diagram:
+=== Accessing the application
+This diagram shows the communication between the user, the app and the pod when the user logs in.
 
 [plantuml,"Sequence diagram",png]
 ----
-actor Alice
-actor Bob
-database Pod as "Bob's Pod"
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-Alice  --> Pod: Store route
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+@startuml
+header Runtime View
+title Logging in to the application
+
+actor Diego
+participant LoMap
+database Pod as "Diego's Pod"
+
+Diego -> LoMap: Log in information
+LoMap -> Pod: Diego's password request
+Pod --> LoMap: Diego's hashed password
+LoMap -> LoMap: Validate password
+LoMap --> Diego: Main page logged in
+@enduml
 ----
-=== <Runtime Scenario 2>
 
-=== ...
+=== Adding landmark to the map
+This diagram show the communication between the user, the app and the pod when the user adds a landmark.
 
-=== <Runtime Scenario n>
+[plantuml,"Sequence diagram",png]
+----
+@startuml
+header Runtime View
+title Adding a landmark
+
+actor Diego
+participant LoMap
+database Pod as "Diego's Pod"
+
+Diego -> LoMap: Send location coordinates
+LoMap -> Pod: Store the coordinates
+@enduml
+----
+
+=== Seeing friends' added landmarks
+This diagram show the communication between the user, the app and the pods when the user wants to see their friends' landmarks.
+
+[plantuml,"Sequence diagram",png]
+----
+@startuml
+header Runtime View
+title Getting friends' landmarks
+
+actor Diego
+participant LoMap
+database PodDiego as "Diego's Pod"
+
+database PodAndrés as "Andrés' Pod"
+database PodJorge as "Jorge's Pod"
+database PodPedro as "Pedro's Pod"
+
+
+Diego -> LoMap: Show Diego's and his friends' landmarks
+LoMap -> PodDiego: Get Diego's friends
+PodDiego --> LoMap: Diego's friends ids
+
+activate LoMap
+LoMap -> PodAndrés: Ask for Andrés' landmarks
+PodAndrés --> LoMap: Andrés' landmarks
+LoMap -> PodJorge: Ask for Jorge's landmarks
+PodJorge--> LoMap: Jorges' landmarks
+LoMap -> PodPedro: Ask for Pedro's landmarks
+PodPedro--> LoMap: Pedro's landmarks
+deactivate LoMap
+
+LoMap --> Diego: All Diego's and his friends' landmarks
+@enduml
+----
