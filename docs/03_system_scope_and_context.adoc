@@ -28,23 +28,21 @@ From that we can say that the main actors have this speciofications:
 |===
 
 === Technical Context
+The webapp follows the SOLID decentralized architecture. It is important to have a system to connect the pods with eachother using a central system. This is done using the API which is also the responsible for the usage of the website.
 
-[role="arc42help"]
-****
-.Contents
-Technical interfaces (channels and transmission media) linking your system to its environment. In addition a mapping of domain specific input/output to the channels, i.e. an explanation with I/O uses which channel.
+image::https://github.com/Arquisoft/lomap_en2b/blob/c9dc0d1415008f61e8da3a6a08a3bdc78109940e/docs/images/Captura%20de%20pantalla%202023-02-20%20164603.jpg[]
 
-.Motivation
-Many stakeholders make architectural decision based on the technical interfaces between the system and its context. Especially infrastructure or hardware designers decide these technical interfaces.
+[cols = "1,2"]
+|===
+|*Inrupt*
+|Inrupt is a provider of pods, It could happen that it was another provider of SOLID architecture. What's important is that the user has a pod able to connevt to the API.
 
-.Form
-E.g. UML deployment diagram describing channels to neighboring systems,
-together with a mapping table showing the relationships between channels and input/output.
+|*API*
+|This API is in charge on making all the connections and logic so everything works as it should. This is done with TypeScript.
 
-****
+|*Database*
+|For the moment the technology decided for the main database hasn't been decided, so this will be updated later.
 
-**<Diagram or Table>**
-
-**<optionally: Explanation of technical interfaces>**
-
-**<Mapping Input/Output to Channels>**
+|*Website*
+|The frontend of the website to show the information is using the React framework for typescript.
+|===
