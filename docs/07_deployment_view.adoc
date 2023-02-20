@@ -3,84 +3,73 @@
 
 == Deployment View
 
-[role="arc42help"]
-****
-.Content
-The deployment view describes:
-
- 1. the technical infrastructure used to execute your system, with infrastructure elements like geographical locations, environments, computers, processors, channels and net topologies as well as other infrastructure elements and
-
-2. the mapping of (software) building blocks to that infrastructure elements.
-
-Often systems are executed in different environments, e.g. development environment, test environment, production environment. In such cases you should document all relevant environments.
-
-Especially document the deployment view when your software is executed as distributed system with more then one computer, processor, server or container or when you design and construct your own hardware processors and chips.
-
-From a software perspective it is sufficient to capture those elements of the infrastructure that are needed to show the deployment of your building blocks. Hardware architects can go beyond that and describe the infrastructure to any level of detail they need to capture.
-
-.Motivation
-Software does not run without hardware.
-This underlying infrastructure can and will influence your system and/or some
-cross-cutting concepts. Therefore, you need to know the infrastructure.
-
-.Form
-
-Maybe the highest level deployment diagram is already contained in section 3.2. as
-technical context with your own infrastructure as ONE black box. In this section you will
-zoom into this black box using additional deployment diagrams:
-
-* UML offers deployment diagrams to express that view. Use it, probably with nested diagrams,
-when your infrastructure is more complex.
-* When your (hardware) stakeholders prefer other kinds of diagrams rather than the deployment diagram, let them use any kind that is able to show nodes and channels of the infrastructure.
-****
-
 === Infrastructure Level 1
 
-[role="arc42help"]
-****
-Describe (usually in a combination of diagrams, tables, and text):
+Given that we currently do not know much about hosting the application, at this moment we will follow a simple approach that will likely change in the future.
 
-*  the distribution of your system to multiple locations, environments, computers, processors, .. as well as the physical connections between them
-*  important justification or motivation for this deployment structure
-* Quality and/or performance features of the infrastructure
-*  the mapping of software artifacts to elements of the infrastructure
+[plantuml,"Deployment diagram",png]
+----
+@startuml
 
-For multiple environments or alternative deployments please copy that section of arc42 for all relevant environments.
-****
+header Deployment view
+title Deployment view
 
-_**<Overview Diagram>**_
+folder "LoMap server" {
+    agent "LoMap Platform"
+    database "Database server"
+}
+agent Pod1
+agent Pod2
+agent Pod3
+agent PodN
+
+Pod1 ---> "LoMap Platform"
+Pod1 <--- "LoMap Platform"
+Pod2 ---> "LoMap Platform"
+Pod2 <--- "LoMap Platform"
+Pod3 ---> "LoMap Platform"
+Pod3 <--- "LoMap Platform"
+PodN ---> "LoMap Platform"
+PodN <--- "LoMap Platform"
+
+"Database server" -> "LoMap Platform"
+"Database server" <- "LoMap Platform"
+
+@enduml
+----
 
 Motivation::
 
-_<explanation in text form>_
+This approach is motivated because it is not very complicated, and can be easily changed at later date if necessary.
 
 Quality and/or Performance Features::
 
-_<explanation in text form>_
+This approach has a series of upsides and downsides.
+
+On one hand, its simplicity means it can be deployed easily changed without much changes at a later dater, or even the self-hosted. Placing the database in the same server also means that the server will not have latency, or a very minor one, and that server costs will also be less. On the other, given that we are placing everything inside the same server, it will certainly affect performance and in the case of the server going down, not just the application but also the database will go down.
+
+Nevertheless, the deployment has yet occur and we have not thought how we will do it, beyond this approach.
 
 Mapping of Building Blocks to Infrastructure::
-_<description of the mapping>_
 
+As it can be seen, this approach makes the pods be connected to the platform at nearly all times. Currently, we have discussed that the database will store fixed data that all users will necessarily retrieve, but that may change in the future.
 
 === Infrastructure Level 2
 
-[role="arc42help"]
-****
-Here you can include the internal structure of (some) infrastructure elements from level 1.
+==== The server
 
-Please copy the structure from level 1 for each selected element.
-****
+Although we have yet to choose the operating system that will run it, it is probably between Windows Server and Linux. Both come with their own upsides and downsides:
 
-==== _<Infrastructure Element 1>_
+- On one hand, using Windows means we have (usually) a graphical interface we can use, which helps the deploying process. But using Windows means we will have to pay license, and Docker (if we use it) cannot run natively on Windows, only through Hyper-V.
 
-_<diagram + explanation>_
+- On the other hand, using Linux means we do not have a graphical interface (though we can install one, it is not usually done). But we are currently focusing mainly on Linux in another subject, and we do not have to pay a license, and Docker can natively run in Linux.
 
-==== _<Infrastructure Element 2>_
+==== The database management system
 
-_<diagram + explanation>_
+We have yet to choose a database management system, but we have several options:
 
-...
+- SQL DBMSs are the ones we are most used to, but they may not be a right fit for the application.
 
-==== _<Infrastructure Element n>_
+- Neo4J is a NoSQL graph database that may be useful when mapping the relationships between users, but it comes with the downside of not having constraints, and being limited in its Community edition. This last limitation can be overcome by using another graph database, though we have the risk of being not used to it.
 
-_<diagram + explanation>_
+- MongoDB is another NoSQL database that uses JSON documents, but only one of our members is used to it, so it may not be the right fit, as we run the risk of incurring in technical debt. See that part for more information.
