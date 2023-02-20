@@ -5,10 +5,10 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_en2b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_en2b)
 
 ## Team members
-Andres Cadenas Blanco UO282276@uniovi.es
-Pedro Limeres Granado uo282763@uniovi.es
-Diego Villanueva Berros UO283615@uniovi.es
-Jorge Joaquín Gancedo Fernández UO282161@uniovi.es
+Andres Cadenas Blanco UO282276@uniovi.es  
+Pedro Limeres Granado uo282763@uniovi.es  
+Diego Villanueva Berros UO283615@uniovi.es  
+Jorge Joaquín Gancedo Fernández UO282161@uniovi.es  
 
 <p float="left">
 <img src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
