@@ -35,7 +35,7 @@ image::https://github.com/Arquisoft/lomap_en2b/blob/c9dc0d1415008f61e8da3a6a08a3
 [cols = "1,2"]
 |===
 |*Inrupt*
-|Inrupt is a provider of pods, It could happen that it was another provider of SOLID architecture. What's important is that the user has a pod able to connevt to the API.
+|Inrupt is a provider of pods, It could happen that it was another provider of SOLID architecture. What's important is that the user has a pod able to connect to the API.
 
 |*API*
 |This API is in charge on making all the connections and logic so everything works as it should. This is done with TypeScript.
