@@ -24,3 +24,10 @@ Various options:
 * more detailed in form of separate sections per decision
 * ADR (architecture decision record) for every important decision
 ****
+
+[options="header",cols="1,4"]
+|===
+|Decision|Why?
+| Inrupt | As a constraint in the project, we said we needed to use solid pods, and inrupt is the way we are going to include it in our project. Essentially it is a way of 
+| Leaflet | It is the provider we are going to use for obtaining the necessary features around the map. We studied some other different options, such as Mapbox o Google Maps API, but we needed the Api to be completely free.
+|===
