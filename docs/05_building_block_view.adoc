@@ -3,204 +3,132 @@
 
 == Building Block View
 
-[role="arc42help"]
-****
-.Content
-The building block view shows the static decomposition of the system into building blocks (modules, components, subsystems, classes,
-interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, macros, operations,
-datas structures, ...) as well as their dependencies (relationships, associations, ...)
-
-This view is mandatory for every architecture documentation.
-In analogy to a house this is the _floor plan_.
-
-.Motivation
-Maintain an overview of your source code by making its structure understandable through
-abstraction.
-
-This allows you to communicate with your stakeholder on an abstract level without disclosing implementation details.
-
-.Form
-The building block view is a hierarchical collection of black boxes and white boxes
-(see figure below) and their descriptions.
-
-image:05_building_blocks-EN.png["Hierarchy of building blocks"]
-
-*Level 1* is the white box description of the overall system together with black
-box descriptions of all contained building blocks.
-
-*Level 2* zooms into some building blocks of level 1.
-Thus it contains the white box description of selected building blocks of level 1, together with black box descriptions of their internal building blocks.
-
-*Level 3* zooms into selected building blocks of level 2, and so on.
-****
-
-=== Whitebox Overall System
-
-[role="arc42help"]
-****
-Here you describe the decomposition of the overall system using the following white box template. It contains
-
- * an overview diagram
- * a motivation for the decomposition
- * black box descriptions of the contained building blocks. For these we offer you alternatives:
-
-   ** use _one_ table for a short and pragmatic overview of all contained building blocks and their interfaces
-   ** use a list of black box descriptions of the building blocks according to the black box template (see below).
-   Depending on your choice of tool this list could be sub-chapters (in text files), sub-pages (in a Wiki) or nested elements (in a modeling tool).
-
-
- * (optional:) important interfaces, that are not explained in the black box templates of a building block, but are very important for understanding the white box.
-Since there are so many ways to specify interfaces why do not provide a specific template for them.
- In the worst case you have to specify and describe syntax, semantics, protocols, error handling,
- restrictions, versions, qualities, necessary compatibilities and many things more.
-In the best case you will get away with examples or simple signatures.
-
-****
-
-_**<Overview Diagram>**_
+=== Level 1 Diagram
 
 Motivation::
 
-_<text explanation>_
+This diagram is motivated by the need of having a clear separation of the composition of the application.
 
+[plantuml,"Deployment diagram",png]
+----
+@startuml
+
+header Architecture of the application
+title Architecture of the application
+
+agent "View"
+agent "Controller"
+agent "Model"
+agent "Service layer"
+agent "Persistance layer"
+
+"Model" -> "Service layer"
+"Controller" -> "Model"
+"View" -> "Controller"
+"Service layer" -> "Persistance layer"
+@enduml
+----
 
 Contained Building Blocks::
-_<Description of contained building block (black boxes)>_
+
+As seen, the different components are the following:
+
+* *View layer*: The view layer is composed of those elements that the client will interact with; for instance, it includes HTML files, CSS sheets and client-side code.
+
+* *Controller layer*: The controller layer will ensure a proper communication the client and the server.
+
+* *Service layer*: The service layer will be the controller layer's access point to persistent storage (_i.e._, the user's pod and the main database). It will differentiate between the user's pod and the main database.
+
+* *Persistance layer*: The persistance layer will handle data retrieval and persistence logic.
+
+* *Model layer*: The model layer will handle the main logic of the application. 
 
 Important Interfaces::
-_<Description of important interfaces>_
-
-[role="arc42help"]
-****
-Insert your explanations of black boxes from level 1:
-
-If you use tabular form you will only describe your black boxes with name and
-responsibility according to the following schema:
-
-[cols="1,2" options="header"]
-|===
-| **Name** | **Responsibility**
-| _<black box 1>_ | _<Text>_
-| _<black box 2>_ | _<Text>_
-|===
+No important interfaces can be described in this preliminar version of the documentation.
 
 
+==== View layer
 
-If you use a list of black box descriptions then you fill in a separate black box template for every important building block .
-Its headline is the name of the black box.
-****
+===== Purpose/responsability
 
+As already explained this layer will be composed of those components that the user will interact with.
 
-==== <Name black box 1>
+===== Interfaces
 
-[role="arc42help"]
-****
-Here you describe <black box 1>
-according the the following black box template:
+No interfaces have been defined yet.
 
-* Purpose/Responsibility
-* Interface(s), when they are not extracted as separate paragraphs. This interfaces may include qualities and performance characteristics.
-* (Optional) Quality-/Performance characteristics of the black box, e.g.availability, run time behavior, ....
-* (Optional) directory/file location
-* (Optional) Fulfilled requirements (if you need traceability to requirements).
-* (Optional) Open issues/problems/risks
+===== Open Issues/Problems/Risks
 
-****
+No issues, problems or risks are known.
 
-_<Purpose/Responsibility>_
+==== Controller layer
 
-_<Interface(s)>_
+===== Purpose/responsability
 
-_<(Optional) Quality/Performance Characteristics>_
+The controller layer will handle internal communication between the view and the rest of the application.
 
-_<(Optional) Directory/File Location>_
+===== Interfaces
 
-_<(Optional) Fulfilled Requirements>_
+No interfaces have been defined yet.
 
-_<(optional) Open Issues/Problems/Risks>_
+===== Open Issues/Problems/Risks
 
+No issues, problems or risks are known.
 
+==== Service layer
 
+===== Purpose/responsability
 
-==== <Name black box 2>
+The service layer will handle communication with the persistence layer.
 
-_<black box template>_
+===== Interfaces
 
-==== <Name black box n>
+No interfaces have been defined yet.
 
-_<black box template>_
+===== Open Issues/Problems/Risks
 
+It is important to consider how we will handle communication between the server and the pods, and if there will be any difference to communicating with the database.
 
-==== <Name interface 1>
+==== Model layer
 
-...
+===== Purpose/responsability
 
-==== <Name interface m>
+The model layer will handle internal logic.
 
+===== Interfaces
 
+No interfaces have been defined yet.
+
+===== Open Issues/Problems/Risks
+
+No issues, problems or risks are known.
 
 === Level 2
 
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 1 as white boxes.
+==== Persistence layer
 
-You have to decide which building blocks of your system are important enough to justify such a detailed description.
-Please prefer relevance over completeness. Specify important, surprising, risky, complex or volatile building blocks.
-Leave out normal, simple, boring or standardized parts of your system
-****
+Currently, the only layer we have somewhat structured is the persistance layer. 
 
-==== White Box _<building block 1>_
+[plantuml,"Deployment diagram",png]
+----
+@startuml
 
-[role="arc42help"]
-****
-...describes the internal structure of _building block 1_.
-****
+header Structure of the persistence layer
+title Structure of the persistence layer
 
-_<white box template>_
+folder "Persistence layer"{
+agent Database
+agent "User pod"
+}
+agent "Service layer"
+Database <-- "Service layer"
+"User pod" <-- "Service layer"
+@enduml
+----
 
-==== White Box _<building block 2>_
+As you can see, it is divided in in several two components: the pods and the database.
 
+* The pods will store the user data.
+* The database.
 
-_<white box template>_
-
-...
-
-==== White Box _<building block m>_
-
-
-_<white box template>_
-
-
-
-=== Level 3
-
-[role="arc42help"]
-****
-Here you can specify the inner structure of (some) building blocks from level 2 as white boxes.
-
-When you need more detailed levels of your architecture please copy this
-part of arc42 for additional levels.
-****
-
-
-==== White Box <_building block x.1_>
-
-[role="arc42help"]
-****
-Specifies the internal structure of _building block x.1_.
-****
-
-
-_<white box template>_
-
-
-==== White Box <_building block x.2_>
-
-_<white box template>_
-
-
-
-==== White Box <_building block y.1_>
-
-_<white box template>_
+What the database will store and what will also be included in the pods is yet to be decided, as we are trying to reach a compromise between storing mostly everything in the pods (which will significantly harm performance) and storing mostly everything in the database (which will harm privacy and does not follow SOLID).
