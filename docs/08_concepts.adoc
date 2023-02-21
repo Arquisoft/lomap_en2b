@@ -1,67 +1,52 @@
 [[section-concepts]]
 == Cross-cutting Concepts
-
-
-[role="arc42help"]
-****
-.Content
-This section describes overall, principal regulations and solution ideas that are
-relevant in multiple parts (= cross-cutting) of your system.
-Such concepts are often related to multiple building blocks.
-They can include many different topics, such as
-
-* domain models
-* architecture patterns or design patterns
-* rules for using specific technology
-* principal, often technical decisions of overall decisions
-* implementation rules
-
-.Motivation
-Concepts form the basis for _conceptual integrity_ (consistency, homogeneity)
-of the architecture. Thus, they are an important contribution to achieve inner qualities of your system.
-
-Some of these concepts cannot be assigned to individual building blocks
-(e.g. security or safety). This is the place in the template that we provided for a
-cohesive specification of such concepts.
-
-.Form
-The form can be varied:
-
-* concept papers with any kind of structure
-* cross-cutting model excerpts or scenarios using notations of the architecture views
-* sample implementations, especially for technical concepts
-* reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)
-
-.Structure
-A potential (but not mandatory) structure for this section could be:
-
-* Domain concepts
-* User Experience concepts (UX)
-* Safety and security concepts
-* Architecture and design patterns
-* "Under-the-hood"
-* development concepts
-* operational concepts
-
-Note: it might be difficult to assign individual concepts to one specific topic
-on this list.
-
-image:08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscutting concepts"]
-****
-
+Some cross-cutting concepts of the system will be detailed here. These can give a broader look of our application
 
 === Domain model
+Users can have several friends as well as having added several reviews or landmarks.
+In addition, landmarks will have reviews associated to them and viceversa.
 
-image:UmlDiagram.png["Example UML Diagram"]
+[plantuml,"UML diagram",png]
+----
+@startuml
+object User{
+    id: String
+    friends: List<User>
+    landmarks: List<Landmark>
+    reviews: List<Review>
+}
 
+object Landmark{
+    id: String
+    name: String
+    category: String
+    description: String
+    image: String
+    reviews: List<Review>
+}
 
+object Review{
+    id: String
+    landmarkId: String
+    rating: int
+    comment: String
+}
 
-=== _<Concept 2>_
+User o--> User
+User o--> Landmark
+User o--> Review
+Landmark o--> Review
+@enduml
+----
 
-_<explanation>_
+=== Security
 
-...
+This is probably the most important concept of our application. To give users the most safety we only store the information necessary to function and we will store most of it in users' SOLID pods, this means that users will have power over how and with who they share their data.
 
-=== _<Concept n>_
+=== User experience
 
-_<explanation>_
+We want to focus on creating an app that is easy to use and intuitive. Thus, we will follow the global standards so users know what to do without thinking too much. Some of these are having menus on a side, using similar colors as other map applications...
+
+=== Architectural and design patterns
+
+The application will be based on the MVC architectural style using a N-tier structure. This will make the code clean, easy to change and organised.

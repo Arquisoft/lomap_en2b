@@ -2,23 +2,25 @@
 == Solution Strategy
 
 
-[role="arc42help"]
-****
-.Contents
-A short summary and explanation of the fundamental decisions and solution strategies, that shape the system's architecture. These include
+In this section we are explaining the main decisions we took in the development of the project.
+Up until now, we have made some decisions about the project, those decisions can be organized in different categories:
 
-* technology decisions
-* decisions about the top-level decomposition of the system, e.g. usage of an architectural pattern or design pattern
-* decisions on how to achieve key quality goals
-* relevant organizational decisions, e.g. selecting a development process or delegating certain tasks to third parties.
+.*Technology decisions*
+*React: JS framework that helps with the user interface of the web application.
+*Map API: Used to plot the map in the application in order to allow the user to do every possible action.
 
-.Motivation
-These decisions form the cornerstones for your architecture. They are the basis for many other detailed decisions or implementation rules.
+.*Decisions on top-level decomposition*
+*MVC: We are using the MVC (Model-View-Controller) pattern in order to organize the code in a clean and obvious way.
+*Editor: We are all using Visual Studio Code to work on this project, it is the editor we are used to program in and it has some features that made us work using it.
+*Github: The project is on a public repository as given by the professors of the subject. We are all able to work using it, and the main features of it are the pull requests in order to upload code.
 
-.Form
-Keep the explanation of these key decisions short.
+.*Decisions on quality goals*
+*Usability: Our map application is quite easy to use for everyone, we are focusing on the ease of the user interaction and comprehension.
+*Security: It is the main point of our application, as we are using solid, we are maintaining the privacy of every user who logs into LoMap.
+*Response times: As much as possible, we are trying to minimize response times of the application in order to be more user friendly.
 
-Motivate what you have decided and why you decided that way,
-based upon your problem statement, the quality goals and key constraints.
-Refer to details in the following sections.
-****
+*Organizational decisions*
+During the development of this project, everyone is the group is in constant contact with the rest of the members of the team, mainly in the weekly meeting which takes part during lab classes throughout the semester. In addition to that, we used a whatsapp group in order to consult with each other little things that could emerge during the week.
+Related with the project, our main way of working with the code was through pull requests. Each one of the members did some work, in his newly created branch and when he ended his work, he committed the changes and requested a pull request in GitHub, where another person in the group should revise the changes and aprove that pull request in order to merge the changes to the main branch.
+In order to do advances in the development we are using the issues in Github as well, in that way we make sure that we do everything we consider necessary.
+At last, we are using the wiki on Github as well, for creating minutes of every meeting the team does, for saving the main topics treated on each one, the main decisions taken, the participants that took part, and some other important things in order to keep track of the progress made.
