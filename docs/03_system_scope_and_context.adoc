@@ -6,7 +6,7 @@ Lomap is a web application whose objective is to have markers and routes saved i
 === Business context
 There is clearly 5 different actors regarding business context, however one is the SOLID pod of both admin and user actor. Which is "integrated" in them making it be a "subsystem". As a result we obtain the following use case scenario.
 
-image::https://github.com/Arquisoft/lomap_en2b/blob/9e56d610c9f52f65fc04b36dca862d33b27296e1/docs/images/UseCaseASW.drawio.png[]
+image::UseCaseASW.drawio.png[Use Case Diagram]
 
 From that we can say that the main actors have this speciofications:
 [cols = "1,2"]
