@@ -7,7 +7,7 @@ These situations where chosen as they show the impact of our architectural decis
 === Accessing the application
 This diagram shows the communication between the user, the app and the pod when the user logs in.
 
-[plantuml,"Sequence diagram",png]
+[plantuml,"SequenceDiagramLogging",png]
 ----
 @startuml
 header Runtime View
@@ -28,7 +28,7 @@ LoMap --> Diego: Main page logged in
 === Adding landmark to the map
 This diagram show the communication between the user, the app and the pod when the user adds a landmark.
 
-[plantuml,"Sequence diagram",png]
+[plantuml,"SequenceDiagramAddLandmark",png]
 ----
 @startuml
 header Runtime View
@@ -46,7 +46,7 @@ LoMap -> Pod: Store the coordinates
 === Seeing friends' added landmarks
 This diagram show the communication between the user, the app and the pods when the user wants to see their friends' landmarks.
 
-[plantuml,"Sequence diagram",png]
+[plantuml,"SequenceDiagramFriendsLandmark",png]
 ----
 @startuml
 header Runtime View
