@@ -37,7 +37,8 @@ Users can:
                
                Diego Villanueva Berros
                | Develop a software we can be proud of while learning new technologies as SOLID
+| HappySw | HappySw | An application that fulfils the contract agreed with the Council of Brussels
 | Teachers | Teachers | Make sure the students follow the guidelines and progress correctly
-| Council of Brussels | Council of Brussels | Have an application developed that satisfies the contract
+| Council of Brussels | Council of Brussels | Have an application developed that meets their needs
 | Users | Whoever uses the application | A functional and easy to use application
 |===
