@@ -9,7 +9,7 @@ Motivation::
 
 This diagram is motivated by the need of having a clear separation of the composition of the application.
 
-[plantuml,"Deployment diagram",png]
+[plantuml,"BuildingBlockView", png]
 ----
 @startuml
 
@@ -109,7 +109,7 @@ No issues, problems or risks are known.
 
 Currently, the only layer we have somewhat structured is the persistance layer. 
 
-[plantuml,"Deployment diagram",png]
+[plantuml,png, id = "PersistenceLayer"]
 ----
 @startuml
 

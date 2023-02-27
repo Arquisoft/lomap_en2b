@@ -1,10 +1,6 @@
 [[section-technical-risks]]
 == Risks and Technical Debts
 
-
-[role="arc42help"]
-
-
 As it stands now, we have identified some important risks before starting coding the project.
 
 |===

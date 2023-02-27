@@ -7,10 +7,9 @@
 
 Given that we currently do not know much about hosting the application, at this moment we will follow a simple approach that will likely change in the future.
 
-[plantuml,"Deployment diagram",png]
+[plantuml,"Deployment diagram",png, id = "DeployDiagramView"]
 ----
 @startuml
-
 header Deployment view
 title Deployment view
 
@@ -23,17 +22,12 @@ agent Pod2
 agent Pod3
 agent PodN
 
-Pod1 ---> "LoMap Platform"
-Pod1 <--- "LoMap Platform"
-Pod2 ---> "LoMap Platform"
-Pod2 <--- "LoMap Platform"
-Pod3 ---> "LoMap Platform"
-Pod3 <--- "LoMap Platform"
-PodN ---> "LoMap Platform"
-PodN <--- "LoMap Platform"
+Pod1 <--> "LoMap Platform"
+"LoMap Platform" <--> Pod2
+PodN <--> "LoMap Platform"
+"LoMap Platform" <-> "Pod3"
 
-"Database server" -> "LoMap Platform"
-"Database server" <- "LoMap Platform"
+"Database server" <-> "LoMap Platform"
 
 @enduml
 ----
