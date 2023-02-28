@@ -9,7 +9,6 @@ These constraints are the base of the architecture process, and are the roots of
 |===
 |Constraint|Description
 | Solid | _Provided by the stakeholders. A way of building decentralized social apps, it gives every user a choice about where data is stored, helping the privacy of each user._
-| Facilitate user navigavility | _The app is developed using react, a javascript library used to make the interaction of the user easier, as it helps in the building of the user interface of the web app._
-| Flexibility | _The map which is the base of the app is generated using the Google Maps API, for the possibility of working in any place around the world._
-| Quality | _The application is developed around some quality requirements, later described in section 10._
+| Github | _The development team was given a starting draft of a project in GitHub as a public repository. From then on, all the work related with this project will be tracked and uploaded in this repository._
+| Time | _The application is developed in a semester during a course, that means time is limited._
 |===
