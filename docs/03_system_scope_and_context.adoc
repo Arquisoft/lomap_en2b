@@ -3,46 +3,25 @@
 
 Lomap is a web application whose objective is to have markers and routes saved in a map where the user has total control of their data. They can also add and share this information with other "friends" sharing the platform. In order to achieve the control of their data SOLID technologies are used all along the project. A user will be able to post an dplace markers, they will also have the capability of viewing the ones of their online "friends".
 
-=== Business context
 There is clearly 5 different actors regarding business context, however one is the SOLID pod of both admin and user actor. Which is "integrated" in them making it be a "subsystem". As a result we obtain the following use case scenario.
 
-image::https://github.com/Arquisoft/lomap_en2b/blob/9e56d610c9f52f65fc04b36dca862d33b27296e1/docs/images/UseCaseASW.drawio.png[]
+image::BusinessContext.png[Business Context Diagram]
 
 From that we can say that the main actors have this speciofications:
 [cols = "1,2"]
 |===
-|*User name*
-|*Description and functionality*
-
-|*Guest*
-|It is the type of user that haven't been identified so only the view for logging in will be displayed.
-
 |*User*
-|This type of user is the "average" user as it has an account and it is allowed to create routes or markers, following people and viewing different maps.
+|This type of user is the "average" user as it has an account and it is allowed to create routes or markers, following people and viewing different maps. They connect to the webapp using the pod provider
 
-|*Admin*
-|It is a super user which can make changes on other users, this is done with the objective of moderating the behaviour to avoid unwanted problems.
+|*Pod Provider*
+|A pod provider using SOLID architecture where all the sensitive data of the users will be stored.
 
-|*Central System*
+|*lomap*
+|The web service itself. Here the user is able to access and modify their maps same as looking the other's.
+
+|*database*
 |This will be a database in charge of containing the minimal data to make the web application to work and for it not to be heavily slowed down by the decentralized approach.
-|===
 
-=== Technical Context
-The webapp follows the SOLID decentralized architecture. It is important to have a system to connect the pods with eachother using a central system. This is done using the API which is also the responsible for the usage of the website.
-
-image::https://github.com/Arquisoft/lomap_en2b/blob/c9dc0d1415008f61e8da3a6a08a3bdc78109940e/docs/images/Captura%20de%20pantalla%202023-02-20%20164603.jpg[]
-
-[cols = "1,2"]
-|===
-|*Inrupt*
-|Inrupt is a provider of pods, It could happen that it was another provider of SOLID architecture. What's important is that the user has a pod able to connect to the API.
-
-|*API*
-|This API is in charge on making all the connections and logic so everything works as it should. This is done with TypeScript.
-
-|*Database*
-|For the moment the technology decided for the main database hasn't been decided, so this will be updated later.
-
-|*Website*
-|The frontend of the website to show the information is using the React framework for typescript.
+|*leaflet*
+|Leaflet API is an api using openmaps which is simple and easy to develop in it to create personalizzed maps.
 |===
