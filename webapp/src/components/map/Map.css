@@ -1,0 +1,6 @@
+div[class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"]{
+    display:flex;
+    justify-content: center;
+    height: 40em;
+    width: 80em;
+}
