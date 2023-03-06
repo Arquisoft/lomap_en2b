@@ -1,6 +1,9 @@
 div[class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"]{
     display:flex;
     justify-content: center;
-    height: 40em;
+    align-items: center;
+    height: 50em;
     width: 80em;
+    margin-left:-15em;
 }
+/**Temporal CSS stylesheet used for testing (currently) **/
