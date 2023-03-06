@@ -30,7 +30,6 @@ function App(): JSX.Element {
         <EmailForm OnUserListChange={refreshUserList}/>        
         <UserList users={users}/>
         <Link href="https://github.com/arquisoft/lomap_en2b">Source code</Link>
-        <Map />
       </Container>
     </>
   );
