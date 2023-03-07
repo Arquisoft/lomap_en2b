@@ -8,6 +8,7 @@ import UserList from './components/UserList';
 import  {getUsers} from './api/api';
 import {User} from './shared/shareddtypes';
 import './App.css';
+import Map from './components/map/Map';
 
 function App(): JSX.Element {
 
