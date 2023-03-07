@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Props } from 'react';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Container from '@mui/material/Container';
@@ -9,30 +9,70 @@ import  {getUsers} from './api/api';
 import {User} from './shared/shareddtypes';
 import './App.css';
 import Map from './components/map/Map';
+import { QueryClient,QueryClientProvider} from '@tanstack/react-query';
+import { createBrowserRouter,Outlet,Navigate,RouterProvider } from 'react-router-dom';
+import Navbar from './components/navbar/Navbar';
+
+import { useContext } from 'react';
+import Home from './pages/home/Home';
+import Login from './pages/login/Login';
+import Register from './pages/register/Register';
 
 function App(): JSX.Element {
 
-  const [users,setUsers] = useState<User[]>([]);
+  const  currentUser  = true;
 
-  const refreshUserList = async () => {
-    setUsers(await getUsers());
-  }
+  const queryClient = new QueryClient();
 
-  useEffect(()=>{
-    refreshUserList();
-  },[]);
+  function Layout (): JSX.Element{
+    return (
+    <QueryClientProvider client={queryClient}>
+      <Navbar />
+      <Outlet/>
+    </QueryClientProvider>
+  );
+    };
+
+  const ProtectedRoute = ({children}:any) => {
+    if (!currentUser) {
+      return <Navigate to="/login" />;
+    }
+
+    return children;
+  };
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <ProtectedRoute>
+          <Layout />
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+      ],
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
+    },
+  ]);
 
   return (
-    <>
-      <Container maxWidth="sm">
-        <Welcome message="ASW students"/>
-        <Box component="div" sx={{ py: 2}}>This is a basic example of a React application using Typescript. You can add your email to the list filling the form below.</Box>
-        <EmailForm OnUserListChange={refreshUserList}/>        
-        <UserList users={users}/>
-        <Link href="https://github.com/arquisoft/lomap_en2b">Source code</Link>
-      </Container>
-    </>
+    <div>
+      <RouterProvider router={router} />
+    </div>
   );
-}
+
+  };
+
 
 export default App;
