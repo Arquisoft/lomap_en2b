@@ -1,0 +1,71 @@
+.topbarContainer{
+    display: flex;
+    align-items: center;
+    height: 75px;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    
+    
+}
+
+.topbarLeft{
+    flex: 1;
+    background-color: transparent;
+
+
+}
+
+.topbarCenter{
+    flex: 2;
+    align-items: center;
+    background-color: transparent;
+    
+}
+
+.topbarRight{
+    flex: 1;
+   
+    background-color: transparent;
+    text-align: right;
+}
+
+.logo{
+    margin-top: 15px;
+    margin-left: 5px;
+}
+
+.helloText{
+    font-weight: 600;
+    font-size: large;
+    text-align: center;
+    
+}
+
+.logout {
+    margin-right: 30px;
+    text-align: right;
+
+    height: 75%;
+	background:linear-gradient(to bottom, #f24444 5%, #bd3d3d 100%);
+	background-color:#f24444;
+	border-radius:28px;
+	border:1px solid #8f3131;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:17px;
+	font-weight:bold;
+	padding:5px 20px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #fa2a2a;
+}
+.logout:hover {
+	background:linear-gradient(to bottom, #bd3d3d 5%, #f24444 100%);
+	background-color:#bd3d3d;
+}
+.logout:active {
+	position:relative;
+	top:1px;
+}
