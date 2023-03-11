@@ -1,8 +1,8 @@
 export type User = {
     name:string;
     email:string;
-    friends:User[];
-    landmarks:Landmark[];
+    friends?:User[];
+    landmarks?:Landmark[];
   };
 
 export type Landmark = {
