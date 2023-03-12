@@ -11,7 +11,11 @@ const Login = () => {
     useEffect(() => {
       setCurrentUrl(window.location.href);
     }, [setCurrentUrl]);
-  
+    
+    // const loginForm = () => {
+    //   axios.get("/login", { params: { idp: idp } })
+
+    // }
     return (
       <Container>
         <h1> Login </h1>

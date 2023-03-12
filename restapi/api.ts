@@ -8,7 +8,7 @@ const {
 } = require("@inrupt/solid-client-authn-node");
 
 const app = express();
-const port = 5000;
+const port = 8800;
 
 // The following snippet ensures that the server identifies each user's session
 // with a cookie using an express-specific mechanism
@@ -27,6 +27,7 @@ app.use(
 
 app.get("/login", async (req : any, res : any, next : any) => {
   // 1. Create a new Session
+
   const session = new Session();
   req.session.sessionId = session.info.sessionId;
   const redirectToSolidIdentityProvider = (url : any) => {
@@ -44,7 +45,7 @@ app.get("/login", async (req : any, res : any, next : any) => {
     // appended as query parameters:
     redirectUrl: `http://localhost:${port}/redirect-from-solid-idp`,
     // Set to the user's Solid Identity Provider; e.g., "https://login.inrupt.com" 
-    oidcIssuer: "https://login.inrupt.com",
+    oidcIssuer: "https://inrupt.net",
     // Pick an application name that will be shown when asked 
     // to approve the application's access to the requested data.
     clientName: "Demo app",
