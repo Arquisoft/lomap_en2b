@@ -41,7 +41,7 @@ function App(): JSX.Element {
   })
 
   const ProtectedRoute = ({children}:any) => {
-    if (!session.info.isLoggedIn) {
+    if (!isLoggedIn) {
       return <Navigate to="/login" />;
     }
     return children;
