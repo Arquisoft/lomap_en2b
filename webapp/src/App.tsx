@@ -11,7 +11,7 @@ import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import Profile from './pages/profile/Profile';
-
+import LeftBar from './components/leftBar/LeftBar';
 
 function App(): JSX.Element {
 
@@ -22,8 +22,16 @@ function App(): JSX.Element {
   function Layout (): JSX.Element{
     return (
     <QueryClientProvider client={queryClient} >
+      <div style = {{backgroundImage:'url(/brussels1.png)',backgroundColor: 'rgba(71, 64, 64, 0.678)'}}>
       <Navbar />
-      <Outlet />
+      <div style={{ display: "flex" }}>
+            <LeftBar />
+            <div style={{ flex: 6}}>
+              <Outlet />
+            </div>
+
+          </div>
+        </div>
     </QueryClientProvider>
   );
     };
