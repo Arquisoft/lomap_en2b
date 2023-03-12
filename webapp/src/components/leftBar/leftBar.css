@@ -1,0 +1,26 @@
+.sidebar{
+    background-color: rgba(71, 64, 64, 0.678);
+}
+
+.sidebarList {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebarListItem {
+    font-size: large;
+    flex: 1;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-left: 15px;
+    color: white;
+    font-weight: 500;
+}
+
+.sidebarIcon {
+    margin-right: 15px;
+}

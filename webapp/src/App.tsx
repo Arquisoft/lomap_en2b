@@ -15,6 +15,8 @@ import Register from './pages/register/Register';
 import Profile from './pages/profile/Profile';
 import { makeRequest } from './axios';
 
+import LeftBar from './components/leftBar/LeftBar';
+import Friends from './pages/friends/Friends';
 
 function App(): JSX.Element {
 
@@ -27,8 +29,16 @@ function App(): JSX.Element {
   function Layout (): JSX.Element{
     return (
     <QueryClientProvider client={queryClient} >
+      <div style = {{backgroundImage:'url(/brussels1.png)'}}>
       <Navbar />
-      <Outlet />
+      <div style={{ display: "flex" }}>
+            <LeftBar />
+            <div style={{ flex: 6}}>
+              <Outlet />
+            </div>
+
+          </div>
+        </div>
     </QueryClientProvider>
   );
   };
@@ -54,8 +64,12 @@ function App(): JSX.Element {
           element: <Home />,
         },
         {
-          path: "/profile/:id",
+          path: "/profile",
           element: <Profile />,
+        },
+        {
+          path: "/profile",
+          element: <Friends />,
         },
       ],
     },
