@@ -1,22 +1,49 @@
-import axios from 'axios';
-import './login.css';
-function Login(): JSX.Element  {
+import { useState, useEffect } from "react";
+import { LoginButton, CombinedDataProvider, useSession } from "@inrupt/solid-ui-react";
+import { Button, TextField, FormGroup, Container } from "@mui/material";
+import { makeRequest } from "../../axios";
+
+const Login = () => {
+    const [idp, setIdp] = useState("https://inrupt.net");
+    const [currentUrl, setCurrentUrl] = useState("http://localhost:3000");
+    const { session } = useSession();
+    const { webId } = session.info;
+    
+    useEffect(() => {
+      if (!(window.location.href === "http://localhost:3000/login")){
+        setCurrentUrl(window.location.href);
+      }
+    }, [setCurrentUrl]);
 
     return (
-        <div className="login">
-            <div className="LeftSide">
-            </div>
-            <div className="RightSide">
-                <label>Username</label>
-                <input type="text" placeholder="Enter username..." />
-                <label>Password</label>
-                <input type="password" placeholder="Enter password..." />
-                <button>Sign In</button>
-            </div>
+      <Container>
+        <h1> Login </h1>
+        <p> Welcome to LoMap!</p>
+        <p> This application runs using the solid principles, this means, you need an account on a pod provider to use it. </p>
+        <p> If you already have one, please log in.</p>
+        <p> If not, please create an account in a pod provider as inrupt.net</p>
+        <FormGroup>
+          <TextField
+            label="Identity Provider"
+            placeholder="Identity Provider"
+            type="url"
+            value={idp}
+            onChange={(e) => setIdp(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <Button onClick={(e) => {
+                  //makeRequest.get("/login")
+                  global.location.href = "http://localhost:8800/login";
+                }} variant="contained">
+                    Login
+                </Button>
+              ),
+            }}
+          />
+        </FormGroup>
 
-        </div>
+      </Container>
     );
-}
+  }
 
 export default Login;
-
