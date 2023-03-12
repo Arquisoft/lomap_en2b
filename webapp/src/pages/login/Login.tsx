@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { LoginButton, CombinedDataProvider, useSession } from "@inrupt/solid-ui-react";
 import { Button, TextField, FormGroup, Container } from "@mui/material";
+import { makeRequest } from "../../axios";
 
 const Login = () => {
     const [idp, setIdp] = useState("https://inrupt.net");
@@ -9,13 +10,11 @@ const Login = () => {
     const { webId } = session.info;
     
     useEffect(() => {
-      setCurrentUrl(window.location.href);
+      if (!(window.location.href === "http://localhost:3000/login")){
+        setCurrentUrl(window.location.href);
+      }
     }, [setCurrentUrl]);
-    
-    // const loginForm = () => {
-    //   axios.get("/login", { params: { idp: idp } })
 
-    // }
     return (
       <Container>
         <h1> Login </h1>
@@ -32,11 +31,12 @@ const Login = () => {
             onChange={(e) => setIdp(e.target.value)}
             InputProps={{
               endAdornment: (
-                <LoginButton authOptions={{ clientName: "LoMap" }} oidcIssuer={idp} redirectUrl={currentUrl} onError={console.error}>
-                  <Button variant="contained">
+                <Button onClick={(e) => {
+                  //makeRequest.get("/login")
+                  global.location.href = "http://localhost:8800/login";
+                }} variant="contained">
                     Login
-                  </Button>
-                </LoginButton>
+                </Button>
               ),
             }}
           />

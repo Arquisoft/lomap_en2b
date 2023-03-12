@@ -1,5 +1,6 @@
 const express = require("express");
 const cookieSession = require("cookie-session");
+const cors = require("cors");
 
 const { 
   getSessionFromStorage,
@@ -8,6 +9,7 @@ const {
 } = require("@inrupt/solid-client-authn-node");
 
 const app = express();
+app.use(cors({origin:"http://localhost:3000"}))
 const port = 8800;
 
 // The following snippet ensures that the server identifies each user's session
@@ -27,28 +29,30 @@ app.use(
 
 app.get("/login", async (req : any, res : any, next : any) => {
   // 1. Create a new Session
-
   const session = new Session();
   req.session.sessionId = session.info.sessionId;
-  const redirectToSolidIdentityProvider = (url : any) => {
+  console.log(session)
+
+  const redirectToSolidIdentityProvider = (url : string) => {
     // Since we use Express in this example, we can call `res.redirect` to send the user to the
     // given URL, but the specific method of redirection depend on your app's particular setup.
     // For example, if you are writing a command line app, this might simply display a prompt for
     // the user to visit the given URL in their browser.
     res.redirect(url);
   };
+
   // 2. Start the login process; redirect handler will handle sending the user to their
   //    Solid Identity Provider.
   await session.login({
     // After login, the Solid Identity Provider will send the user back to the following
     // URL, with the data necessary to complete the authentication process
     // appended as query parameters:
-    redirectUrl: `http://localhost:${port}/redirect-from-solid-idp`,
+    redirectUrl: "http://localhost:3000",
     // Set to the user's Solid Identity Provider; e.g., "https://login.inrupt.com" 
     oidcIssuer: "https://inrupt.net",
     // Pick an application name that will be shown when asked 
     // to approve the application's access to the requested data.
-    clientName: "Demo app",
+    clientName: "LoMap",
     handleRedirect: redirectToSolidIdentityProvider,
   });
 });
@@ -67,7 +71,7 @@ app.get("/redirect-from-solid-idp", async (req : any, res : any) => {
 
   // 5. `session` now contains an authenticated Session instance.
   if (session.info.isLoggedIn) {
-    return res.send(`<p>Logged in with the WebID ${session.info.webId}.</p>`)
+    return res.status(200).json(session.info.webId)
   }
 });
 
@@ -81,7 +85,7 @@ app.get("/fetch", async (req : any, res : any, next : any) => {
   }
   const session = await getSessionFromStorage(req.session.sessionId);
   console.log(await (await session.fetch(req.query["resource"])).text());
-  res.send("<p>Performed authenticated fetch.</p>");
+  res.status(200).json(session);
 });
 
 // 7. To log out a session, just retrieve the session from storage, and 
@@ -100,14 +104,13 @@ app.get("/", async (req : any, res : any, next : any) => {
     // Do something with the session ID...
   }
   res.send(
-    `<p>There are currently [${sessionIds.length}] visitors.</p>`
+    sessionIds.get(0)
   );
 });
 
 app.listen(port, () => {
   console.log(
-    `Server running on port [${port}]. ` +
-    `Visit [http://localhost:${port}/login] to log in to [login.inrupt.com].`
+    `Server running on port [${port}]. `
   );
 });
 

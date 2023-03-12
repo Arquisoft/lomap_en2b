@@ -13,6 +13,7 @@ import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import Profile from './pages/profile/Profile';
+import { makeRequest } from './axios';
 
 
 function App(): JSX.Element {
@@ -32,16 +33,8 @@ function App(): JSX.Element {
   );
   };
 
-  session.onLogin(()=>{
-    setIsLoggedIn(true)
-  })
-
-  session.onLogout(()=>{
-    setIsLoggedIn(false)
-  })
-
   const ProtectedRoute = ({children}:any) => {
-    if (!isLoggedIn) {
+    if (session.info.isLoggedIn) {
       return <Navigate to="/login" />;
     }
     return children;
