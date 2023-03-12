@@ -12,6 +12,7 @@ import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import Profile from './pages/profile/Profile';
 import LeftBar from './components/leftBar/LeftBar';
+import Friends from './pages/friends/Friends';
 
 function App(): JSX.Element {
 
@@ -22,7 +23,7 @@ function App(): JSX.Element {
   function Layout (): JSX.Element{
     return (
     <QueryClientProvider client={queryClient} >
-      <div style = {{backgroundImage:'url(/brussels1.png)',backgroundColor: 'rgba(71, 64, 64, 0.678)'}}>
+      <div style = {{backgroundImage:'url(/brussels1.png)'}}>
       <Navbar />
       <div style={{ display: "flex" }}>
             <LeftBar />
@@ -58,8 +59,12 @@ function App(): JSX.Element {
           element: <Home />,
         },
         {
-          path: "/profile/:id",
+          path: "/profile",
           element: <Profile />,
+        },
+        {
+          path: "/profile",
+          element: <Friends />,
         },
       ],
     },
