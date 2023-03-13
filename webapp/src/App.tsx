@@ -72,6 +72,10 @@ function App(): JSX.Element {
           path: "/profile",
           element: <Friends />,
         },
+        {
+          path: "/users/:text",
+          element: <Users />,
+        },
       ],
     },
     {
@@ -81,10 +85,6 @@ function App(): JSX.Element {
     {
       path: "/register",
       element: <Register />,
-    },
-    {
-      path: "/users",
-      element: <Users />,
     },
   ]);
 

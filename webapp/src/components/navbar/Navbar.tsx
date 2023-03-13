@@ -19,7 +19,7 @@ function Navbar(): JSX.Element {
     console.log(inputValue);
     
     // do something with the input value
-    navigate("/users");
+    navigate("/users/" + inputValue);
   }
 
 
