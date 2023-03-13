@@ -4,12 +4,14 @@ import { useState } from "react";
 
 export default function Landmarks() {
 
+    const submit = (e : React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+    };
 
     return <div className="myLandmarksContainer">
                 <div className="landMarkTitle">
                     <h1>Add a landmark</h1>
                 </div>
-                <Map clickableSingleMarker={true}/>
                 <form method = "post" className ="addLandmarkForm" onSubmit={submit}>
                     <p>
                         <label htmlFor="name">Name</label>
@@ -18,10 +20,21 @@ export default function Landmarks() {
                         <input type="text" name="name" id="name" required />
                     </p>
                     <p>
-                        <label htmlFor="description">Description</label>
+                        <label htmlFor="category">Category</label>
                     </p>
                     <p>
-                        <textarea name="description" id="description" required />
+                        <input type="text" name="category" id="category" required />
+                    </p>
+                    <p>
+                        <label htmlFor="latitude">Latitude</label>
+                    </p>
+                    <p>
+                        <input type="number" name="latitude" id="latitude" required />
+                    </p><p>
+                        <label htmlFor="longitude">Longitude</label>
+                    </p>
+                    <p>
+                        <input type="number" name="longitude" id="longitude" required />
                     </p>
                     <button>Add the landmark</button>
                 </form>
