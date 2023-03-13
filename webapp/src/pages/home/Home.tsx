@@ -4,7 +4,7 @@ function Home(): JSX.Element {
   return (
     <div className="homeContainer"  >
       <h1>Home</h1>
-      <Map />
+      <Map clickableSingleMarker={false}  />
     </div>
   );
 }
