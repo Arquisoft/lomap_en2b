@@ -21,8 +21,6 @@ import Friends from './pages/friends/Friends';
 function App(): JSX.Element {
 
   //With this we can control the login status for solid
-  const { session } = useSession();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const queryClient =   new QueryClient();
 
@@ -43,8 +41,13 @@ function App(): JSX.Element {
   );
   };
 
+  const getCookieValue = (name : String) => (
+    document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
+  )
+
   const ProtectedRoute = ({children}:any) => {
-    if (session.info.isLoggedIn) {
+    console.log(getCookieValue("session"))
+    if (getCookieValue("session") === undefined) {
       return <Navigate to="/login" />;
     }
     return children;
