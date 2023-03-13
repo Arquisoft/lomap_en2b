@@ -15,7 +15,7 @@ class MapMarker extends React.Component {
         return <Marker position = {[this.mark.longitude, this.mark.latitude]}>
             <Popup>
                 {this.mark.name} - 
-                {this.mark.category}
+                {this.mark.description}
             </Popup>
         </Marker>
     }

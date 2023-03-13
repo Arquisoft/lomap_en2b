@@ -7,7 +7,7 @@ export type User = {
 
 export type Landmark = {
     name:string;
-    category:string;
+    description:string;
     latitude:number;
     longitude:number;
     score?:number;
