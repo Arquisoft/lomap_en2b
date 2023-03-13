@@ -7,20 +7,8 @@ export default function Landmarks() {
         <div className="landMarkTitle">
             <h1>Add a landmark</h1>
         </div>
-        <Map />
+        <Map clickableSingleMarker={true}/>
         <form>
-            <p>
-                <label htmlFor="latitude">Latitude:</label>
-            </p>
-            <p>
-                <input type="number" id="latitude" required />
-            </p>
-            <p>
-                <label htmlFor="longitude">Longitude:</label>
-            </p>
-            <p>
-                <input type="number" id="longitude" required />
-            </p>
             <p>
                 <label htmlFor="description">Description</label>
             </p>

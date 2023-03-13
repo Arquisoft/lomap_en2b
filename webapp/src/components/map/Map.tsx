@@ -1,8 +1,8 @@
-import React from 'react';
-import { Landmark } from '../../shared/shareddtypes';
-import { MapContainer, TileLayer, Marker, Popup, useMap} from 'react-leaflet';
+import { MapContainer, TileLayer, useMap, useMapEvents} from 'react-leaflet';
 import 'leaflet-css'
 import './Map.css';
+import React from 'react';
+import L from 'leaflet';
 
 function GetCenter() {
     const map = useMap();
@@ -14,13 +14,27 @@ function GetCenter() {
     return null;
 }
 
-export default function Map() {
-    
-    return <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true} >
-    <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    />
-    <GetCenter />
-    </MapContainer>;
+function AddSingleMark(singleMarker : boolean) {
+    if (singleMarker) {
+        const map = useMapEvents({
+            click: (e) => {
+              const { lat, lng } = e.latlng;
+              L.marker([lat, lng]).addTo(map);
+            }
+          });
+    }
+    return null;
+  }
+
+export default function Map ({clickableSingleMarker}: {clickableSingleMarker? : boolean}){
+
+    clickableSingleMarker = (clickableSingleMarker == undefined) ? false : clickableSingleMarker;
+    return <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true}>
+        <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <GetCenter />
+        <AddSingleMark singleMarker={clickableSingleMarker} />
+        </MapContainer>;
 }
