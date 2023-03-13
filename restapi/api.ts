@@ -114,4 +114,9 @@ app.listen(port, () => {
   );
 });
 
+app.get("/user/search", async (req : any, res : any, next : any) => {
+  console.log("New character");
+  console.log("Searching info...");
+});
+
 export default app;

@@ -1,11 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./navbar.css";
+import { makeRequest } from "../../axios";
 
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 function Navbar(): JSX.Element {
   const logout = () => {
     console.log("logout");
+  };
+  const search = () => {
+    makeRequest("/user/search");
   };
   return (
     <div className="topbarContainer">
@@ -22,6 +26,7 @@ function Navbar(): JSX.Element {
           <input
             placeholder="Search for a friend!"
             className="searchInput"
+            onChange={search}
           />
         </div>
       </div>
