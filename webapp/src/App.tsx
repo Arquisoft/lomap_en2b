@@ -30,6 +30,7 @@ function App(): JSX.Element {
     return (
     <QueryClientProvider client={queryClient} >
       <div style = {{backgroundImage:'url(/brussels1.png)'}}>
+      <div style={{backgroundColor:"rgba(71, 64, 64, 0.678)"}}>
       <Navbar />
       <div style={{ display: "flex" }}>
             <LeftBar />
@@ -38,6 +39,7 @@ function App(): JSX.Element {
             </div>
 
           </div>
+        </div>
         </div>
     </QueryClientProvider>
   );

@@ -1,5 +1,7 @@
 .sidebar{
     background-color: rgba(71, 64, 64, 0.678);
+    position: sticky;
+    top: 0;
 }
 
 .sidebarList {
@@ -9,6 +11,7 @@
     margin-top: 30px;
     display: flex;
     flex-direction: column;
+    margin-right: 10px;
 }
 
 .sidebarListItem {
