@@ -6,6 +6,18 @@ export default function Landmarks() {
 
     const submit = (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        let name : string | undefined = (document.getElementById("name") as HTMLInputElement).value;
+        let category : string | undefined = (document.getElementById("category") as HTMLInputElement)?.value;
+        let latitude : number | undefined = parseFloat((document.getElementById("latitude") as HTMLInputElement).value);
+        let longitude : number | undefined = parseFloat((document.getElementById("longitude") as HTMLInputElement).value);
+        let obj = {
+            name : name,
+            category : category,
+            latitude : latitude,
+            longitude : longitude
+        };
+
+        // Here goes the access to SOLID
     };
 
     return <div className="myLandmarksContainer">
