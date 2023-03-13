@@ -12,7 +12,7 @@ const Login = () => {
     const { webId } = session.info;
     
     useEffect(() => {
-      if (!(window.location.href === "http://localhost:3000/login")){
+      if ((window.location.href === "http://localhost:3000/login")){
         setCurrentUrl(window.location.href);
       }
     }, [setCurrentUrl]);

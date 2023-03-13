@@ -5,7 +5,8 @@ import "./navbar.css";
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 function Navbar(): JSX.Element {
   const logout = () => {
-    console.log("logout");
+    document.cookie = 'session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    global.location.href = "http://localhost:3000/login";
   };
   return (
     <div className="topbarContainer">
