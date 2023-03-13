@@ -21,3 +21,24 @@ h1 {
     margin-left: 3em;
     width: 60em;
 }
+
+form {
+    color: #DDD;
+    font-size: 1.2em;
+    margin-right: 3em;
+}
+
+input {
+    font-size: 1.2em;
+}
+
+button {
+    font-size: 1em;
+}
+
+textarea {
+    height: 20em;
+    width: 75%;
+    resize: none;
+    font-size: 1.2em;
+}
