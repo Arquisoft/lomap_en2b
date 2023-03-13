@@ -5,7 +5,7 @@ export async function addUser(user:User):Promise<boolean>{
     let response = await fetch(apiEndPoint+'/users/add', {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
-        body: JSON.stringify({'name':user.name, 'email':user.email})
+        body: JSON.stringify({'name':user.username, 'email':user.email})
       });
     if (response.status===200)
       return true;
