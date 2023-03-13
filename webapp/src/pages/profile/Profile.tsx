@@ -1,6 +1,6 @@
 import "./profile.css";
 import Map from "../../components/map/Map";
-import UserRightbar from "../../components/rightbar/UserRightBar";
+import UserRightbar from "../../components/rightbar/UserRightbar";
 function Profile(): JSX.Element {
 
   return (
