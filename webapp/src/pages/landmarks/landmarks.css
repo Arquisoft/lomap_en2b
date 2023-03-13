@@ -3,6 +3,7 @@
     background-color: rgba(71, 64, 64, 0.678);
     display: grid;
     grid-template-columns: 50% 50%;
+    grid-template-rows: auto 90%;
 }
 
 .landMarkTitle{
@@ -14,4 +15,9 @@
 
 h1 {
     color: #DDD;
+}
+
+.myLandmarksContainer > div[class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"]{
+    margin-left: 3em;
+    width: 60em;
 }
