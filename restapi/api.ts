@@ -1,6 +1,17 @@
 const express = require("express");
+import { Request, Response } from "express"
 const cookieSession = require("cookie-session");
 const cors = require("cors");
+const User = require("./models/User")
+
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+
+dotenv.config();
+
+mongoose.connect(process.env.MONGO_URL).then(
+  console.log('Connected to MongoDB')
+);
 
 const { 
   getSessionFromStorage,
@@ -23,6 +34,7 @@ app.use(
       "Required, but value not relevant for this demo - key2",
     ],
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    httpOnly: false,
   })
 );
 
@@ -112,6 +124,43 @@ app.listen(port, () => {
   console.log(
     `Server running on port [${port}]. `
   );
+});
+
+app.post("/user/add", async (req : Request, res : Response, next : any) => {
+  
+  try {
+    const newUser = new User({
+      solidURL: "Pepe",
+      username: "Pepe",
+    });
+    const user = await newUser.save();
+
+    const newUser2 = new User({
+      solidURL: "Pedro",
+      username: "Pepe",
+    });
+    const user2 = await newUser2.save();
+
+    res.status(201).json(user);
+  }
+  catch (err){
+    res.status(500).json(err);
+  }
+});
+
+app.get("/user/search/:text", async (req : any, res : any, next : any) => {
+  const searchText = req.params.text;
+  try {
+    const result = await User.find({
+      username: searchText
+    })
+    console.log(result);
+    console.log(searchText);
+    res.status(200).json(result);
+  }
+  catch (err){
+    res.status(500).json(err);
+  }
 });
 
 export default app;

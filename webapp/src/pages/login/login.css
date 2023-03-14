@@ -1,0 +1,18 @@
+body{
+	background-color: rgb(247, 243, 255);
+}
+
+.loginContainer{
+    background-color: rgba(206, 169, 169, 0.678);
+}
+
+.loginHeader{
+    color: purple;
+    text-align: center;
+    font-weight: bold;
+    font-size: 5em;
+}
+
+.loginText{
+    font-size: 1.1em;
+}

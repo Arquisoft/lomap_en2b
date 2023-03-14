@@ -14,6 +14,7 @@ import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import AddLandmark from './pages/addLandmark/AddLandmark';
 import Profile from './pages/profile/Profile';
+import Users from './pages/users/Users';
 import { makeRequest } from './axios';
 
 import LeftBar from './components/leftBar/LeftBar';
@@ -22,8 +23,6 @@ import Friends from './pages/friends/Friends';
 function App(): JSX.Element {
 
   //With this we can control the login status for solid
-  const { session } = useSession();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const queryClient =   new QueryClient();
 
@@ -31,6 +30,7 @@ function App(): JSX.Element {
     return (
     <QueryClientProvider client={queryClient} >
       <div style = {{backgroundImage:'url(/brussels1.png)'}}>
+      <div style={{backgroundColor:"rgba(71, 64, 64, 0.678)"}}>
       <Navbar />
       <div style={{ display: "flex" }}>
             <LeftBar />
@@ -40,12 +40,18 @@ function App(): JSX.Element {
 
           </div>
         </div>
+        </div>
     </QueryClientProvider>
   );
   };
 
+  const getCookieValue = (name : String) => (
+    document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
+  )
+
   const ProtectedRoute = ({children}:any) => {
-    if (session.info.isLoggedIn) {
+    console.log(getCookieValue("session"))
+    if (getCookieValue("session") === undefined) {
       return <Navigate to="/login" />;
     }
     return children;
@@ -73,9 +79,15 @@ function App(): JSX.Element {
           element: <Friends />,
         },
         {
+
           path: "/addLandmark",
           element: <AddLandmark />,
-        }
+        },
+
+          path: "/users/:text",
+          element: <Users />,
+        },
+
       ],
     },
     {

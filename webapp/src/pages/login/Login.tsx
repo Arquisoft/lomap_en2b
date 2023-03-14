@@ -3,6 +3,8 @@ import { LoginButton, CombinedDataProvider, useSession } from "@inrupt/solid-ui-
 import { Button, TextField, FormGroup, Container } from "@mui/material";
 import { makeRequest } from "../../axios";
 
+import "./login.css"
+
 const Login = () => {
     const [idp, setIdp] = useState("https://inrupt.net");
     const [currentUrl, setCurrentUrl] = useState("http://localhost:3000");
@@ -10,18 +12,18 @@ const Login = () => {
     const { webId } = session.info;
     
     useEffect(() => {
-      if (!(window.location.href === "http://localhost:3000/login")){
+      if ((window.location.href === "http://localhost:3000/login")){
         setCurrentUrl(window.location.href);
       }
     }, [setCurrentUrl]);
 
     return (
       <Container>
-        <h1> Login </h1>
-        <p> Welcome to LoMap!</p>
-        <p> This application runs using the solid principles, this means, you need an account on a pod provider to use it. </p>
-        <p> If you already have one, please log in.</p>
-        <p> If not, please create an account in a pod provider as inrupt.net</p>
+        <h1 className="loginHeader"> Login </h1>
+        <p className="loginText"> Welcome to LoMap!</p>
+        <p className="loginText"> This application runs using the solid principles, this means, you need an account on a pod provider to use it. </p>
+        <p className="loginText"> If you already have one, please log in.</p>
+        <p className="loginText"> If not, please create an account in a pod provider as inrupt.net</p>
         <FormGroup>
           <TextField
             label="Identity Provider"
@@ -41,7 +43,6 @@ const Login = () => {
             }}
           />
         </FormGroup>
-
       </Container>
     );
   }
