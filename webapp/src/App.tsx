@@ -1,37 +1,113 @@
-import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Container from '@mui/material/Container';
-import EmailForm from './components/EmailForm';
-import Welcome from './components/Welcome';
-import UserList from './components/UserList';
+
 import  {getUsers} from './api/api';
-import {User} from './shared/shareddtypes';
 import './App.css';
+import Map from './components/map/Map';
+import { QueryClient,QueryClientProvider} from '@tanstack/react-query';
+import { createBrowserRouter,Outlet,Navigate,RouterProvider } from 'react-router-dom';
+import Navbar from './components/navbar/Navbar';
+import { SessionProvider, useSession } from "@inrupt/solid-ui-react";
+import { useState} from "react";
+
+
+import Home from './pages/home/Home';
+import Login from './pages/login/Login';
+import Register from './pages/register/Register';
+import AddLandmark from './pages/addLandmark/AddLandmark';
+import Profile from './pages/profile/Profile';
+import Users from './pages/users/Users';
+import { makeRequest } from './axios';
+
+import LeftBar from './components/leftBar/LeftBar';
+import Friends from './pages/friends/Friends';
 
 function App(): JSX.Element {
 
-  const [users,setUsers] = useState<User[]>([]);
+  //With this we can control the login status for solid
 
-  const refreshUserList = async () => {
-    setUsers(await getUsers());
-  }
+  const queryClient =   new QueryClient();
 
-  useEffect(()=>{
-    refreshUserList();
-  },[]);
+  function Layout (): JSX.Element{
+    return (
+    <QueryClientProvider client={queryClient} >
+      <div style = {{backgroundImage:'url(/brussels1.png)'}}>
+      <div style={{backgroundColor:"rgba(71, 64, 64, 0.678)"}}>
+      <Navbar />
+      <div style={{ display: "flex" }}>
+            <LeftBar />
+            <div style={{ flex: 6}}>
+              <Outlet />
+            </div>
+
+          </div>
+        </div>
+        </div>
+    </QueryClientProvider>
+  );
+  };
+
+  const getCookieValue = (name : String) => (
+    document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
+  )
+
+  const ProtectedRoute = ({children}:any) => {
+    if (getCookieValue("session") === undefined) {
+      return <Navigate to="/login" />;
+    }
+    return children;
+  };
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: (
+        <ProtectedRoute>
+          <Layout />
+        </ProtectedRoute>
+      ),
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/profile",
+          element: <Profile />,
+        },
+        {
+          path: "/profile",
+          element: <Friends />,
+        },
+        {
+
+          path: "/addLandmark",
+          element: <AddLandmark />,
+        },
+        {
+          path: "/users/:text",
+          element: <Users />,
+        },
+
+      ],
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
+    },
+  ]);
 
   return (
-    <>
-      <Container maxWidth="sm">
-        <Welcome message="ASW students"/>
-        <Box component="div" sx={{ py: 2}}>This is a basic example of a React application using Typescript. You can add your email to the list filling the form below.</Box>
-        <EmailForm OnUserListChange={refreshUserList}/>        
-        <UserList users={users}/>
-        <Link href="https://github.com/arquisoft/lomap_en2b">Source code</Link>
-      </Container>
-    </>
+    <div>
+      <SessionProvider sessionId="LoMap">
+      <RouterProvider router={router} />
+      </SessionProvider>
+    </div>
   );
-}
+
+  };
+
 
 export default App;
