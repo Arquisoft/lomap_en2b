@@ -1,8 +1,11 @@
 .homeContainer{
-    
     height: 92vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: rgba(71, 64, 64, 0.678);
+}
+
+.homeMap {
+    height: 100%;
 }

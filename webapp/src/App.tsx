@@ -12,6 +12,7 @@ import { useState} from "react";
 import Home from './pages/home/Home';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
+import AddLandmark from './pages/addLandmark/AddLandmark';
 import Profile from './pages/profile/Profile';
 import Users from './pages/users/Users';
 import { makeRequest } from './axios';
@@ -78,9 +79,15 @@ function App(): JSX.Element {
           element: <Friends />,
         },
         {
+
+          path: "/addLandmark",
+          element: <AddLandmark />,
+        },
+
           path: "/users/:text",
           element: <Users />,
         },
+
       ],
     },
     {

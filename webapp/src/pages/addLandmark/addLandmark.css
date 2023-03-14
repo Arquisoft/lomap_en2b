@@ -1,0 +1,45 @@
+.myLandmarksContainer {
+    height: 92vh;
+    background-color: rgba(71, 64, 64, 0.678);
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto 90%;
+}
+
+.landMarkTitle{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    grid-column: span 2;
+}
+
+h1 {
+    color: #DDD;
+}
+
+.myLandmarksContainer > div[class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"]{
+    margin-left: 3em;
+    width: 90%;
+    min-width: 20%;
+}
+
+form {
+    color: #DDD;
+    font-size: 1.2em;
+    margin-left: 3em;
+}
+
+input {
+    font-size: 1.2em;
+}
+
+button {
+    font-size: 1em;
+}
+
+textarea {
+    height: 20em;
+    width: 75%;
+    resize: none;
+    font-size: 1.2em;
+}

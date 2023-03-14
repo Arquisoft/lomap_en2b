@@ -1,9 +1,8 @@
-div[class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"]{
+div [class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"]{
     display:flex;
     justify-content: center;
     align-items: center;
     height: 95%;
     width: 75%;
-    margin-bottom: 10px;
 }
 /**Temporal CSS stylesheet used for testing (currently) **/
