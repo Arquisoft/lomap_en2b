@@ -74,7 +74,7 @@ function App(): JSX.Element {
           element: <Profile />,
         },
         {
-          path: "/profile",
+          path: "/friends",
           element: <Friends />,
         },
         {
