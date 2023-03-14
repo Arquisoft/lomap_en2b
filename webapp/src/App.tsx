@@ -50,7 +50,6 @@ function App(): JSX.Element {
   )
 
   const ProtectedRoute = ({children}:any) => {
-    console.log(getCookieValue("session"))
     if (getCookieValue("session") === undefined) {
       return <Navigate to="/login" />;
     }
@@ -83,7 +82,7 @@ function App(): JSX.Element {
           path: "/addLandmark",
           element: <AddLandmark />,
         },
-
+        {
           path: "/users/:text",
           element: <Users />,
         },
