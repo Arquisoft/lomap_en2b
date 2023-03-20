@@ -23,9 +23,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-#vscode and idea files
+# misc folders from editors
 .vscode
 .idea
+.obsidian
 
 #documentation build does not go into master
 docs/build
