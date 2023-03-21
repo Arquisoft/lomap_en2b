@@ -10,9 +10,9 @@ As it stands now, we have identified some important risks before starting coding
 |Consulting the documentation of the languages when necessary, as well as trying to use technologies we know, so as to better concentrate on those we do not. Helping ourselves is also certainly a solution.
 |High
 
-|Github use as explained in class.
-|There is not a real mitigation proposed; the only thing we can really do is remember to use it.
-|Medium
+|Github use.
+|We are all familiar with how to use both git and GitHub, so we do not necessarily consider this as a risk. Nevertheless, it important to remember that working on not-updated branches can have severe consequences on the future, so we must remember to perform frequent commits and atomic branches: branches for a single feature or update.
+|Low
 
 |SOLID
 |Inform ourselves about SOLID, as well as trying to talk about it ourselves to see if there is anything we have missed. Asking the professor when arriving at a doubt.
@@ -24,4 +24,4 @@ As it stands now, we have identified some important risks before starting coding
 
 |===
 
-Regarding the technical debt, it is important to notice that using a new language is a big problem: we will probably write bad or otherwise improvable code, so (as already mentioned) using technologies we are already familiar in conjuction can help. We can incur there in other kind of technical debt there, though, as the used technology might not be appropiate.
+Regarding the technical debt, it is probably going to be very high, because we won't be using a single technology we are familiar with (except one member). Both SOLID and React are probably the most difficult parts, and we are going to have huge amounts of technical debt on both of them. Currently, we do not know any mitigation system other than searching possible solutions in Internet.
