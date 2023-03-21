@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import type { AlertColor } from '@mui/material/Alert';
-import {addUser} from '../api/api';
+import {add} from '../api/userApi';
 import {User} from '../shared/shareddtypes';
 
 type EmailFormProps = {
@@ -28,7 +28,7 @@ function EmailForm(props: EmailFormProps): JSX.Element {
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let result:boolean = await addUser({username, email});
+    let result:boolean = await add({username, email});
     if (result){
       setNotificationStatus(true);
       setNotification({ 
