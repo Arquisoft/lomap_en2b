@@ -12,7 +12,7 @@ const Login = () => {
     const { webId } = session.info;
     
     useEffect(() => {
-      if ((window.location.href === "http://localhost:3000/login")){
+      if ((window.location.href != "http://localhost:3000/login")){
         setCurrentUrl(window.location.href);
       }
     }, [setCurrentUrl]);
@@ -35,6 +35,7 @@ const Login = () => {
               endAdornment: (
                 <Button onClick={(e) => {
                   //makeRequest.get("/login")
+                  document.cookie = "provider=" + idp;
                   global.location.href = "http://localhost:8800/login";
                 }} variant="contained">
                     Login

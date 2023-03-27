@@ -1,6 +1,7 @@
 const express = require("express");
 import { Request, Response } from "express"
 const cookieSession = require("cookie-session");
+const cookieParser = require('cookie-parser');
 const cors = require("cors");
 const User = require("./models/User")
 
@@ -23,6 +24,13 @@ const app = express();
 app.use(cors({origin:"http://localhost:3000"}))
 const port = 8800;
 
+app.use(cookieParser());
+
+app.get('/', (req : any, res : any) => {
+  const cookieValue = req.cookies.myCookie;
+  console.log(cookieValue);
+});
+
 // The following snippet ensures that the server identifies each user's session
 // with a cookie using an express-specific mechanism
 app.use(
@@ -43,7 +51,6 @@ app.get("/login", async (req : any, res : any, next : any) => {
   // 1. Create a new Session
   const session = new Session();
   req.session.sessionId = session.info.sessionId;
-  console.log(session)
 
   const redirectToSolidIdentityProvider = (url : string) => {
     // Since we use Express in this example, we can call `res.redirect` to send the user to the
@@ -53,6 +60,8 @@ app.get("/login", async (req : any, res : any, next : any) => {
     res.redirect(url);
   };
 
+  const cookieValue = req.cookies.provider;
+
   // 2. Start the login process; redirect handler will handle sending the user to their
   //    Solid Identity Provider.
   await session.login({
@@ -61,7 +70,7 @@ app.get("/login", async (req : any, res : any, next : any) => {
     // appended as query parameters:
     redirectUrl: "http://localhost:3000",
     // Set to the user's Solid Identity Provider; e.g., "https://login.inrupt.com" 
-    oidcIssuer: "https://inrupt.net",
+    oidcIssuer: cookieValue,
     // Pick an application name that will be shown when asked 
     // to approve the application's access to the requested data.
     clientName: "LoMap",
