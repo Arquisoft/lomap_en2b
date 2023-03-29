@@ -1,6 +1,7 @@
 import Map from "../../components/map/Map";
 import "./addLandmark.css";
 import { useState } from "react";
+import { Button, Container, Divider, Grid, TextField, Typography } from "@mui/material";
 
 export default function Landmarks() {
 
@@ -18,38 +19,52 @@ export default function Landmarks() {
         };
 
         // Here goes the access to SOLID
+        // Currently waiting to add a standard
     };
 
-    return <div className="myLandmarksContainer">
-                <div className="landMarkTitle">
-                    <h1>Add a landmark</h1>
-                </div>
+    const numericFunction = (e : React.ChangeEvent<HTMLInputElement>, func : Function) => {
+        let number : number = parseFloat(e.target.value);
+        if (number == undefined) {
+            e.target.value = e.target.value.substring(0, e.target.value.length - 2);
+        } else {
+            func(number);
+        }
+    }
+
+    return <Grid container>
+            <Grid item xs = {12}>
+            <Typography variant="h1" component="h1" >Add a landmark</Typography>
+            </Grid>
+            <Grid item xs = {4}>
                 <form method = "post" className ="addLandmarkForm" onSubmit={submit}>
-                    <p>
-                        <label htmlFor="name">Name</label>
-                    </p>
-                    <p>
-                        <input type="text" name="name" id="name" required />
-                    </p>
-                    <p>
-                        <label htmlFor="category">Category</label>
-                    </p>
-                    <p>
-                        <input type="text" name="category" id="category" required />
-                    </p>
-                    <p>
-                        <label htmlFor="latitude">Latitude</label>
-                    </p>
-                    <p>
-                        <input type="number" name="latitude" id="latitude" required />
-                    </p><p>
-                        <label htmlFor="longitude">Longitude</label>
-                    </p>
-                    <p>
-                        <input type="number" name="longitude" id="longitude" required />
-                    </p>
-                    <button>Add the landmark</button>
+                    <Grid container spacing={{ md: 3 }}>
+                        <Grid item xs = {12}>
+                            <TextField name = "name" id = "name" label="Name of the landmark" />
+                        </Grid>
+                        <Grid item xs = {12}>
+                            <TextField name = "category" id = "category" label="Category of the landmark" />
+                        </Grid>
+                        <Grid item xs = {12}>
+                            <TextField name = "latitude" 
+                                id = "latitude" label="Latitude"  
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                numericFunction(e, Map.SetLatitude)}} />
+                        </Grid>
+                        <Grid item xs = {12}>
+                        <TextField name = "longitude" 
+                                id = "longitude" label="longitude"  
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                numericFunction(e, Map.SetLongitude)}} />
+                        </Grid>                        
+                        <Grid item xs = {12} justifyContent={"flex-end"}>
+                            <Button variant = "contained">Save</Button>
+                        </Grid>
+                    </Grid>
                 </form>
-            </div>
-    
+            </Grid>
+            <Grid item xs = {8}>
+                <Map />
+            </Grid>
+        </Grid>
+        ;
 }

@@ -1,8 +1,8 @@
-import { MapContainer, TileLayer, useMap, useMapEvents} from 'react-leaflet';
+import { MapContainer, TileLayer, useMap} from 'react-leaflet';
 import 'leaflet-css'
 import './Map.css';
-import L from 'leaflet';
 import React from 'react';
+import { LatLng } from 'leaflet';
 
 export default function Map(): JSX.Element {
     function GetCenter() {
@@ -15,11 +15,25 @@ export default function Map(): JSX.Element {
         return null;
     }
 
+    function SetLatitude(newLatitude : number) {
+        const map = useMap();
+        let currentPos : LatLng = map.getBounds().getCenter();
+        map.panTo([newLatitude, currentPos.lng]);
+        return null;
+    }    
+
+    function SetLongitude(newLongitude : number) {
+        const map = useMap();
+        let currentPos : LatLng = map.getBounds().getCenter();
+        map.panTo([currentPos.lng, newLongitude]);
+        return null;
+    }
+
     return <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true}>
         <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <GetCenter />
-ç        </MapContainer>;
+       </MapContainer>;
 }   
