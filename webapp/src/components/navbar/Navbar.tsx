@@ -11,13 +11,12 @@ function Navbar(): JSX.Element {
 
   const logout = () => {
     document.cookie = 'session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    global.location.href = "http://localhost:3000/login";
+    global.location.href = "http://localhost:"+process.env.WEBAPP_PORT+"/login";
   };
 
   const [inputValue, setInputValue] = useState('');
 
   const Search = () => {
-    console.log(inputValue);
     
     // do something with the input value
     navigate("/users/" + inputValue);
