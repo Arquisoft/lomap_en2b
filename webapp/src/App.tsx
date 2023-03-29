@@ -1,12 +1,11 @@
 
-import  {getUsers} from './api/api';
 import './App.css';
-import Map from './components/map/Map';
+
 import { QueryClient,QueryClientProvider} from '@tanstack/react-query';
 import { createBrowserRouter,Outlet,Navigate,RouterProvider } from 'react-router-dom';
 import Navbar from './components/navbar/Navbar';
-import { SessionProvider, useSession } from "@inrupt/solid-ui-react";
-import { useState} from "react";
+import { SessionProvider} from "@inrupt/solid-ui-react";
+
 
 
 import Home from './pages/home/Home';
@@ -15,7 +14,7 @@ import Register from './pages/register/Register';
 import AddLandmark from './pages/addLandmark/AddLandmark';
 import Profile from './pages/profile/Profile';
 import Users from './pages/users/Users';
-import { makeRequest } from './axios';
+
 
 import LeftBar from './components/leftBar/LeftBar';
 import Friends from './pages/friends/Friends';

@@ -11,7 +11,7 @@ function Users() {
 
   //function below triggers the helper function
   const { isLoading, error, data } = useQuery(["results"], () =>
-        makeRequest.get("/user/search/" + username).then((res) => {
+        makeRequest.get("/users/" + username).then((res) => {
             return res.data;
         })
       );

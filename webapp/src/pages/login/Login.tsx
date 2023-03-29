@@ -36,7 +36,7 @@ const Login = () => {
                 <Button onClick={(e) => {
                   //makeRequest.get("/login")
                   document.cookie = "provider=" + idp;
-                  global.location.href = "http://localhost:8800/login";
+                  global.location.href = "http://localhost:8800/solid/login";
                 }} variant="contained">
                     Login
                 </Button>
