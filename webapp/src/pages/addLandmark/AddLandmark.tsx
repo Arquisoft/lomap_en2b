@@ -1,7 +1,10 @@
 import Map from "../../components/map/Map";
 import "./addLandmark.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button, Container, Divider, Grid, TextField, Typography } from "@mui/material";
+import SetLatitude from "../../components/map/MapFunctions/SetLatitude";
+import SetLongitude from "../../components/map/MapFunctions/SetLongitude";
+import React from "react";
 
 export default function Landmarks() {
 
@@ -22,12 +25,14 @@ export default function Landmarks() {
         // Currently waiting to add a standard
     };
 
+    const map = useRef(null);
+
     const numericFunction = (e : React.ChangeEvent<HTMLInputElement>, func : Function) => {
         let number : number = parseFloat(e.target.value);
         if (number == undefined) {
             e.target.value = e.target.value.substring(0, e.target.value.length - 2);
         } else {
-            func(number);
+            React.createElement(func(number, map));
         }
     }
 
@@ -48,13 +53,13 @@ export default function Landmarks() {
                             <TextField name = "latitude" 
                                 id = "latitude" label="Latitude"  
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                numericFunction(e, Map.SetLatitude)}} />
+                                                 numericFunction(e, SetLatitude)}} />
                         </Grid>
                         <Grid item xs = {12}>
                         <TextField name = "longitude" 
                                 id = "longitude" label="longitude"  
                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                numericFunction(e, Map.SetLongitude)}} />
+                                                numericFunction(e, SetLongitude)}} />
                         </Grid>                        
                         <Grid item xs = {12} justifyContent={"flex-end"}>
                             <Button variant = "contained">Save</Button>
@@ -63,7 +68,7 @@ export default function Landmarks() {
                 </form>
             </Grid>
             <Grid item xs = {8}>
-                <Map />
+                <Map map={map}/>
             </Grid>
         </Grid>
         ;
