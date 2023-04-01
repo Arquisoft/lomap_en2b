@@ -14,6 +14,7 @@ Users can:
 * Share uploaded places with the desired users of the application
 * See other users' additions to the map
 * Add a review, comments or pictures to the uploaded places
+* Manage their data from their SOLID pods
 
 === Quality Goals
 
