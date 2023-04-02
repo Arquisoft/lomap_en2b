@@ -4,7 +4,7 @@ import './App.css';
 import { QueryClient,QueryClientProvider} from '@tanstack/react-query';
 import { createBrowserRouter,Outlet,Navigate,RouterProvider } from 'react-router-dom';
 import Navbar from './components/navbar/Navbar';
-import { SessionProvider} from "@inrupt/solid-ui-react";
+import { SessionProvider, useSession} from "@inrupt/solid-ui-react";
 
 
 
@@ -23,7 +23,8 @@ function App(): JSX.Element {
 
   //With this we can control the login status for solid
 
-  const queryClient =   new QueryClient();
+  const queryClient = new QueryClient();
+  const session = useSession();
 
   function Layout (): JSX.Element{
     return (
@@ -44,14 +45,13 @@ function App(): JSX.Element {
   );
   };
 
-  const getCookieValue = (name : String) => (
-    document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
-  )
 
   const ProtectedRoute = ({children}:any) => {
-    if (getCookieValue("session") === undefined) {
-      return <Navigate to="/login" />;
-    }
+    // Descomentar cuando funcione el inicio de sesión
+    //if (!session.session.info.isLoggedIn) {
+    //  return <Navigate to="/login" />;
+    //}
+    console.log(session.session); // Mostrar la sesión para debuggear
     return children;
   };
 
@@ -100,9 +100,7 @@ function App(): JSX.Element {
 
   return (
     <div>
-      <SessionProvider sessionId="LoMap">
       <RouterProvider router={router} />
-      </SessionProvider>
     </div>
   );
 

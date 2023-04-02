@@ -1,21 +1,20 @@
-import { useState, useEffect } from "react";
-import { LoginButton, CombinedDataProvider, useSession } from "@inrupt/solid-ui-react";
+import { useState } from "react";
 import { Button, TextField, FormGroup, Container } from "@mui/material";
-import { makeRequest } from "../../axios";
+import { login } from "@inrupt/solid-client-authn-browser";
 
 import "./login.css"
 
 const Login = () => {
     const [idp, setIdp] = useState("https://inrupt.net");
-    const [currentUrl, setCurrentUrl] = useState("http://localhost:3000");
-    const { session } = useSession();
-    const { webId } = session.info;
-    
-    useEffect(() => {
-      if ((window.location.href != "http://localhost:3000/login")){
-        setCurrentUrl(window.location.href);
-      }
-    }, [setCurrentUrl]);
+
+    const handleClick = async (e : any) => {
+      e.preventDefault();
+      login({
+        redirectUrl: "http://localhost:3000/",
+        oidcIssuer: idp,
+        clientName: "LoMap"
+      });
+    };
 
     return (
       <Container>
@@ -30,14 +29,10 @@ const Login = () => {
             placeholder="Identity Provider"
             type="url"
             value={idp}
-            onChange={(e) => setIdp(e.target.value)}
+            onChange={(e : any) => setIdp(e.target.value)}
             InputProps={{
               endAdornment: (
-                <Button onClick={(e) => {
-                  //makeRequest.get("/login")
-                  document.cookie = "provider=" + idp;
-                  global.location.href = "http://localhost:8800/solid/login";
-                }} variant="contained">
+                <Button onClick={handleClick} variant="contained">
                     Login
                 </Button>
               ),
