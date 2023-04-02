@@ -1,8 +1,9 @@
-import Map, { SingleMarker } from "../../components/map/Map";
+import Map from "../../components/map/Map";
+import markerIcon from "leaflet/dist/images/marker-icon.png"
 import "./addLandmark.css";
 import "../../components/map/stylesheets/addLandmark.css"
 import { useRef, useState } from "react";
-import { Button, MenuItem, Grid, Input, InputLabel, Select, TextField, Typography, FormControl } from "@mui/material";
+import { Button, MenuItem, Grid, Input, InputLabel, Select, Typography, FormControl } from "@mui/material";
 import React from "react";
 import L from "leaflet";
 import { LandmarkCategories } from "../../shared/shareddtypes";
@@ -10,12 +11,16 @@ import { LandmarkCategories } from "../../shared/shareddtypes";
 export default function AddLandmark() {
 
     const [coords, setCoords] = useState([0,0]);
-    const setCoordinates = () => {
+    let setCoordinates = () => {
         let latitude : number | undefined = parseFloat((document.getElementById("latitude") as HTMLInputElement).value);
         let longitude : number | undefined = parseFloat((document.getElementById("longitude") as HTMLInputElement).value);
         setCoords([latitude, longitude]);
         (map.current as L.Map).panTo([latitude, longitude]);
-        (marker.current as L.Marker).setLatLng([latitude, longitude]);
+        
+        // Manual delete, since scoping the variable outside does not seem to work...
+        let markerNode : ChildNode = (document.querySelector("img[alt='Marker'") as ChildNode);
+        if (markerNode) markerNode.remove();
+        new L.Marker([latitude, longitude]).setIcon(L.icon({iconUrl: markerIcon})).addTo(map.current as L.Map);
     }
 
     const submit = (e : React.FormEvent<HTMLFormElement>) => {
@@ -36,8 +41,6 @@ export default function AddLandmark() {
         // Here goes the access to SOLID
         // Currently waiting to add a standard
     };
-
-    const marker = useRef<L.Marker>(null);
     const map = useRef<L.Map>(null);
     let selectItems : JSX.Element[] = Object.keys(LandmarkCategories).map(key => {
         return <MenuItem value = {key}>{key}</MenuItem>;
@@ -83,7 +86,6 @@ export default function AddLandmark() {
             </Grid>
             <Grid item xs = {8}>
                 <Map map={map}>
-                    <SingleMarker map={map} marker={marker} />
                 </Map>
             </Grid>
         </Grid>
