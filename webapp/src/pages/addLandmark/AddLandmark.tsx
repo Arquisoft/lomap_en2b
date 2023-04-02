@@ -1,12 +1,11 @@
 import Map, { SingleMarker } from "../../components/map/Map";
 import "./addLandmark.css";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import React from "react";
-import L, { LatLng } from "leaflet";
-import { useMapEvent } from "react-leaflet";
+import L from "leaflet";
 
-export default function Landmarks() {
+export default function AddLandmark() {
 
     const [coords, setCoords] = useState([0,0]);
     const setCoordinates = () => {
@@ -16,12 +15,13 @@ export default function Landmarks() {
         (map.current as L.Map).panTo([latitude, longitude]);
         (marker.current as L.Marker).setLatLng([latitude, longitude]);
     }
+
     const submit = (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         let name : string | undefined = (document.getElementById("name") as HTMLInputElement).value;
         let category : string | undefined = (document.getElementById("category") as HTMLInputElement)?.value;
-        let latitude : number | undefined = parseFloat((document.getElementById("latitude") as HTMLInputElement).value);
-        let longitude : number | undefined = parseFloat((document.getElementById("longitude") as HTMLInputElement).value);
+        let latitude : number = coords[0];
+        let longitude : number = coords[1];
         let obj = {
             name : name,
             category : category,

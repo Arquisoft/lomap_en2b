@@ -1,16 +1,15 @@
-import { MapContainer, TileLayer, useMapEvent, useMapEvents} from 'react-leaflet';
+import { MapContainer, TileLayer} from 'react-leaflet';
 import 'leaflet-css'
 import './Map.css';
 import { useRef } from 'react';
 import { useLeafletContext } from '@react-leaflet/core';
-import L, { LatLng, LeafletMouseEvent } from 'leaflet';
+import L, { LeafletMouseEvent } from 'leaflet';
 
 export default function Map(props : any): JSX.Element {
     let map = useRef(null);
     if (props.map !== undefined) {
         map = props.map;
     }
-    const callbackWhenReady = props.callbackWhenReady == null || props.callbackWhenReady == undefined ? () => {} : props.callbackWhenReady;
 
     return <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true} ref={map}>
         <TileLayer

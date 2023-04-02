@@ -78,7 +78,7 @@ function App(): JSX.Element {
         },
         {
 
-          path: "/addLandmark",
+          path: "/landmarks/add",
           element: <AddLandmark />,
         },
         {
