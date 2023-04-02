@@ -1,13 +1,19 @@
 import Map from "../../components/map/Map";
 import "./addLandmark.css";
 import { useRef, useState } from "react";
-import { Button, Container, Divider, Grid, TextField, Typography } from "@mui/material";
-import SetLatitude from "../../components/map/MapFunctions/SetLatitude";
-import SetLongitude from "../../components/map/MapFunctions/SetLongitude";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import React from "react";
+import { LatLng } from "leaflet";
 
 export default function Landmarks() {
 
+    const [coords, setCoords] = useState([0,0]);
+    const setCoordinates = () => {
+        let latitude : number | undefined = parseFloat((document.getElementById("latitude") as HTMLInputElement).value);
+        let longitude : number | undefined = parseFloat((document.getElementById("longitude") as HTMLInputElement).value);
+        setCoords([latitude, longitude]);
+        (map.current as L.Map).panTo([latitude, longitude]);
+    }
     const submit = (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         let name : string | undefined = (document.getElementById("name") as HTMLInputElement).value;
@@ -25,16 +31,20 @@ export default function Landmarks() {
         // Currently waiting to add a standard
     };
 
-    const map = useRef(null);
+    const map = useRef<L.Map>(null);
+    const marker = useRef<L.Marker>(null);
 
-    const numericFunction = (e : React.ChangeEvent<HTMLInputElement>, func : Function) => {
-        let number : number = parseFloat(e.target.value);
-        if (number == undefined) {
-            e.target.value = e.target.value.substring(0, e.target.value.length - 2);
-        } else {
-            React.createElement(func(number, map));
-        }
-    }
+    (map.current as L.Map).on("click", function(e) {
+        let currentMap = (map.current as L.Map);
+        let latLng : LatLng = currentMap.getCenter();
+        (document.getElementById("latitude") as HTMLInputElement).value = latLng.lat.toString();
+        (document.getElementById("longitude") as HTMLInputElement).value = latLng.lng.toString();
+        (marker.current as L.Marker).setLatLng(e.latlng);
+    });
+
+    (map.current as L.Map).on("load", function() {
+        (marker.current as L.Marker).addTo(map.current as L.Map);
+    })
 
     return <Grid container>
             <Grid item xs = {12}>
@@ -51,24 +61,23 @@ export default function Landmarks() {
                         </Grid>
                         <Grid item xs = {12}>
                             <TextField name = "latitude" 
-                                id = "latitude" label="Latitude"  
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                 numericFunction(e, SetLatitude)}} />
+                                id = "latitude" label="Latitude" />
                         </Grid>
                         <Grid item xs = {12}>
                         <TextField name = "longitude" 
-                                id = "longitude" label="longitude"  
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                numericFunction(e, SetLongitude)}} />
+                                id = "longitude" label="longitude" />
+                        </Grid>
+                        <Grid item xs = {5} justifyContent={"flex-start"}>
+                            <Button variant = "contained" onClick = {() => {setCoordinates(); debugger;}}>Search coordinates</Button>
                         </Grid>                        
-                        <Grid item xs = {12} justifyContent={"flex-end"}>
+                        <Grid item xs = {8} justifyContent={"flex-end"}>
                             <Button variant = "contained">Save</Button>
                         </Grid>
                     </Grid>
                 </form>
             </Grid>
             <Grid item xs = {8}>
-                <Map map={map}/>
+                <Map map={map} />
             </Grid>
         </Grid>
         ;
