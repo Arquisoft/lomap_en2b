@@ -48,7 +48,7 @@ export default function AddLandmark() {
 
     return <Grid container>
             <Grid item xs = {12}>
-            <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF"}}>Add a landmark</Typography>
+            <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 32}} >Add a landmark</Typography>
             </Grid>
             <Grid item xs = {4}>
                 <form method = "post" className ="addLandmarkForm" onSubmit={submit}>
