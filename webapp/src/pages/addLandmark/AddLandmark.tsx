@@ -1,9 +1,10 @@
-import Map from "../../components/map/Map";
+import Map, { SingleMarker } from "../../components/map/Map";
 import "./addLandmark.css";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import React from "react";
-import { LatLng } from "leaflet";
+import L, { LatLng } from "leaflet";
+import { useMapEvent } from "react-leaflet";
 
 export default function Landmarks() {
 
@@ -13,6 +14,7 @@ export default function Landmarks() {
         let longitude : number | undefined = parseFloat((document.getElementById("longitude") as HTMLInputElement).value);
         setCoords([latitude, longitude]);
         (map.current as L.Map).panTo([latitude, longitude]);
+        (marker.current as L.Marker).setLatLng([latitude, longitude]);
     }
     const submit = (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -31,20 +33,8 @@ export default function Landmarks() {
         // Currently waiting to add a standard
     };
 
-    const map = useRef<L.Map>(null);
     const marker = useRef<L.Marker>(null);
-
-    (map.current as L.Map).on("click", function(e) {
-        let currentMap = (map.current as L.Map);
-        let latLng : LatLng = currentMap.getCenter();
-        (document.getElementById("latitude") as HTMLInputElement).value = latLng.lat.toString();
-        (document.getElementById("longitude") as HTMLInputElement).value = latLng.lng.toString();
-        (marker.current as L.Marker).setLatLng(e.latlng);
-    });
-
-    (map.current as L.Map).on("load", function() {
-        (marker.current as L.Marker).addTo(map.current as L.Map);
-    })
+    const map = useRef<L.Map>(null);
 
     return <Grid container>
             <Grid item xs = {12}>
@@ -77,7 +67,9 @@ export default function Landmarks() {
                 </form>
             </Grid>
             <Grid item xs = {8}>
-                <Map map={map} />
+                <Map map={map}>
+                    <SingleMarker map={map} marker={marker} />
+                </Map>
             </Grid>
         </Grid>
         ;
