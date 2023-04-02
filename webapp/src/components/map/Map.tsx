@@ -1,6 +1,5 @@
 import { MapContainer, TileLayer} from 'react-leaflet';
 import 'leaflet-css'
-import './Map.css';
 import { useRef } from 'react';
 import { useLeafletContext } from '@react-leaflet/core';
 import L, { LeafletMouseEvent } from 'leaflet';

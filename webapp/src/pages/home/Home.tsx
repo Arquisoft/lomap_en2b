@@ -1,4 +1,5 @@
 import Map from "../../components/map/Map";
+import "../../components/map/stylesheets/home.css";
 import "./home.css"
 function Home(): JSX.Element {
   return (
