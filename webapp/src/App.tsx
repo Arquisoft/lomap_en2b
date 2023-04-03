@@ -4,7 +4,7 @@ import './App.css';
 import { QueryClient,QueryClientProvider} from '@tanstack/react-query';
 import { createBrowserRouter,Outlet,Navigate,RouterProvider } from 'react-router-dom';
 import Navbar from './components/navbar/Navbar';
-import { SessionProvider, useSession} from "@inrupt/solid-ui-react";
+import { SessionContext, useSession} from "@inrupt/solid-ui-react";
 
 
 
@@ -24,8 +24,8 @@ function App(): JSX.Element {
   //With this we can control the login status for solid
 
   const queryClient = new QueryClient();
-  const session = useSession();
-
+  const {session} = useSession();
+  
   function Layout (): JSX.Element{
     return (
     <QueryClientProvider client={queryClient} >
@@ -47,11 +47,12 @@ function App(): JSX.Element {
 
 
   const ProtectedRoute = ({children}:any) => {
-    // Descomentar cuando funcione el inicio de sesión
-    //if (!session.session.info.isLoggedIn) {
+    //Descomentar cuando funcione el inicio de sesión
+    // console.log(session.info);
+    // if (!session.info.isLoggedIn) {
     //  return <Navigate to="/login" />;
-    //}
-    console.log(session.session); // Mostrar la sesión para debuggear
+    // }
+    console.log(session.info); // Mostrar la sesión para debuggear
     return children;
   };
 

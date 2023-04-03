@@ -1,19 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button, TextField, FormGroup, Container } from "@mui/material";
-import { login } from "@inrupt/solid-client-authn-browser";
 
+// import { login } from "@inrupt/solid-client-authn-browser";
 import "./login.css"
+import { LoginButton } from "@inrupt/solid-ui-react";
 
 const Login = () => {
     const [idp, setIdp] = useState("https://inrupt.net");
 
+
     const handleClick = async (e : any) => {
-      e.preventDefault();
-      login({
-        redirectUrl: "http://localhost:3000/",
-        oidcIssuer: idp,
-        clientName: "LoMap"
-      });
+      // e.preventDefault();
+      
+      // login({
+      //   redirectUrl: "http://localhost:3000/",
+      //   oidcIssuer: idp,
+        
+        
+      // });
+      console.log("Login");
     };
 
     return (
@@ -32,9 +37,11 @@ const Login = () => {
             onChange={(e : any) => setIdp(e.target.value)}
             InputProps={{
               endAdornment: (
+                <LoginButton oidcIssuer={idp} redirectUrl="http://localhost:3000/" onError={console.error}>
                 <Button onClick={handleClick} variant="contained">
                     Login
                 </Button>
+                </LoginButton>
               ),
             }}
           />
