@@ -7,7 +7,7 @@ Up until now, we have made some decisions about the project, those decisions can
 
 . *Technology decisions:*
 * React: JS framework that helps with the user interface of the web application.
-* Map API: Used to plot the map in the application in order to allow the user to do every possible action.
+* Map API: Used to plot the map in the application in order to allow the user to do every possible action. The selected API to do it is Leaflet.
 
 . *Decisions on top-level decomposition:*
 * MVC: We are using the MVC (Model-View-Controller) pattern in order to organize the code in a clean and obvious way.
@@ -19,7 +19,7 @@ Up until now, we have made some decisions about the project, those decisions can
 * Security: It is the main point of our application, as we are using solid, we are maintaining the privacy of every user who logs into LoMap.
 * Response times: As much as possible, we are trying to minimize response times of the application in order to be more user friendly.
 
-*Organizational decisions:*
+. *Organizational decisions:*
 During the development of this project, everyone is the group is in constant contact with the rest of the members of the team, mainly in the weekly meeting which takes part during lab classes throughout the semester. In addition to that, we used a whatsapp group in order to consult with each other little things that could emerge during the week.
 Related with the project, our main way of working with the code was through pull requests. Each one of the members did some work, in his newly created branch and when he ended his work, he committed the changes and requested a pull request in GitHub, where another person in the group should revise the changes and aprove that pull request in order to merge the changes to the main branch.
 In order to do advances in the development we are using the issues in Github as well, in that way we make sure that we do everything we consider necessary.
