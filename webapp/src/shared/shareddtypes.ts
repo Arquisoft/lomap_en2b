@@ -1,8 +1,8 @@
 export type User = {
-    solidURL?:string;
+    solidURL:string;
     username:string;
     email:string;
-    friends?:User[];
+    _id:string;
     landmarks?:Landmark[];
   };
 

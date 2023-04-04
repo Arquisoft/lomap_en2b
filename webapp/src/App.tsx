@@ -70,7 +70,7 @@ function App(): JSX.Element {
           element: <Home />,
         },
         {
-          path: "/profile",
+          path: "/profile/:id",
           element: <Profile />,
         },
         {
