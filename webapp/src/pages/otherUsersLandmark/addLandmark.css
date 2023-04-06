@@ -1,0 +1,24 @@
+h1 {
+    color: #DDD;
+}
+
+.myLandmarksContainer > div[class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"]{
+    margin-left: 3em;
+    width: 90%;
+    min-width: 20%;
+}
+
+form {
+    color: #DDD;
+    font-size: 1.2em;
+    margin-top: 3em;
+    margin-left: 3em;
+}
+
+input {
+    font-size: 1.2em;
+}
+
+button {
+    font-size: 1em;
+}
