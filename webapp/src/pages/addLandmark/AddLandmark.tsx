@@ -17,7 +17,7 @@ export default function AddLandmark() {
         setCoords([latitude, longitude]);
         (map.current as L.Map).panTo([latitude, longitude]);
         
-        // Manual delete, since scoping the variable outside does not seem to work...
+        // Manual delete, since scoping the variable outside the function and updating it does not seem to work
         let markerNode : ChildNode = (document.querySelector("img[alt='Marker'") as ChildNode);
         if (markerNode) markerNode.remove();
         new L.Marker([latitude, longitude]).setIcon(L.icon({iconUrl: markerIcon})).addTo(map.current as L.Map);
@@ -48,7 +48,7 @@ export default function AddLandmark() {
 
     return <Grid container>
             <Grid item xs = {12}>
-            <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 32}} >Add a landmark</Typography>
+            <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 54}} >Add a landmark</Typography>
             </Grid>
             <Grid item xs = {4}>
                 <form method = "post" className ="addLandmarkForm" onSubmit={submit}>

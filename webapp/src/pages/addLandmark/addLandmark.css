@@ -22,10 +22,3 @@ input {
 button {
     font-size: 1em;
 }
-
-textarea {
-    height: 20em;
-    width: 75%;
-    resize: none;
-    font-size: 1.2em;
-}
