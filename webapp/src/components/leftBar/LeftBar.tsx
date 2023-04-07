@@ -17,10 +17,19 @@ function LeftBar(): JSX.Element{
                         </Link>
                     </li>
                     <li className="sidebarListItem">
-                        <Link to="/landmarks/add" style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <LocationOnIcon className="sidebarIcon"/>
-                        Add a landmark
-                        </Link>
+                        Landmarks
+                        <li className="sidebarListItem">
+                            <Link to="/landmarks/add" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <LocationOnIcon className="sidebarIcon"/>
+                            Add a landmark
+                            </Link>
+                        </li>
+                        <li className="sidebarListItem">
+                            <Link to="/landmarks/filter" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <LocationOnIcon className="sidebarIcon"/>
+                            See friends' landmarks
+                            </Link>
+                        </li>
                     </li>
                     <li className="sidebarListItem">
                         <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
