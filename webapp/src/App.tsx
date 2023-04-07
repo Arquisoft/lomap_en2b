@@ -18,7 +18,7 @@ import Users from './pages/users/Users';
 
 import LeftBar from './components/leftBar/LeftBar';
 import Friends from './pages/friends/Friends';
-import LandmarkFilter from './pages/otherUsersLandmark/LandmarkFilter';
+import LandmarkFriend from './pages/otherUsersLandmark/LandmarkFriend';
 
 function App(): JSX.Element {
 
@@ -83,7 +83,7 @@ function App(): JSX.Element {
         },
         {
           path: "/landmarks/filter",
-          element: <LandmarkFilter />,
+          element: <LandmarkFriend />,
         },
         {
           path: "/users/:text",
