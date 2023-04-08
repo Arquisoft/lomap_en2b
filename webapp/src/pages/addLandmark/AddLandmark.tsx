@@ -50,7 +50,7 @@ export default function AddLandmark() {
             <Grid item xs = {12}>
             <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 46}} >Add a landmark</Typography>
             </Grid>
-            <Grid item xs = {4}>
+            <Grid item xs = {4} className = "leftPane">
                 <form method = "post" className ="addLandmarkForm" onSubmit={submit}>
                     <Grid container spacing={3} rowGap={8}>
                         <FormControl fullWidth>
@@ -84,7 +84,7 @@ export default function AddLandmark() {
                     </Grid>
                 </form>
             </Grid>
-            <Grid item xs = {8}>
+            <Grid item xs = {8} className = "rightPane  ">
                 <Map map={map}>
                 </Map>
             </Grid>

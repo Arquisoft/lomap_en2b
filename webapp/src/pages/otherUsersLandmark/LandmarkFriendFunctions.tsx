@@ -1,5 +1,5 @@
-import { InputLabel, Select, MenuItem, FormControl, Box, TextField, Button} from "@mui/material";
-import { User } from "../../shared/shareddtypes";
+import { InputLabel, Select, MenuItem, Box, TextField, Button, FormControl, Grid, Checkbox, FormControlLabel, Typography} from "@mui/material";
+import { LandmarkCategories, User } from "../../shared/shareddtypes";
 import { Marker, Popup } from "react-leaflet";
 
 export function LandmarkFilter(props : any) : JSX.Element {
@@ -12,16 +12,32 @@ export function LandmarkFilter(props : any) : JSX.Element {
         });
 
         userItems.push(<MenuItem key = "all" value = "all">All users</MenuItem>);
-        return userItems;
+        return  <Select id = "userFilter" name = "userFilter" defaultValue={"all"} label="User filter" style={{color:"#FFF"}}>
+                    {userItems}
+                    </Select>;
     }
-    return <FormControl>
-            <InputLabel htmlFor="userFilter" style={{color:"#FFF"}}>User</InputLabel>
-            <Select id = "userFilter">
-                {loadUsers}
-            </Select>
-        </FormControl>;
-}
+    const loadCategories = () => {
+        let categoryList : string[] = Object.values(LandmarkCategories);
+        let categories : JSX.Element[] = categoryList.map(key => {
+            return <FormControlLabel control={<Checkbox defaultChecked />} label={key} />
+        });
 
+        // TODO: Space the grid appropiately
+        return  <Grid item rowSpacing = {5} columnSpacing={5} gridRow={4}>
+                    {categories}
+                </Grid>;
+    }
+    return <Grid container rowGap={4} spacing = {5}>
+                <FormControl fullWidth>
+                    <InputLabel htmlFor="userFilter" style={{color:"#FFF"}}>User</InputLabel>
+                    {loadUsers()}
+                </FormControl>
+                <FormControl fullWidth>
+                    <Typography style={{color:"#FFF"}}>Category</Typography>
+                    {loadCategories()}
+                </FormControl>
+            </Grid>;
+}
 export function LandmarkPlacer(props : any) : JSX.Element {
     let map : L.Map = props.any;
     if (map == undefined || map == null) {
