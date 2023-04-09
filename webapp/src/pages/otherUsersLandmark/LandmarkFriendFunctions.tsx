@@ -1,4 +1,4 @@
-import { InputLabel, Select, MenuItem, Box, TextField, Button, FormControl, Grid, Checkbox, FormControlLabel, Typography} from "@mui/material";
+import { InputLabel, Select, MenuItem, Box, TextField, Button, FormControl, Grid, Checkbox, FormControlLabel, Typography, Input} from "@mui/material";
 import { LandmarkCategories, User } from "../../shared/shareddtypes";
 import { Marker, Popup } from "react-leaflet";
 import { Form } from "react-router-dom";
@@ -64,7 +64,6 @@ export function LandmarkPlacer(props : any) : JSX.Element {
 export function LandmarkAddComment(props : any) : JSX.Element {
     let commentsEnabled : boolean = props.isCommentEnabled.current as boolean;
     let returnElement : any = null;
-    console.log(commentsEnabled);
     if (commentsEnabled) {
         returnElement = <Grid container rowSpacing={4}>
                             <Typography variant="h2" style={{color:"#FFF", fontSize:32}}>Add a comment</Typography>
@@ -73,6 +72,26 @@ export function LandmarkAddComment(props : any) : JSX.Element {
                             </FormControl>
                             <Grid item>
                                 <Button variant="contained">Comment</Button>
+                            </Grid>
+                        </Grid>;
+    }
+    return returnElement;
+    ;
+}
+
+export function LandmarkAddScore(props : any) : JSX.Element {
+    let commentsEnabled : boolean = props.isCommentEnabled.current as boolean;
+    let returnElement : any = null;
+    if (commentsEnabled) {
+        returnElement = <Grid container rowSpacing={4}>
+                            <Typography variant="h2" style={{color:"#FFF", fontSize:32}}>Add a score</Typography>
+                            <FormControl fullWidth>
+                                <InputLabel htmlFor="score" style={{color:"#FFF"}}>Score  </InputLabel>
+                                <Input type="number" name = "score" 
+                                        id = "score" inputProps={{min: 0, max: 10}} style={{color:"#FFF"}}/>
+                            </FormControl>
+                            <Grid item>
+                                <Button variant="contained">Score</Button>
                             </Grid>
                         </Grid>;
     }

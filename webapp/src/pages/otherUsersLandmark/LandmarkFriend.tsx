@@ -7,7 +7,7 @@ import "../../components/map/stylesheets/addLandmark.css"
 export default function LandmarkFriend() : JSX.Element{
 
     const map = useRef<L.Map>(null);
-    const isCommentEnabled = useRef<boolean>(false); // TODO: Changes to true when selecting a landmark
+    const isCommentEnabled = useRef<boolean>(true); // TODO: Changes to true when selecting a landmark
 
     return  <Grid container>
                 <Grid item xs = {12}>
@@ -19,6 +19,9 @@ export default function LandmarkFriend() : JSX.Element{
                     </form>
                     <form method = "post" action="/landmarks/comments">
                         <LFF.LandmarkAddComment isCommentEnabled={isCommentEnabled}/>
+                    </form>
+                    <form method = "post" action="/landmarks/scores">
+                        <LFF.LandmarkAddScore isCommentEnabled={isCommentEnabled}/>
                     </form>
                 </Grid>
                 <Grid item xs = {6} className = "rightPane">
