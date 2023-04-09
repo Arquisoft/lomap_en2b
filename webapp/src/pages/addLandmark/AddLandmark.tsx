@@ -39,7 +39,6 @@ export default function AddLandmark() {
         };
 
         // Here goes the access to SOLID
-        // Currently waiting to add a standard
     };
     const map = useRef<L.Map>(null);
     let selectItems : JSX.Element[] = Object.keys(LandmarkCategories).map(key => {
@@ -78,8 +77,8 @@ export default function AddLandmark() {
                                 <Button variant = "contained" onClick = {() => {setCoordinates();}}>Search coordinates</Button>
                             </FormControl>                        
                         </Grid>
-                        <Grid container justifyContent="flex-end">
-                            <Button variant = "contained" justify-self="right">Save new landmark</Button>
+                        <Grid item justifyContent="flex-end">
+                            <Button variant = "contained" >Save new landmark</Button>
                         </Grid>
                     </Grid>
                 </form>

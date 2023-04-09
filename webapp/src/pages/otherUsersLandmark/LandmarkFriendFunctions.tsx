@@ -1,10 +1,11 @@
 import { InputLabel, Select, MenuItem, Box, TextField, Button, FormControl, Grid, Checkbox, FormControlLabel, Typography} from "@mui/material";
 import { LandmarkCategories, User } from "../../shared/shareddtypes";
 import { Marker, Popup } from "react-leaflet";
+import { Form } from "react-router-dom";
 
 export function LandmarkFilter(props : any) : JSX.Element {
 
-    // TODO: Import here the users that are friends with the logged
+    // TODO: Import here the users that are friends with the logged one
     const loadUsers = () => {
         let userList : User[] = [];
         let userItems : JSX.Element[] = userList.map(key => {
@@ -19,11 +20,12 @@ export function LandmarkFilter(props : any) : JSX.Element {
     const loadCategories = () => {
         let categoryList : string[] = Object.values(LandmarkCategories);
         let categories : JSX.Element[] = categoryList.map(key => {
-            return <FormControlLabel control={<Checkbox defaultChecked />} label={key} />
+            return <Grid item xs = {4}>
+                <FormControlLabel control={<Checkbox defaultChecked />} label={key} />
+            </Grid>
         });
 
-        // TODO: Space the grid appropiately
-        return  <Grid item rowSpacing = {5} columnSpacing={5} gridRow={4}>
+        return  <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
                     {categories}
                 </Grid>;
     }
@@ -60,13 +62,20 @@ export function LandmarkPlacer(props : any) : JSX.Element {
 }
 
 export function LandmarkAddComment(props : any) : JSX.Element {
-    return (
-    <Box>
-        <form action = "/landmark/comments/add" method = "post">
-            <TextField id = "comment" name = "comment" multiline maxRows = {3}/>
-            <Button variant="contained" justify-self="right">Comment</Button>
-        </form>
-    </Box>
-    );
-
+    let commentsEnabled : boolean = props.isCommentEnabled.current as boolean;
+    let returnElement : any = null;
+    console.log(commentsEnabled);
+    if (commentsEnabled) {
+        returnElement = <Grid container rowSpacing={4}>
+                            <Typography variant="h2" style={{color:"#FFF", fontSize:32}}>Add a comment</Typography>
+                            <FormControl fullWidth>
+                                <TextField id = "comment" name = "comment" multiline rows = {3} maxRows = {6} style={{color:"#FFF", fontSize:32}}/>
+                            </FormControl>
+                            <Grid item>
+                                <Button variant="contained">Comment</Button>
+                            </Grid>
+                        </Grid>;
+    }
+    return returnElement;
+    ;
 }

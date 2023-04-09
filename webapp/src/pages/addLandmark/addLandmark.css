@@ -6,6 +6,7 @@ h1 {
     margin-left: 3em;
     width: 80%;
     min-width: 20%;
+    height: 100%;
 }
 
 .leftPane > *, .leftPane {
