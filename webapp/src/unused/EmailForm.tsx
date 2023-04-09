@@ -28,23 +28,23 @@ function EmailForm(props: EmailFormProps): JSX.Element {
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let result:boolean = await add({username, email});
-    if (result){
-      setNotificationStatus(true);
-      setNotification({ 
-        severity:'success',
-        message:'You have been registered in the system!'
-      });
-      //Notify the change to the parent component
-      props.OnUserListChange();
-    }
-    else{
-      setNotificationStatus(true);
-      setNotification({ 
-        severity:'error',
-        message:'There\'s been an error in the register proccess.'
-      });
-    }
+    // let result:boolean = await add({username, email});
+    // if (result){
+    //   setNotificationStatus(true);
+    //   setNotification({ 
+    //     severity:'success',
+    //     message:'You have been registered in the system!'
+    //   });
+    //   //Notify the change to the parent component
+    //   props.OnUserListChange();
+    // }
+    // else{
+    //   setNotificationStatus(true);
+    //   setNotification({ 
+    //     severity:'error',
+    //     message:'There\'s been an error in the register proccess.'
+    //   });
+    // }
   }
 
   return (
