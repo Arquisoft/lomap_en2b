@@ -1,18 +1,45 @@
 import express from "express";
-import { getSolidDataset, Thing, getThing} from "@inrupt/solid-client";
+import { getSolidDataset, Thing, getThing, getStringNoLocale,getUrlAll} from "@inrupt/solid-client";
 const User = require("../models/User");
 const router = express.Router();
+import { FOAF,VCARD } from "@inrupt/vocab-common-rdf";
 
-router.get("/:id",async (req, res) => {
-    const id = req.params.id;
-    console.log("GET /solid/" + id);
-    const webID = User.findOneById(id).solidURL;
-
-    let profile = webID.split("#")[0]; 
+async function getUserThing(webID : string){
+    const result = await User.findById(webID);
+   
+    const profile = result.solidURL;
+   
     let dataSet = await getSolidDataset(profile, {fetch: fetch});
-    // return the dataset as a thing
-    const thing = getThing(dataSet, webID) as Thing;
+    
+    return getThing(dataSet, profile+"#me") as Thing;
+};
+router.get("/:id/name",async (req, res) => {
+    try {
+    const id = req.params.id;
+    console.log("GET /solid/" + id+"/name");
+    let thing = await getUserThing(id);
 
-    res.status(200).send(thing);
+    // NAME ======================
+    const name = getStringNoLocale(thing,FOAF.name)
+    res.status(200).send(name);
+    } catch (err) {
+        res.status(500).json(err);
+     }
 });
+
+router.get("/:id/friends",async (req, res) => {
+    try {
+    const id = req.params.id;
+    console.log("GET /solid/" + id+"/friends");
+    let thing = await getUserThing(id);
+    let friendURLs = getUrlAll(thing, VCARD.Contact);
+
+    console.log(friendURLs);
+    res.status(200).send(friendURLs);
+    } catch (err) {
+        res.status(500).json(err);
+        }
+});
+
+
 module.exports = router;

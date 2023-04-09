@@ -1,25 +1,35 @@
 import "./profile.css";
 import Map from "../../components/map/Map";
 import UserRightbar from "../../components/rightbar/UserRightBar";
-import { useSession } from "@inrupt/solid-ui-react";
 
-import { useEffect } from "react";
 import { makeRequest } from "../../axios";
 import { useParams } from "react-router";
 import { useState } from "react";
+import {useEffect} from "react";
+import { useQuery } from '@tanstack/react-query';
+import { getStringNoLocale,Thing } from "@inrupt/solid-client";
+import { FOAF } from "@inrupt/vocab-common-rdf";
 
 function Profile(): JSX.Element {
-  const [user, setUser] = useState(undefined);
+  
+  const [name, setName] = useState<string>("");
+  const [friends, setFriends] = useState([]);
   const uuid = useParams().id;
+  
 
-  useEffect(() => {
+  useEffect(() =>{
     const fetchUser = async () => {
-      const res = await makeRequest.get(`/solid/`+ uuid);
-      setUser(res.data);
-    };
+      makeRequest.get(`/solid/`+ uuid+"/name").then((res) => {
+        setName(res.data);
+      });
+      makeRequest.get(`/solid/`+ uuid+"/friends").then((res) => {
+        setFriends(res.data);
+      });
+    }
     fetchUser();
-    console.log(user);
-  },[user,setUser]);
+  },[name,setName]);
+
+
   
   return (
     
@@ -36,7 +46,7 @@ function Profile(): JSX.Element {
               />
             </div>
             <div className="profileInfo">
-              <h4 className="profileInfoName">{user}</h4>
+              <h4 className="profileInfoName">{name}</h4>
             </div>
           </div>
           

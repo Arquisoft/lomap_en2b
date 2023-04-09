@@ -16,14 +16,15 @@ router.get("/:text", async (req : any, res : any, next : any) => {
     }
   });
 
-router.get("/", async (req : any, res : any, next : any) => {
+router.post("/", async (req : any, res : any, next : any) => {
     try {
       console.log("GET /users/");
-      console.log("pito"+req.headers.webId);
-      const result = await User.findOne({solidURL: req.headers.webId});
+
+      const result = await User.findOne({solidURL: req.body.webId});
+
       res.status(200).json(result._id);
     }catch(err){
-      res.status(404).json("User not found");
+      res.status(404).json(err);
     }
   });
 
@@ -33,7 +34,8 @@ router.post("/", async (req : any, res : any, next : any) => {
         res.status(400).json("No solidURL provided");
         return;
       }
-      const id = req.body.solidURL;
+      let id = req.body.solidURL;
+      id = id.split("#")[0]
       const url = new URL(id);
       const hostParts = url.host.split('.');
       const username = hostParts[0];

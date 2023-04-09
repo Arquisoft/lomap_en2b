@@ -10,14 +10,16 @@ import { useState } from "react";
 import { useSession } from "@inrupt/solid-ui-react";
 
 function LeftBar(): JSX.Element{
-        const [user, setUser] = useState(undefined);
+        const [user, setUser] = useState("");
         const {session} = useSession();
         useEffect(() => {
             const fetchUser = async () => {
-                const webId = session.info.webId;
+                const webId = session.info.webId?.split("#")[0];
                 console.log(webId);
-                const res = await makeRequest.get(`/users/`, {headers:{webId: webId}});
-                setUser(res.data);
+                await makeRequest.post("/users/", {webId: webId}).then((res) => {
+                    console.log(res.data);
+                    setUser(res.data);
+                });
                 };
                 fetchUser();
 
@@ -27,7 +29,7 @@ function LeftBar(): JSX.Element{
             <div className="leftbarWrapper">
                 <ul className="sidebarList">
                     <li className="sidebarListItem">
-                        <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Link to={"/profile/"+user} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <PersonIcon className="sidebarIcon"/>
                         Profile
                         </Link>
@@ -39,7 +41,7 @@ function LeftBar(): JSX.Element{
                         </Link>
                     </li>
                     <li className="sidebarListItem">
-                        <Link to="/profile" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
                         <DirectionsIcon className="sidebarIcon"/>
                         Routes
                         </Link>
