@@ -4,20 +4,31 @@ import "./navbar.css";
 import { makeRequest } from "../../axios";
 
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
-import { LogoutButton } from "@inrupt/solid-ui-react";
+import {LogoutButton, useSession} from "@inrupt/solid-ui-react";
+import {Button} from "@mui/material";
 
 function Navbar(): JSX.Element {
 
   const navigate = useNavigate();
-
+  const sessionStarted : boolean = useSession().session.info.isLoggedIn;
   const [inputValue, setInputValue] = useState('');
-
   const Search = () => {
 
     // do something with the input value
     navigate("/users/" + inputValue);
   }
 
+  const getLoginButton = () => {
+    if (sessionStarted) {
+      return <Button className="logout" variant="contained">
+        Logout
+      </Button>
+    } else {
+      return <Button className="login" variant="contained" onClick={ () => navigate("/login")}>
+        Login
+      </Button>
+    }
+  }
 
   return (
     <div className="topbarContainer">
@@ -46,9 +57,8 @@ function Navbar(): JSX.Element {
         </div>
       </div>
       <div className="topbarRight">
-      {}
         <LogoutButton>
-          <button className="logout">Logout</button>
+          {getLoginButton()}
         </LogoutButton>
       </div>
     </div>
