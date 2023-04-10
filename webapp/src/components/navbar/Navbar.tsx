@@ -12,11 +12,6 @@ function Navbar(): JSX.Element {
   const navigate = useNavigate();
   const sessionStarted : boolean = useSession().session.info.isLoggedIn;
   const [inputValue, setInputValue] = useState('');
-  const Search = () => {
-
-    // do something with the input value
-    navigate("/users/" + inputValue);
-  }
 
   const getLoginButton = () => {
     if (sessionStarted) {
@@ -41,7 +36,7 @@ function Navbar(): JSX.Element {
       </div>
       <div className="topbarCenter">
         <div className="searchForm">
-          <form onSubmit={Search}>
+          <form >
             <div className="searchbar">
               <PersonSearchIcon className="searchIcon" />
               <input
@@ -51,7 +46,9 @@ function Navbar(): JSX.Element {
                 value={inputValue}
                 onChange={(event) => setInputValue(event.target.value)}
               />
+              <Link to={"/users/" + inputValue} style={{ textDecoration: 'none', color: 'inherit' }}>
               <button type="submit" className="searchUsers">Search</button>
+              </Link>
             </div>
           </form>
         </div>
