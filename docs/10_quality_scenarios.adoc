@@ -36,8 +36,8 @@
 
 |===
 | **Part** | **Name** | **Priority** | **Description**
-.2+| Code |  _Maintainability_  | High | The code written must be maintainable, and must be easy to work with it.
-| _Efficiency_  | High | The code must be as efficient as possible, without discarding security (see next row)
+.2+| Code |Maintainability | High | The code written must be maintainable, and must be easy to work with it.
+| Efficiency | High | The code must be as efficient as possible, without discarding security (see next row)
 .5+| Use | Adaptability | Medium | As it will have multiple users, the final result must be adaptable to different screen sizes. It is worth noticing that this may not be the case at all with mobile phones, as the screen size is usually significantly smaller.
 | Accesibility | Low to Medium | From a realistic point of view, a map is by definition non-accesible to blind people. Thus, we will limit accesibility to daltonic people.
 | Privacy | High | The final product must adhere to the SOLID principles, being therefore private.
