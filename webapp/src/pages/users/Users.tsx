@@ -20,7 +20,7 @@ function Users() {
       <div className="main-container">
         <div className="dashboard">
           <div className="dashboardTitle">
-            Usuarios encontrados
+            Users Found: 
           </div>
           <div className="listUsers">
             {

@@ -18,14 +18,10 @@ title Architecture of the application
 
 agent "View"
 agent "Controller"
-agent "Model"
-agent "Service layer"
-agent "Persistance layer"
+agent "Persistance"
 
-"Model" -> "Service layer"
-"Controller" -> "Model"
+"Controller" -> "Persistance"
 "View" -> "Controller"
-"Service layer" -> "Persistance layer"
 @enduml
 ----
 
@@ -33,19 +29,11 @@ Contained Building Blocks::
 
 As seen, the different components are the following:
 
-* *View layer*: The view layer is composed of those elements that the client will interact with; for instance, it includes HTML files, CSS sheets and client-side code.
+* *View*: The view layer is composed of those elements that the client will interact with; it includes the React code, CSS sheets and the client-side code.
 
-* *Controller layer*: The controller layer will ensure a proper communication the client and the server.
+* *Controller*: The controller layer will ensure a proper communication the client and the server.
 
-* *Service layer*: The service layer will be the controller layer's access point to persistent storage (_i.e._, the user's pod and the main database). It will differentiate between the user's pod and the main database.
-
-* *Persistance layer*: The persistance layer will handle data retrieval and persistence logic.
-
-* *Model layer*: The model layer will handle the main logic of the application. 
-
-Important Interfaces::
-No important interfaces can be described in this preliminar version of the documentation.
-
+* *Persistance*: The persistance layer handles data retrieval and persistence logic.
 
 ==== View layer
 
@@ -55,11 +43,17 @@ As already explained this layer will be composed of those components that the us
 
 ===== Interfaces
 
-No interfaces have been defined yet.
+Since we are not using interfaces, we will be seeing important components:
+
+* *Map*: This component is one of the most important parts of the application. It returns a working map that can be extended, adding functionality through other components. It can be found in _/webapp/src/components/map_, and can be applied several stylesheets.
+
+* *The main UI*: It is divided in several components: the left bar, the navbar and the rightbar, each one with its one subfolder in _/webapp/src/components_.
+
+* *The pages*: These are the React components that compose the web. They can be found in _/webapp/src/pages_.
 
 ===== Open Issues/Problems/Risks
 
-No issues, problems or risks are known.
+* The functionality to see friends is yet to be implemented. This one issue is transversal to the application.
 
 ==== Controller layer
 
