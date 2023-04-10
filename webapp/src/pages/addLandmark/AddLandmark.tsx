@@ -17,7 +17,7 @@ export default function AddLandmark() {
         setCoords([latitude, longitude]);
         (map.current as L.Map).panTo([latitude, longitude]);
         
-        // Manual delete, since scoping the variable outside does not seem to work...
+        // Manual delete, since scoping the variable outside the function and updating it does not seem to work
         let markerNode : ChildNode = (document.querySelector("img[alt='Marker'") as ChildNode);
         if (markerNode) markerNode.remove();
         new L.Marker([latitude, longitude]).setIcon(L.icon({iconUrl: markerIcon})).addTo(map.current as L.Map);
@@ -39,7 +39,6 @@ export default function AddLandmark() {
         };
 
         // Here goes the access to SOLID
-        // Currently waiting to add a standard
     };
     const map = useRef<L.Map>(null);
     let selectItems : JSX.Element[] = Object.keys(LandmarkCategories).map(key => {
@@ -48,9 +47,9 @@ export default function AddLandmark() {
 
     return <Grid container>
             <Grid item xs = {12}>
-            <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 32}} >Add a landmark</Typography>
+            <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 46}} >Add a landmark</Typography>
             </Grid>
-            <Grid item xs = {4}>
+            <Grid item xs = {4} className = "leftPane">
                 <form method = "post" className ="addLandmarkForm" onSubmit={submit}>
                     <Grid container spacing={3} rowGap={8}>
                         <FormControl fullWidth>
@@ -78,13 +77,13 @@ export default function AddLandmark() {
                                 <Button variant = "contained" onClick = {() => {setCoordinates();}}>Search coordinates</Button>
                             </FormControl>                        
                         </Grid>
-                        <Grid container justifyContent="flex-end">
-                            <Button variant = "contained" justify-self="right">Save new landmark</Button>
+                        <Grid item justifyContent="flex-end">
+                            <Button variant = "contained" >Save new landmark</Button>
                         </Grid>
                     </Grid>
                 </form>
             </Grid>
-            <Grid item xs = {8}>
+            <Grid item xs = {8} className = "rightPane  ">
                 <Map map={map}>
                 </Map>
             </Grid>
