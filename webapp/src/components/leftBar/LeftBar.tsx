@@ -41,7 +41,7 @@ function LeftBar(): JSX.Element{
                             </Link>
                         </li>
                     <li className="sidebarListItem">
-                        <Link to="/landmarks/filter" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Link to={"/landmarks/filter/"+user} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <LocationOnIcon className="sidebarIcon"/>
                         See friends' landmarks
                         </Link>

@@ -1,23 +1,34 @@
-import { RequestHandler } from "express";
-import { addLandmark } from "../solid/solidLandmark";
-import { json } from "body-parser";
-import { useSession } from '@inrupt/solid-ui-react';
+import express from "express";
 
-const session = useSession();
+const router = express.Router();
+const Landmark = require("../models/Landmark");
 
-export const test: RequestHandler = async (req, res) => {
-
-   res.json({test: "test"})
-}
-
-export const addNewLandmark :RequestHandler = async(req, res) => {
+router.post("/friend", async (req: any, res: any) => {
     try {
-        let data = req.body;
+        console.log("POST /landmarks/friend");
 
-        addLandmark(session.info.webID , data.location) 
+        const results = await Landmark.find({webId: req.body.webID});
 
-        res.status(200)
+        res.status(200).send(results);
     } catch (err) {
         res.status(500).json(err);
     }
-}
+});
+
+router.post("/", async (req: any, res: any, next: any) => {
+    try {
+        console.log("POST /landmarks/");
+        const landmark = Landmark.create(
+            {name: req.body.name, category: req.body.category, latitude: req.body.latitude, 
+            longitude: req.body.longitude, webID: req.body.webID});
+        
+            const result = await landmark.save();
+        res.status(200).send(result);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+
+
+module.exports = router;

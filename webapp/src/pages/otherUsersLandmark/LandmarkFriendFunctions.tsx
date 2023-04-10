@@ -1,9 +1,33 @@
 import { InputLabel, Select, MenuItem, Box, TextField, Button, FormControl, Grid, Checkbox, FormControlLabel, Typography, Input} from "@mui/material";
 import { LandmarkCategories, User } from "../../shared/shareddtypes";
 import { Marker, Popup } from "react-leaflet";
-import { Form } from "react-router-dom";
-
+import { Form, useParams } from "react-router-dom";
+import { makeRequest } from "../../axios";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { Landmark } from "../../shared/shareddtypes";
 export function LandmarkFilter(props : any) : JSX.Element {
+    const uuid = useParams().id;
+    const [landmarks,setLandmarks] = useState<Landmark[]>([]);
+    const { isLoading, error, data:friends } = useQuery(["results"], () =>
+
+        makeRequest.get("/solid/" + uuid + "/friends").then((res) => {
+            let landmks:Landmark[] = [];
+            for (let i = 0; i < res.data.length; i++) {
+
+                
+                makeRequest.post("/landmarks/friend",{webId: res.data[i].solidURL}).then((res1) => {
+                    for (let i = 0; i < res1.data.length; i++) {
+                        let landmark = new Landmark(res1.data[i].name, res1.data[i].latitude, res1.data[i].longitude,res1.data[i].category);
+                        landmks.push(landmark);
+                    }
+            }
+            )
+            }
+            setLandmarks(landmks);
+            console.log(landmks);
+        })
+      );
 
     // TODO: Import here the users that are friends with the logged one
     const loadUsers = () => {
