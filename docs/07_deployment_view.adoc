@@ -13,19 +13,14 @@ title Deployment view
 
 agent "LoMap server"
 agent "OpenStreetMaps"
-database "Database server"
-agent Pod1
-agent Pod2
-agent Pod3
+agent "LeafletJS"
+database "Database"
+agent Pod
 
-Pod1 <--> "LoMap server"
-"LoMap server" <--> Pod2
-PodN <--> "LoMap server"
-"LoMap server" <-> "Pod3"
-
-"MongoDB Database" <-> "LoMap server"
-"OpenStreetMaps" -> "LoMap server"
-
+Pod <-> "LoMap server"
+"OpenStreetMaps" -> "LeafletJS"
+"LeafletJS" --> "LoMap server"
+"Database" <-> "LoMap server"
 @enduml
 ----
 
