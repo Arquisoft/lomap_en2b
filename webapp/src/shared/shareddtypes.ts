@@ -11,8 +11,8 @@ export type Landmark = {
     category:string;
     latitude:number;
     longitude:number;
+    comment:string;
     score?:number;
-    comment?:string;
     picture?:string;
 };
 

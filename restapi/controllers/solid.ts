@@ -13,7 +13,7 @@ async function getUserThing(webID : string){
     
     return getThing(dataSet, profile+"#me") as Thing;
 };
-router.get("/:id/name",async (req, res) => {
+router.get("/:id/name",async (req : any, res : any) => {
     try {
     const id = req.params.id;
     console.log("GET /solid/" + id+"/name");
@@ -27,7 +27,7 @@ router.get("/:id/name",async (req, res) => {
      }
 });
 
-router.get("/:id/friends",async (req, res) => {
+router.get("/:id/friends",async (req : any, res : any) => {
     try {
     const id = req.params.id;
     console.log("GET /solid/" + id+"/friends");
