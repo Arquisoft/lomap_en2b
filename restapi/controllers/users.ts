@@ -16,9 +16,9 @@ router.get("/:text", async (req : any, res : any, next : any) => {
     }
   });
 
-router.post("/", async (req : any, res : any, next : any) => {
+router.patch("/", async (req : any, res : any, next : any) => {
     try {
-      console.log("GET /users/");
+      console.log("PATCH /users/");
 
       const result = await User.findOne({solidURL: req.body.webId});
 
@@ -30,6 +30,7 @@ router.post("/", async (req : any, res : any, next : any) => {
 
 router.post("/", async (req : any, res : any, next : any) => {
     try {
+
       if(!req.body.solidURL){
         res.status(400).json("No solidURL provided");
         return;
