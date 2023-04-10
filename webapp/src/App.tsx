@@ -83,7 +83,7 @@ function App(): JSX.Element {
           element: <AddLandmark />,
         },
         {
-          path: "/landmarks/filter",
+          path: "/landmarks/filter/:id",
           element: <LandmarkFriend />,
         },
         {

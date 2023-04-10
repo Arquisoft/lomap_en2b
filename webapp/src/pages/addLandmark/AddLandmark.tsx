@@ -7,7 +7,8 @@ import { Button, MenuItem, Grid, Input, InputLabel, Select, Typography, FormCont
 import React from "react";
 import L from "leaflet";
 import { LandmarkCategories } from "../../shared/shareddtypes";
-
+import { makeRequest } from "../../axios";
+import { useSession } from "@inrupt/solid-ui-react";
 export default function AddLandmark() {
 
     const [coords, setCoords] = useState([0,0]);
@@ -22,8 +23,9 @@ export default function AddLandmark() {
         if (markerNode) markerNode.remove();
         new L.Marker([latitude, longitude]).setIcon(L.icon({iconUrl: markerIcon})).addTo(map.current as L.Map);
     }
+    const {session} = useSession();
 
-    const submit = (e : React.FormEvent<HTMLFormElement>) => {
+    const submit = async (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
         // Collect everything
@@ -35,8 +37,11 @@ export default function AddLandmark() {
             name : name,
             category : category,
             latitude : latitude,
-            longitude : longitude
+            longitude : longitude,
+            webID: session.info.webId
         };
+
+        await makeRequest.post("/landmarks/", obj);
 
         // Here goes the access to SOLID
     };
@@ -78,7 +83,7 @@ export default function AddLandmark() {
                             </FormControl>                        
                         </Grid>
                         <Grid item justifyContent="flex-end">
-                            <Button variant = "contained" >Save new landmark</Button>
+                            <Button type = "submit" variant = "contained" >Save new landmark</Button>
                         </Grid>
                     </Grid>
                 </form>

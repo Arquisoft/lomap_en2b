@@ -11,6 +11,8 @@ const dotenv = require("dotenv");
 
 const solid = require("./controllers/solid");
 const users = require("./controllers/users");
+const landmarks = require("./controllers/landmarks");
+
 const app = express();
 const metricsMiddleware:RequestHandler = promBundle({includeMethod: true});
 
@@ -56,6 +58,7 @@ app.use(
 
 app.use("/solid", solid);
 app.use("/users", users);
+app.use("/landmarks",landmarks );
 
 app.listen(process.env.API_PORT, ():void => {
   console.log('Restapi listening on '+ process.env.API_PORT);
