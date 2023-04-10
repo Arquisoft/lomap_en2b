@@ -31,11 +31,13 @@ defineFeature(feature, test => {
     });
 
     when('He searches for garabato', async () => {
-      await expect(page).toClick('button', { text: 'My Profile' })
+      await expect(page).toFill("input[className='searchInput']", "garabato");
+      await expect(page).toClick('button', { text: 'Search' })
     });
 
     then('Some people should appear', async () => {
-      await expect(page).toMatch('garabato')
+      await expect(page).toMatch('Usuarios encontrados');
+      await expect(page).toMatch('User name: garabato');
     });
   })
 
@@ -49,7 +51,8 @@ defineFeature(feature, test => {
     });
 
     when('When He searches for asdfgh', async () => {
-      await expect(page).toClick('button', { text: 'My Profile' })
+      await expect(page).toFill("input[className='searchInput']", "garabato");
+      await expect(page).toClick('button', { text: 'Search' })
     });
 
     then('No one should appear', async () => {

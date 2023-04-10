@@ -31,11 +31,11 @@ defineFeature(feature, test => {
     });
 
     when('I click on the profile', async () => {
-      await expect(page).toClick('button', { text: 'My Profile' })
+      await expect(page).toClick('Link', { text: 'Profile' })
     });
 
     then('I am able to see my information', async () => {
-      await expect(page).toMatch('My Profile')
+      await expect(page).toMatch('User friends')
     });
   })
 

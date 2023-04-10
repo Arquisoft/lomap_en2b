@@ -31,11 +31,11 @@ defineFeature(feature, test => {
     });
 
     when('I click on the friends tab', async () => {
-      await expect(page).toClick('button', { text: 'Friends' })
+      await expect(page).toClick('Link', { text: 'Friends' })
     });
 
     then('I am able to see my friends', async () => {
-      await expect(page).toMatch('My Friends')
+      await expect(page).toMatch('Friends')
     });
   })
 
