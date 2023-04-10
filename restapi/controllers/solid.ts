@@ -32,10 +32,16 @@ router.get("/:id/friends",async (req : any, res : any) => {
     const id = req.params.id;
     console.log("GET /solid/" + id+"/friends");
     let thing = await getUserThing(id);
-    let friendURLs = getUrlAll(thing, VCARD.Contact);
+    let friendURLs = getUrlAll(thing, FOAF.knows);
+    
+    friendURLs = friendURLs.map((url:string) => url.split("#")[0]);
+    //codigo sucio
 
-    console.log(friendURLs);
-    res.status(200).send(friendURLs);
+    const friends = await User.find({solidURL:{ $in: friendURLs }});
+           
+    res.status(200).send(friends);
+    
+  
     } catch (err) {
         res.status(500).json(err);
         }
