@@ -10,8 +10,6 @@ function Navbar(): JSX.Element {
 
   const navigate = useNavigate();
 
-
-
   const [inputValue, setInputValue] = useState('');
 
   const Search = () => {
@@ -48,6 +46,7 @@ function Navbar(): JSX.Element {
         </div>
       </div>
       <div className="topbarRight">
+      {}
         <LogoutButton>
           <button className="logout">Logout</button>
         </LogoutButton>

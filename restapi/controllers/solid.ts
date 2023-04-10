@@ -38,7 +38,7 @@ router.get("/:id/friends",async (req, res) => {
     //codigo sucio
 
     const friends = await User.find({solidURL:{ $in: friendURLs }});
-           
+    console.log(friendURLs);  
     res.status(200).send(friends);
     
   
