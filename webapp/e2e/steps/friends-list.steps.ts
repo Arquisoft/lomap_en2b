@@ -1,7 +1,7 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import puppeteer from "puppeteer";
 
-const feature = loadFeature('./features/register-form.feature');
+const feature = loadFeature('./features/profile.feature');
 
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
@@ -21,26 +21,21 @@ defineFeature(feature, test => {
       .catch(() => {});
   });
 
-  test('The user is not registered in the site', ({given,when,then}) => {
+  test('The user is logged in the site', ({given,when,then}) => {
     
     let email:string;
     let username:string;
 
-    given('An unregistered user', () => {
-      email = "newuser@test.com"
-      username = "newuser"
+    given('A logged user', () => {
+      
     });
 
-    when('I fill the data in the form and press submit', async () => {
-      await expect(page).toFillForm('form[name="register"]', {
-        username: username,
-        email: email,
-      })
-      await expect(page).toClick('button', { text: 'Accept' })
+    when('I click on the friends tab', async () => {
+      await expect(page).toClick('Link', { text: 'Friends' })
     });
 
-    then('A confirmation message should be shown in the screen', async () => {
-      await expect(page).toMatch('You have been registered in the system!')
+    then('I am able to see my friends', async () => {
+      await expect(page).toMatch('Friends')
     });
   })
 
@@ -49,4 +44,3 @@ defineFeature(feature, test => {
   })
 
 });
-
