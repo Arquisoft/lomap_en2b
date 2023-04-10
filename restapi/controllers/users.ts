@@ -8,13 +8,26 @@ router.get("/:text", async (req : any, res : any, next : any) => {
     try {
       const result = await User.find({
         username: searchText
-      })
+      });
       res.status(200).json(result);
     }
     catch (err){
       res.status(404).json("User not found");
     }
   });
+
+router.get("/id/:id", async (req : any, res : any, next : any) => {
+    const id = req.params.id;
+    try {
+      const result = await User.findById(id);
+
+      res.status(200).json(result);
+    }
+    catch (err){
+      res.status(404).json("User not found");
+    }
+  });
+
 
 router.patch("/", async (req : any, res : any, next : any) => {
     try {

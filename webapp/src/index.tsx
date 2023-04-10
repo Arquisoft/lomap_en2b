@@ -6,11 +6,13 @@ import reportWebVitals from './reportWebVitals';
 
 import { SessionProvider } from '@inrupt/solid-ui-react';
 ReactDOM.render(
-  <SessionProvider >
+ 
     <React.StrictMode>
+      <SessionProvider  >
       <App />
+      </SessionProvider>
     </React.StrictMode>
-  </SessionProvider>,
+  ,
   document.getElementById('root')
 );
 
