@@ -557,6 +557,9 @@ In addition, users will be able to share their map information with the users th
 <li>
 <p>Add a review, comments or pictures to the uploaded places</p>
 </li>
+<li>
+<p>Manage their data from their SOLID pods</p>
+</li>
 </ul>
 </div>
 </div>
@@ -579,6 +582,14 @@ In addition, users will be able to share their map information with the users th
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The application must be easy to use and intuitive</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Testability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be thoroughly tested to avoid unintended behaviour</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interoperability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be compatible with the ones developed by oother students</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
@@ -605,10 +616,10 @@ In addition, users will be able to share their map information with the users th
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Students / Developers</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Andrés Cadenas Blanco</p>
-<p class="tableblock">               Jorge Joaquín Gancedo Fernández</p>
-<p class="tableblock">               Pedro Limeres Granado</p>
-<p class="tableblock">               Diego Villanueva Berros</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Andrés Cadenas Blanco
+               Jorge Joaquín Gancedo Fernández
+               Pedro Limeres Granado
+               Diego Villanueva Berros</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Develop a software we can be proud of while learning new technologies as SOLID</p></td>
 </tr>
 <tr>
@@ -617,8 +628,8 @@ In addition, users will be able to share their map information with the users th
 <td class="tableblock halign-left valign-top"><p class="tableblock">An application that fulfils the contract agreed with the Council of Brussels</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Teachers</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Teachers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Teacher</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">José Emilio Labra Gayo</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Make sure the students follow the guidelines and progress correctly</p></td>
 </tr>
 <tr>
@@ -738,7 +749,7 @@ Up until now, we have made some decisions about the project, those decisions can
 <p>React: JS framework that helps with the user interface of the web application.</p>
 </li>
 <li>
-<p>Map API: Used to plot the map in the application in order to allow the user to do every possible action.</p>
+<p>Map API: Used to plot the map in the application in order to allow the user to do every possible action. The selected API to do it is Leaflet.</p>
 </li>
 </ul>
 </div>
@@ -775,14 +786,14 @@ Up until now, we have made some decisions about the project, those decisions can
 </ul>
 </div>
 </li>
-</ol>
-</div>
-<div class="paragraph">
+<li>
 <p><strong>Organizational decisions:</strong>
 During the development of this project, everyone is the group is in constant contact with the rest of the members of the team, mainly in the weekly meeting which takes part during lab classes throughout the semester. In addition to that, we used a whatsapp group in order to consult with each other little things that could emerge during the week.
 Related with the project, our main way of working with the code was through pull requests. Each one of the members did some work, in his newly created branch and when he ended his work, he committed the changes and requested a pull request in GitHub, where another person in the group should revise the changes and aprove that pull request in order to merge the changes to the main branch.
 In order to do advances in the development we are using the issues in Github as well, in that way we make sure that we do everything we consider necessary.
 At last, we are using the wiki on Github as well, for creating minutes of every meeting the team does, for saving the main topics treated on each one, the main decisions taken, the participants that took part, and some other important things in order to keep track of the progress made.</p>
+</li>
+</ol>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -802,7 +813,7 @@ At last, we are using the wiki on Github as well, for creating minutes of every 
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/BuildingBlockView.png" alt="BuildingBlockView" width="573" height="101">
+<img src="./images/BuildingBlockView.png" alt="BuildingBlockView" width="307" height="101">
 </div>
 </div>
 <div class="dlist">
@@ -813,26 +824,16 @@ At last, we are using the wiki on Github as well, for creating minutes of every 
 <div class="ulist">
 <ul>
 <li>
-<p><strong>View layer</strong>: The view layer is composed of those elements that the client will interact with; for instance, it includes HTML files, CSS sheets and client-side code.</p>
+<p><strong>View</strong>: The view layer is composed of those elements that the client will interact with; it includes the React code, CSS sheets and the client-side code.</p>
 </li>
 <li>
-<p><strong>Controller layer</strong>: The controller layer will ensure a proper communication the client and the server.</p>
+<p><strong>Controller</strong>: The controller layer will ensure a proper communication the client and the server.</p>
 </li>
 <li>
-<p><strong>Service layer</strong>: The service layer will be the controller layer&#8217;s access point to persistent storage (<em>i.e.</em>, the user&#8217;s pod and the main database). It will differentiate between the user&#8217;s pod and the main database.</p>
-</li>
-<li>
-<p><strong>Persistance layer</strong>: The persistance layer will handle data retrieval and persistence logic.</p>
-</li>
-<li>
-<p><strong>Model layer</strong>: The model layer will handle the main logic of the application.</p>
+<p><strong>Persistance</strong>: The persistance layer handles data retrieval and persistence logic.</p>
 </li>
 </ul>
 </div>
-</dd>
-<dt class="hdlist1">Important Interfaces</dt>
-<dd>
-<p>No important interfaces can be described in this preliminar version of the documentation.</p>
 </dd>
 </dl>
 </div>
@@ -847,13 +848,30 @@ At last, we are using the wiki on Github as well, for creating minutes of every 
 <div class="sect4">
 <h5 id="_interfaces">Interfaces</h5>
 <div class="paragraph">
-<p>No interfaces have been defined yet.</p>
+<p>Since we are not using interfaces, we will be seeing important components:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Map</strong>: This component is one of the most important parts of the application. It returns a working map that can be extended, adding functionality through other components. It can be found in <em>/webapp/src/components/map</em>, and can be applied several stylesheets.</p>
+</li>
+<li>
+<p><strong>The main UI</strong>: It is divided in several components: the left bar, the navbar and the rightbar, each one with its one subfolder in <em>/webapp/src/components</em>.</p>
+</li>
+<li>
+<p><strong>The pages</strong>: These are the React components that compose the web. They can be found in <em>/webapp/src/pages</em>.</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect4">
 <h5 id="_open_issuesproblemsrisks">Open Issues/Problems/Risks</h5>
-<div class="paragraph">
-<p>No issues, problems or risks are known.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The functionality to see friends is yet to be implemented. This one issue is transversal to the application.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -958,7 +976,7 @@ At last, we are using the wiki on Github as well, for creating minutes of every 
 <h2 id="section-runtime-view">6. Runtime View</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The following sequence diagrams describe different situtations that happen during the use of LoMap.
+<p>The following sequence diagrams describe different situations that happen during the use of LoMap.
 These situations where chosen as they show the impact of our architectural decissions.</p>
 </div>
 <div class="sect2">
@@ -968,7 +986,7 @@ These situations where chosen as they show the impact of our architectural decis
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/SequenceDiagramLogging.png" alt="SequenceDiagramLogging" width="390" height="400">
+<img src="./images/SequenceDiagramLogin.png" alt="SequenceDiagramLogin" width="339" height="431">
 </div>
 </div>
 </div>
@@ -1002,19 +1020,16 @@ These situations where chosen as they show the impact of our architectural decis
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_infrastructure_level_1">7.1. Infrastructure Level 1</h3>
-<div class="paragraph">
-<p>Given that we currently do not know much about hosting the application, at this moment we will follow a simple approach that will likely change in the future.</p>
-</div>
 <div id="DeployDiagramView" class="imageblock">
 <div class="content">
-<img src="./images/Deployment%20diagram.png" alt="Deployment diagram" width="394" height="306">
+<img src="./images/Deployment%20diagram.png" alt="Deployment diagram" width="315" height="219">
 </div>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Motivation</dt>
 <dd>
-<p>This approach is motivated because it is not very complicated, and can be easily changed at later date if necessary.</p>
+<p>This approach is motivated because it is not very complicated, and can be easily changed at later date if necessary. It also removes the dependency in the same machine of the database and the server, so if one is down, we can launch it in another system so long we change the machine hosting one service or the other. We are also depending on an external provider, that being OpenStreetMaps, to supply the map we need for the application to work, so the will run so long OpenStreetMaps does work.</p>
 </dd>
 <dt class="hdlist1">Quality and/or Performance Features</dt>
 <dd>
@@ -1023,16 +1038,13 @@ These situations where chosen as they show the impact of our architectural decis
 </dl>
 </div>
 <div class="paragraph">
-<p>On one hand, its simplicity means it can be deployed easily changed without much changes at a later dater, or even the self-hosted. Placing the database in the same server also means that the server will not have latency, or a very minor one, and that server costs will also be less. On the other, given that we are placing everything inside the same server, it will certainly affect performance and in the case of the server going down, not just the application but also the database will go down.</p>
-</div>
-<div class="paragraph">
-<p>Nevertheless, the deployment has yet occur and we have not thought how we will do it, beyond this approach.</p>
+<p>On one hand, its simplicity means it can be deployed easily changed without much changes at a later dater. On the other hand, this deployment scheme depends on both servers not being down, and if either or OpenStreetMaps is down, then the application wouldn&#8217;t properly work. Also, we have to consider that users might have different pod providers (and as much as we&#8217;d like to, it simply is not feasible to test the application in every single pod provider), so there&#8217;s another possible bottleneck there.</p>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Mapping of Building Blocks to Infrastructure</dt>
 <dd>
-<p>As it can be seen, this approach makes the pods be connected to the platform at nearly all times. Currently, we have discussed that the database will store fixed data that all users will necessarily retrieve, but that may change in the future.</p>
+<p>As it can be seen, this approach makes the pods be connected to the platform at nearly all times. Currently, we have discussed that the database will store fixed data that all users will necessarily retrieve, but that may change in the future, as a common data schema has yet to be defined with the rest of the implementations.</p>
 </dd>
 </dl>
 </div>
@@ -1042,36 +1054,13 @@ These situations where chosen as they show the impact of our architectural decis
 <div class="sect3">
 <h4 id="_the_server">7.2.1. The server</h4>
 <div class="paragraph">
-<p>Although we have yet to choose the operating system that will run it, it is probably between Windows Server and Linux. Both come with their own upsides and downsides:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>On one hand, using Windows means we have (usually) a graphical interface we can use, which helps the deploying process. But using Windows means we will have to pay license, and Docker (if we use it) cannot run natively on Windows, only through Hyper-V.</p>
-</li>
-<li>
-<p>On the other hand, using Linux means we do not have a graphical interface (though we can install one, it is not usually done). But we are currently focusing mainly on Linux in another subject, and we do not have to pay a license, and Docker can natively run in Linux.</p>
-</li>
-</ul>
+<p>Although we have yet to choose the operating system that will run it, it will probably run on Linux. On the one hand, using Linux means we do not have a graphical interface but if we consider necessary we can install.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_the_database_management_system">7.2.2. The database management system</h4>
 <div class="paragraph">
-<p>We have yet to choose a database management system, but we have several options:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>SQL DBMSs are the ones we are most used to, but they may not be a right fit for the application.</p>
-</li>
-<li>
-<p>Neo4J is a NoSQL graph database that may be useful when mapping the relationships between users, but it comes with the downside of not having constraints, and being limited in its Community edition. This last limitation can be overcome by using another graph database, though we have the risk of being not used to it.</p>
-</li>
-<li>
-<p>MongoDB is another NoSQL database that uses JSON documents, but only one of our members is used to it, so it may not be the right fit, as we run the risk of incurring in technical debt. See that part for more information.</p>
-</li>
-</ul>
+<p>We have chosen to use MongoDB. This decision was considered due to the experience of one member of the group using MongoDB through Mongoose, as well as using Typescript to run the product and, thus being posible to manipulate the data directly.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1092,7 +1081,7 @@ In addition, landmarks will have reviews associated to them and viceversa.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/UML%20diagram.png" alt="UML diagram" width="280" height="468">
+<img src="./images/ConceptsDiagram.png" alt="ConceptsDiagram" width="280" height="468">
 </div>
 </div>
 </div>
@@ -1111,7 +1100,7 @@ In addition, landmarks will have reviews associated to them and viceversa.</p>
 <div class="sect2">
 <h3 id="_architectural_and_design_patterns">8.4. Architectural and design patterns</h3>
 <div class="paragraph">
-<p>The application will be based on the MVC architectural style using a N-tier structure. This will make the code clean, easy to change and organised.</p>
+<p>The application will be based on the MVC architectural style using a N-layer structure. This will make the code clean, easy to change and organised.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1128,7 +1117,7 @@ In addition, landmarks will have reviews associated to them and viceversa.</p>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Decision</th>
-<th class="tableblock halign-left valign-top">Why?</th>
+<th class="tableblock halign-left valign-top">Explanation</th>
 </tr>
 </thead>
 <tbody>
@@ -1141,8 +1130,20 @@ In addition, landmarks will have reviews associated to them and viceversa.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">It is the provider we are going to use for obtaining the necessary features around the map. We studied some other different options, such as Mapbox o Google Maps API, but we needed the Api to be completely free.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Inrupt</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">As a constraint in the project, we said we needed to use solid pods, and inrupt is the way we are going to include it in our project. Essentially it provides a way to deal with Solid pods.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Solid Pods Providers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">We are trying to allow the user to connect to the application with any solid pod provider.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">React Libraries</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In order to make our life easier while the development of the application, we made the decision to include some libraries in the project. These libraries we used are listed on issue #42.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SonarCloud</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This has been presented to us on one laboratory, it measures how many lines of code are being tested using TDD.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cucumber</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In order to make the mandatory BDD tests, we are going to use a tool that we somewhat knew from other courses in the degree, used to make the acceptance tests.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1178,12 +1179,12 @@ In addition, landmarks will have reviews associated to them and viceversa.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top" rowspan="2"><p class="tableblock">Code</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">  <em>Maintainability</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maintainability</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The code written must be maintainable, and must be easy to work with it.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Efficiency</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Efficiency</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The code must be as efficient as possible, without discarding security (see next row)</p></td>
 </tr>
@@ -1245,9 +1246,9 @@ In addition, landmarks will have reviews associated to them and viceversa.</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Github use as explained in class.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">There is not a real mitigation proposed; the only thing we can really do is remember to use it.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Github use.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">We are all familiar with how to use both git and GitHub, so we do not necessarily consider this as a risk. Nevertheless, it important to remember that working on not-updated branches can have severe consequences on the future, so we must remember to perform frequent commits and atomic branches: branches for a single feature or update.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Low</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">SOLID</p></td>
@@ -1262,7 +1263,7 @@ In addition, landmarks will have reviews associated to them and viceversa.</p>
 </tbody>
 </table>
 <div class="paragraph">
-<p>Regarding the technical debt, it is important to notice that using a new language is a big problem: we will probably write bad or otherwise improvable code, so (as already mentioned) using technologies we are already familiar in conjuction can help. We can incur there in other kind of technical debt there, though, as the used technology might not be appropiate.</p>
+<p>Regarding the technical debt, it is probably going to be very high, because we won&#8217;t be using a single technology we are familiar with (except one member). Both SOLID and React are probably the most difficult parts, and we are going to have huge amounts of technical debt on both of them. Currently, we do not know any mitigation system other than searching possible solutions in Internet.</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -1321,7 +1322,7 @@ Created by Dr. Peter Hruschka &amp; Dr. Gernot Starke.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-01-31 11:25:06 +0100
+Last updated 2023-02-13 18:13:20 +0100
 </div>
 </div>
 </body>
