@@ -40,14 +40,14 @@ function LeftBar(): JSX.Element{
                         Add a landmark
                         </Link>
                     </li>
-                    <li className="sidebarListItem">
+                    {/* <li className="sidebarListItem">
                         <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
                         <DirectionsIcon className="sidebarIcon"/>
                         Routes
                         </Link>
-                    </li>
+                    </li> */}
                     <li className="sidebarListItem">
-                        <Link to="/friends" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Link to={"/friends/"+user} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <PeopleAltIcon className="sidebarIcon"/>
                         Friends
                         </Link>
