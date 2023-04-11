@@ -54,7 +54,7 @@ function Navbar(): JSX.Element {
         </div>
       </div>
       <div className="topbarRight">
-        <LogoutButton>
+        <LogoutButton >
           {getLoginButton()}
         </LogoutButton>
       </div>

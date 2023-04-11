@@ -53,7 +53,7 @@ function App(): JSX.Element {
     // if (!session.info.isLoggedIn) {
     //  return <Navigate to="/login" />;
     // }
-    console.log(session.info); // Mostrar la sesión para debuggear
+   
     return children;
   };
 
