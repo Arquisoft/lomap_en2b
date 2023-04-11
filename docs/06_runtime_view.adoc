@@ -1,27 +1,30 @@
 [[section-runtime-view]]
 == Runtime View
 
-The following sequence diagrams describe different situtations that happen during the use of LoMap.
+The following sequence diagrams describe different situations that happen during the use of LoMap.
 These situations where chosen as they show the impact of our architectural decissions.
 
 === Accessing the application
 This diagram shows the communication between the user, the app and the pod when the user logs in.
 
-[plantuml,"SequenceDiagramLogging",png]
+[plantuml,"SequenceDiagramLogin",png]
 ----
 @startuml
 header Runtime View
-title Logging in to the application
+title Log in to the application
 
-actor Diego
+actor User
 participant LoMap
-database Pod as "Diego's Pod"
+participant PodProvider
 
-Diego -> LoMap: Log in information
-LoMap -> Pod: Diego's password request
-Pod --> LoMap: Diego's hashed password
-LoMap -> LoMap: Validate password
-LoMap --> Diego: Main page logged in
+User -> LoMap: Log in request
+LoMap --> PodProvider: Redirect
+
+User -> PodProvider: Log in information
+PodProvider -> PodProvider: Validate data
+PodProvider -> LoMap: Log in valid
+
+LoMap --> User: Main page loged in
 @enduml
 ----
 
@@ -59,7 +62,6 @@ database PodDiego as "Diego's Pod"
 database PodAndrés as "Andrés' Pod"
 database PodJorge as "Jorge's Pod"
 database PodPedro as "Pedro's Pod"
-
 
 Diego -> LoMap: Show Diego's and his friends' landmarks
 LoMap -> PodDiego: Get Diego's friends

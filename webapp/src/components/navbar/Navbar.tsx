@@ -4,55 +4,60 @@ import "./navbar.css";
 import { makeRequest } from "../../axios";
 
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import {LogoutButton, useSession} from "@inrupt/solid-ui-react";
+import {Button} from "@mui/material";
 
 function Navbar(): JSX.Element {
 
   const navigate = useNavigate();
-
-  const logout = () => {
-    document.cookie = 'session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    global.location.href = "http://localhost:3000/login";
-  };
-
+  const sessionStarted : boolean = useSession().session.info.isLoggedIn;
   const [inputValue, setInputValue] = useState('');
 
-  const Search = () => {
-    console.log(inputValue);
-    
-    // do something with the input value
-    navigate("/users/" + inputValue);
+  const getLoginButton = () => {
+    if (sessionStarted) {
+      return <Button className="logout" variant="contained">
+        Logout
+      </Button>
+    } else {
+      return <Button className="login" variant="contained" onClick={ () => navigate("/login")}>
+        Login
+      </Button>
+    }
   }
-
 
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
-        <Link className= "logo" to="/" style={{ textDecoration: "none" }}>
-          <img className= "logo" src="/Lomap.png" alt="bug" height={50} />
+        <Link className="logo" to="/" style={{ textDecoration: "none" }}>
+          <img className="logo" src="/Lomap.png" alt="bug" height={50} />
         </Link>
-      
+
 
       </div>
       <div className="topbarCenter">
-      <div className="searchForm">
-        <form onSubmit={Search}>
-          <div className="searchbar">
-            <PersonSearchIcon className="searchIcon" />
-            <input
-              type="text"
-              placeholder="Search for a friend!"
-              className="searchInput"
-              value={inputValue}
-              onChange={(event) => setInputValue(event.target.value)}
-            />
-            <button type="submit" className="searchUsers">Search</button>
-          </div>
-        </form>
-      </div>
+        <div className="searchForm">
+          <form >
+            <div className="searchbar">
+              <PersonSearchIcon className="searchIcon" />
+              <input
+                type="text"
+                placeholder="Search for a friend!"
+                className="searchInput"
+                value={inputValue}
+                onChange={(event) => setInputValue(event.target.value)}
+              />
+              <Link to={"/users/" + inputValue} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <button type="submit" className="searchUsers">Search</button>
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
       <div className="topbarRight">
-        <button className="logout" onClick={logout}>Logout</button>
-      </div>  
+        <LogoutButton >
+          {getLoginButton()}
+        </LogoutButton>
+      </div>
     </div>
   );
 }

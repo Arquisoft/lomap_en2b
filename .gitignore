@@ -14,6 +14,7 @@ webapp/build
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -23,9 +24,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-#vscode and idea files
+# misc folders from editors
 .vscode
 .idea
+.obsidian
 
 #documentation build does not go into master
 docs/build

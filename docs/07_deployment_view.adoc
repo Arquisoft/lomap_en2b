@@ -5,65 +5,45 @@
 
 === Infrastructure Level 1
 
-Given that we currently do not know much about hosting the application, at this moment we will follow a simple approach that will likely change in the future.
-
 [plantuml,"Deployment diagram",png, id = "DeployDiagramView"]
 ----
 @startuml
 header Deployment view
 title Deployment view
 
-folder "LoMap server" {
-    agent "LoMap Platform"
-    database "Database server"
-}
-agent Pod1
-agent Pod2
-agent Pod3
-agent PodN
+agent "LoMap server"
+agent "OpenStreetMaps"
+agent "LeafletJS"
+database "Database"
+agent Pod
 
-Pod1 <--> "LoMap Platform"
-"LoMap Platform" <--> Pod2
-PodN <--> "LoMap Platform"
-"LoMap Platform" <-> "Pod3"
-
-"Database server" <-> "LoMap Platform"
-
+Pod <-> "LoMap server"
+"OpenStreetMaps" -> "LeafletJS"
+"LeafletJS" --> "LoMap server"
+"Database" <-> "LoMap server"
 @enduml
 ----
 
 Motivation::
 
-This approach is motivated because it is not very complicated, and can be easily changed at later date if necessary.
+This approach is motivated because it is not very complicated, and can be easily changed at later date if necessary. It also removes the dependency in the same machine of the database and the server, so if one is down, we can launch it in another system so long we change the machine hosting one service or the other. We are also depending on an external provider, that being OpenStreetMaps, to supply the map we need for the application to work, so the will run so long OpenStreetMaps does work.
 
 Quality and/or Performance Features::
 
 This approach has a series of upsides and downsides.
 
-On one hand, its simplicity means it can be deployed easily changed without much changes at a later dater, or even the self-hosted. Placing the database in the same server also means that the server will not have latency, or a very minor one, and that server costs will also be less. On the other, given that we are placing everything inside the same server, it will certainly affect performance and in the case of the server going down, not just the application but also the database will go down.
-
-Nevertheless, the deployment has yet occur and we have not thought how we will do it, beyond this approach.
+On one hand, its simplicity means it can be deployed easily changed without much changes at a later dater. On the other hand, this deployment scheme depends on both servers not being down, and if either or OpenStreetMaps is down, then the application wouldn't properly work. Also, we have to consider that users might have different pod providers (and as much as we'd like to, it simply is not feasible to test the application in every single pod provider), so there's another possible bottleneck there.
 
 Mapping of Building Blocks to Infrastructure::
 
-As it can be seen, this approach makes the pods be connected to the platform at nearly all times. Currently, we have discussed that the database will store fixed data that all users will necessarily retrieve, but that may change in the future.
+As it can be seen, this approach makes the pods be connected to the platform at nearly all times. Currently, we have discussed that the database will store fixed data that all users will necessarily retrieve, but that may change in the future, as a common data schema has yet to be defined with the rest of the implementations.
 
 === Infrastructure Level 2
 
 ==== The server
 
-Although we have yet to choose the operating system that will run it, it is probably between Windows Server and Linux. Both come with their own upsides and downsides:
-
-- On one hand, using Windows means we have (usually) a graphical interface we can use, which helps the deploying process. But using Windows means we will have to pay license, and Docker (if we use it) cannot run natively on Windows, only through Hyper-V.
-
-- On the other hand, using Linux means we do not have a graphical interface (though we can install one, it is not usually done). But we are currently focusing mainly on Linux in another subject, and we do not have to pay a license, and Docker can natively run in Linux.
+Although we have yet to choose the operating system that will run it, it will probably run on Linux. On the one hand, using Linux means we do not have a graphical interface but if we consider necessary we can install.
 
 ==== The database management system
 
-We have yet to choose a database management system, but we have several options:
-
-- SQL DBMSs are the ones we are most used to, but they may not be a right fit for the application.
-
-- Neo4J is a NoSQL graph database that may be useful when mapping the relationships between users, but it comes with the downside of not having constraints, and being limited in its Community edition. This last limitation can be overcome by using another graph database, though we have the risk of being not used to it.
-
-- MongoDB is another NoSQL database that uses JSON documents, but only one of our members is used to it, so it may not be the right fit, as we run the risk of incurring in technical debt. See that part for more information.
+We have chosen to use MongoDB. This decision was considered due to the experience of one member of the group using MongoDB through Mongoose, as well as using Typescript to run the product and, thus being posible to manipulate the data directly.

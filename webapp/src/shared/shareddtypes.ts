@@ -1,19 +1,28 @@
 export type User = {
-    solidURL?:string;
+    solidURL:string;
     username:string;
     email:string;
-    friends?:User[];
+    _id:string;
     landmarks?:Landmark[];
   };
 
-export type Landmark = {
+export class Landmark  {
     name:string;
-    category:string;
+    category?:string;
     latitude:number;
     longitude:number;
-    score?:number;
     comment?:string;
+    score?:number;
     picture?:string;
+    constructor(title:string, latitude:number, longitude:number, category?:string, comment?:string, score?:number, picture?:string){
+        this.name = title;
+        this.category = category;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.comment = comment;
+        this.score = score;
+        this.picture = picture;
+    }
 };
 
 export const LandmarkCategories = {

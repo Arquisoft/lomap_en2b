@@ -4,14 +4,14 @@ import { useParams } from "react-router";
 import React from "react";
 import { User } from "../../shared/shareddtypes";
 import { useQuery } from '@tanstack/react-query';
-
+import { Link } from "react-router-dom";
 
 function Users() {
   const username = useParams().text;
 
   //function below triggers the helper function
   const { isLoading, error, data } = useQuery(["results"], () =>
-        makeRequest.get("/user/search/" + username).then((res) => {
+        makeRequest.get("/users/" + username).then((res) => {
             return res.data;
         })
       );
@@ -20,7 +20,7 @@ function Users() {
       <div className="main-container">
         <div className="dashboard">
           <div className="dashboardTitle">
-            Usuarios encontrados
+            Users Found: 
           </div>
           <div className="listUsers">
             {
@@ -29,6 +29,7 @@ function Users() {
                 : isLoading
                   ? "loading"
                   : data.map( (user : User) => (
+                    <Link to={"/profile/" + user._id}>
                     <div className="userList">
                       <div className="userListItemLeft">
                         {"User solidURL: " + user.solidURL}
@@ -36,7 +37,8 @@ function Users() {
                       <div className="userListItemRight">
                         {"User name: " + user.username}
                       </div>
-                    </div> 
+                    </div>
+                    </Link> 
             ))}
           </div>
         </div>

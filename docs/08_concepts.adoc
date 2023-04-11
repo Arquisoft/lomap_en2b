@@ -6,7 +6,7 @@ Some cross-cutting concepts of the system will be detailed here. These can give 
 Users can have several friends as well as having added several reviews or landmarks.
 In addition, landmarks will have reviews associated to them and viceversa.
 
-[plantuml,"UML diagram",png]
+[plantuml,"ConceptsDiagram",png]
 ----
 @startuml
 object User{
@@ -49,4 +49,4 @@ We want to focus on creating an app that is easy to use and intuitive. Thus, we 
 
 === Architectural and design patterns
 
-The application will be based on the MVC architectural style using a N-tier structure. This will make the code clean, easy to change and organised.
+The application will be based on the MVC architectural style using a N-layer structure. This will make the code clean, easy to change and organised.

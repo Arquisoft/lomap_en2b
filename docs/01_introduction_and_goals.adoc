@@ -14,6 +14,7 @@ Users can:
 * Share uploaded places with the desired users of the application
 * See other users' additions to the map
 * Add a review, comments or pictures to the uploaded places
+* Manage their data from their SOLID pods
 
 === Quality Goals
 
@@ -21,6 +22,8 @@ Users can:
 |  Goal  | Description
 | Privacy | The application must follow the SOLID project guidelines, by focusing on making sure that the users have control over their data
 | Usability | The application must be easy to use and intuitive
+| Testability | The application must be thoroughly tested to avoid unintended behaviour
+| Interoperability | The application must be compatible with the ones developed by oother students
 | Performance | The application must have quick response times
 |===
 
@@ -30,15 +33,12 @@ Users can:
 |===
 |Role/Name|Contact|Expectations
 | Students / Developers | Andrés Cadenas Blanco
-
                Jorge Joaquín Gancedo Fernández
-               
                Pedro Limeres Granado
-               
                Diego Villanueva Berros
                | Develop a software we can be proud of while learning new technologies as SOLID
 | HappySw | HappySw | An application that fulfils the contract agreed with the Council of Brussels
-| Teachers | Teachers | Make sure the students follow the guidelines and progress correctly
+| Teacher | José Emilio Labra Gayo | Make sure the students follow the guidelines and progress correctly
 | Council of Brussels | Council of Brussels | Have an application developed that meets their needs
 | Users | Whoever uses the application | A functional and easy to use application
 |===

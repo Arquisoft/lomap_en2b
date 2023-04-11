@@ -37,9 +37,6 @@
 
 .topbarLeft{
     flex: 1;
-    
-
-
 }
 
 .topbarCenter{
@@ -47,6 +44,10 @@
     align-items: center;
     
     
+}
+
+.logout, .login {
+    margin-right: 3em;
 }
 
 .topbarRight{
@@ -67,7 +68,9 @@
     text-align: center;
     
 }
-
+.login{
+    margin-right:30px;
+}
 .logout {
     margin-right: 30px;
     text-align: right;

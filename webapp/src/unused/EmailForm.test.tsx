@@ -1,12 +1,12 @@
 import { render, fireEvent, act } from "@testing-library/react";
 import EmailForm from "./EmailForm";
 import {User} from '../shared/shareddtypes';
-import * as api from '../api/api'
+import * as api from './api/userApi'
 
 jest.mock('../api/api');
 
 test('check register fail', async () => {
-  jest.spyOn(api,'addUser').mockImplementation((user:User):Promise<boolean> => Promise.resolve(false))
+  jest.spyOn(api,'add').mockImplementation((user:User):Promise<boolean> => Promise.resolve(false))
   await act(async () => {    
     const {container, getByText} = render(<EmailForm OnUserListChange={()=>{}}/>)  
     const inputName = container.querySelector('input[name="username"]')!;
@@ -20,7 +20,7 @@ test('check register fail', async () => {
 
 test('check register ok', async () => {
   
-  jest.spyOn(api,'addUser').mockImplementation((user:User):Promise<boolean> => Promise.resolve(true))
+  jest.spyOn(api,'add').mockImplementation((user:User):Promise<boolean> => Promise.resolve(true))
   await act(async () => {    
     const {container, getByText} = render(<EmailForm OnUserListChange={()=>{}}/>)  
     const inputName = container.querySelector('input[name="username"]')!;

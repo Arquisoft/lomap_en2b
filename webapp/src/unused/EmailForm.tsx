@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import type { AlertColor } from '@mui/material/Alert';
-import {addUser} from '../api/api';
+import {add} from './api/userApi';
 import {User} from '../shared/shareddtypes';
 
 type EmailFormProps = {
@@ -28,23 +28,23 @@ function EmailForm(props: EmailFormProps): JSX.Element {
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let result:boolean = await addUser({username, email});
-    if (result){
-      setNotificationStatus(true);
-      setNotification({ 
-        severity:'success',
-        message:'You have been registered in the system!'
-      });
-      //Notify the change to the parent component
-      props.OnUserListChange();
-    }
-    else{
-      setNotificationStatus(true);
-      setNotification({ 
-        severity:'error',
-        message:'There\'s been an error in the register proccess.'
-      });
-    }
+    // let result:boolean = await add({username, email});
+    // if (result){
+    //   setNotificationStatus(true);
+    //   setNotification({ 
+    //     severity:'success',
+    //     message:'You have been registered in the system!'
+    //   });
+    //   //Notify the change to the parent component
+    //   props.OnUserListChange();
+    // }
+    // else{
+    //   setNotificationStatus(true);
+    //   setNotification({ 
+    //     severity:'error',
+    //     message:'There\'s been an error in the register proccess.'
+    //   });
+    // }
   }
 
   return (
