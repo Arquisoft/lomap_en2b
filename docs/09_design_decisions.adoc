@@ -10,9 +10,4 @@
 | React Libraries | In order to make our life easier while the development of the application, we made the decision to include some libraries in the project. These libraries we used are listed on issue #42.
 | SonarCloud | This has been presented to us on one laboratory, it measures how many lines of code are being tested using TDD.
 | Cucumber | In order to make the mandatory BDD tests, we are going to use a tool that we somewhat knew from other courses in the degree, used to make the acceptance tests.
-| Prioritize | As we have seen until the third deliverable, we are having some trouble on some things. As a result, we have decided to focus on the more functional requirements on this last deliverable.
-| MongoDB | The application main place for storing information is still Solid. We made the decision to store in a database on the cloud with the users that log into our app. Each time a new user logs into the lomap application, its username and webID of solid are stored in our database in order to help the interactions of users on the app, making sure each user can only see the friends that have logged into the app.
-| Landmarks | We have been dealing with a problem related with the persistence of the landmarks on solid, as a temporal solution, we decided to store them in the mongo database, which in the future will be changed.
-| Friends | We had a little discussion over this topic on a meeting, reaching an agreement over only allowing the users to add friends via lomap. As the way of adding friends is quite special on this app and is done via Solid, we decided not allowing to cancel a friendship via lomap, as we thought it was something external to lomap, more related only with Solid.
-| Coordinates | When we were dealing with adding landmarks, we were trying to add coordinates by writing the number, and we are changing our inicial approach to be able to click on the map and retrieve the coords of that point.
 |===
