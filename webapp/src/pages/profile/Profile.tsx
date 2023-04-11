@@ -13,16 +13,17 @@ import { useSession } from "@inrupt/solid-ui-react";
 
 function Profile(): JSX.Element {
   
-  const [name, setName] = useState<string>("");
+  const [user, setUser] = useState({name:"",picture:""});
   const [isFriend, setFriend] = useState(false);
   const uuid = useParams().id;
   const {session} = useSession();
   const [webID, setWebID] = useState<string>("");
 
   useEffect(() =>{
+    
     const fetchUser = async () => {
-      makeRequest.get(`/solid/`+ uuid+"/name").then((res) => {
-        setName(res.data);
+      makeRequest.get(`/solid/`+ uuid+"").then((res) => {
+        setUser(res.data);
       });
       makeRequest.get("/users/id/"+uuid).then((res) => {
         setWebID(res.data.solidURL);
@@ -34,7 +35,7 @@ function Profile(): JSX.Element {
       const username = hostParts[0];
       makeRequest.get("/users/"+username).then((res) => {
         makeRequest.get("/solid/"+res.data[0]._id+"/friends").then((res1) => {
-          console.log(res1.data);
+        
           for(let i=0; i<res1.data.length; i++){
             if(res1.data[i].solidURL === webID){
               setFriend(true);
@@ -42,11 +43,12 @@ function Profile(): JSX.Element {
             }
           }
       })
+   
     });
     
     }
     fetchUser();
-  },[name,setName,uuid,setWebID,isFriend,setFriend]);
+  },[user,setUser,uuid,setWebID,isFriend,setFriend]);
 
   const handleClick = () => {
     console.log("clicked");
@@ -61,14 +63,13 @@ function Profile(): JSX.Element {
             <div className="profileCover"> 
               <img
                 className="profileUserImg"
-                src=
-                 "/noAvatar.png"
+                src= {user.picture === null ? "/noAvatar.png" : user.picture}
                 
                 
               />
             </div>
             <div className="profileInfo">
-              <h4 className="profileInfoName">{name}</h4>
+              <h4 className="profileInfoName">{user.name}</h4>
             </div>
           </div>
           

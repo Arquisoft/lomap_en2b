@@ -15,9 +15,9 @@ function LeftBar(): JSX.Element{
         useEffect(() => {
             const fetchUser = async () => {
                 const webId = session.info.webId?.split("#")[0];
-                console.log(webId);
+              
                 await makeRequest.patch("/users/", {webId: webId}).then((res) => {
-                    console.log(res.data);
+                   
                     setUser(res.data);
                 });
                 };

@@ -4,19 +4,51 @@ import "../../components/map/stylesheets/home.css";
 import "./home.css"
 import { useSession } from "@inrupt/solid-ui-react";
 import { makeRequest } from "../../axios";
+import { Landmark } from "../../shared/shareddtypes";
+import { Marker, Popup } from "react-leaflet";
+import { useState } from "react";
+
 function Home(): JSX.Element {
   const {session} = useSession();
- 
+  const [landmarks, setLandmarks] = useState<JSX.Element[]>([]);
+
   useEffect(() => {
     if (session.info.webId !== undefined && session.info.webId !== "") {
       console.log(session.info.webId);
       makeRequest.post("/users/",{solidURL: session.info.webId});
     } 
-  }, [session]);
+    async function fetchLandmarks() {
+      let landmks: Landmark[] = [];
+      makeRequest.post("/landmarks/friend", { webId: session.info.webId?.split("#")[0] }).then((res1) => {
+        for (let i = 0; i < res1.data.length; i++) {
+          let landmark = new Landmark(res1.data[i].name, res1.data[i].latitude, res1.data[i].longitude, res1.data[i].category);
+          landmks.push(landmark);
+        }
+        setLandmarks(loadLandmarks(landmks));
+      });
+
+    }
+    fetchLandmarks();
+  }, [session,landmarks,setLandmarks]);
+
+      function loadLandmarks(data: Landmark[]) {
+        let results = data.map((landmark) => {
+          return (
+            <Marker position={[landmark.latitude, landmark.longitude]}>
+              <Popup>
+                <h3>{landmark.name}</h3>
+
+              </Popup>
+            </Marker>
+          );
+        });
+
+        return results;
+      }
   return (
     <div className="homeContainer">
       <h1>Home</h1>
-      <Map />
+      <Map>{landmarks}</Map>
     </div>
   );
 }

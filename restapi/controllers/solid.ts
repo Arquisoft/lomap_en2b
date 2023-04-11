@@ -3,6 +3,7 @@ import { getSolidDataset, Thing, getThing, getStringNoLocale, getUrlAll, buildTh
 const User = require("../models/User");
 const router = express.Router();
 import { FOAF, VCARD } from "@inrupt/vocab-common-rdf";
+import {getUrl} from "@inrupt/solid-client";
 
 async function getUserThing(webID: string) {
     const result = await User.findById(webID);
@@ -13,15 +14,16 @@ async function getUserThing(webID: string) {
 
     return getThing(dataSet, profile + "#me") as Thing;
 };
-router.get("/:id/name", async (req: any, res: any) => {
+router.get("/:id", async (req: any, res: any) => {
     try {
         const id = req.params.id;
         console.log("GET /solid/" + id + "/name");
         let thing = await getUserThing(id);
 
         // NAME ======================
-        const name = getStringNoLocale(thing, FOAF.name)
-        res.status(200).send(name);
+        const name = getStringNoLocale(thing, FOAF.name);
+        const picture = getUrl(thing, VCARD.hasPhoto);
+        res.status(200).json({name: name, picture: picture});
     } catch (err) {
         res.status(500).json(err);
     }
