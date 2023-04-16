@@ -1,4 +1,4 @@
-import Map from "../../components/map/Map";
+import Map, { SingleMarker } from "../../components/map/Map";
 import markerIcon from "leaflet/dist/images/marker-icon.png"
 import "./addLandmark.css";
 import "../../components/map/stylesheets/addLandmark.css"
@@ -9,19 +9,21 @@ import L from "leaflet";
 import { LandmarkCategories } from "../../shared/shareddtypes";
 import { makeRequest } from "../../axios";
 import { useSession } from "@inrupt/solid-ui-react";
+import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 export default function AddLandmark() {
 
     const [coords, setCoords] = useState([0,0]);
-    let setCoordinates = () => {
-        let latitude : number | undefined = parseFloat((document.getElementById("latitude") as HTMLInputElement).value);
-        let longitude : number | undefined = parseFloat((document.getElementById("longitude") as HTMLInputElement).value);
+    const setCoordinates = (latitude : number, longitude : number) => {
         setCoords([latitude, longitude]);
         (map.current as L.Map).panTo([latitude, longitude]);
         
-        // Manual delete, since scoping the variable outside the function and updating it does not seem to work
+        // Manual delete to create the effect of moving the marker, 
+        // since scoping the variable outside the function and updating it does not seem to work
         let markerNode : ChildNode = (document.querySelector("img[alt='Marker'") as ChildNode);
         if (markerNode) markerNode.remove();
         new L.Marker([latitude, longitude]).setIcon(L.icon({iconUrl: markerIcon})).addTo(map.current as L.Map);
+        (document.getElementById("latitude") as HTMLInputElement).value = coords[0].toPrecision(4);
+        (document.getElementById("longitude") as HTMLInputElement).value = coords[1].toPrecision(4);
     }
     const {session} = useSession();
 
@@ -45,10 +47,21 @@ export default function AddLandmark() {
 
         // Here goes the access to SOLID
     };
+
     const map = useRef<L.Map>(null);
     let selectItems : JSX.Element[] = Object.keys(LandmarkCategories).map(key => {
         return <MenuItem value = {key}>{key}</MenuItem>;
     });
+
+    const MapEvents = () => {
+        useMapEvents({
+          click(e) {
+            setCoordinates(e.latlng.lat, e.latlng.lng);
+          },
+        });
+        return null;
+    }
+
 
     return <Grid container>
             <Grid item xs = {12}>
@@ -77,10 +90,7 @@ export default function AddLandmark() {
                                 <InputLabel htmlFor="longitude" style={{color:"#FFF"}}>Longitude  </InputLabel>
                                 <Input type="number" name = "longitude" 
                                     id = "longitude" style={{color:"#FFF"}}/>
-                            </FormControl>
-                            <FormControl>
-                                <Button variant = "contained" onClick = {() => {setCoordinates();}}>Search coordinates</Button>
-                            </FormControl>                        
+                            </FormControl>                  
                         </Grid>
                         <Grid item justifyContent="flex-end">
                             <Button type = "submit" variant = "contained" >Save new landmark</Button>
@@ -89,8 +99,13 @@ export default function AddLandmark() {
                 </form>
             </Grid>
             <Grid item xs = {8} className = "rightPane  ">
-                <Map map={map}>
-                </Map>
+                <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true} ref={map}>
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <MapEvents />
+            </MapContainer>;
             </Grid>
         </Grid>
         ;
