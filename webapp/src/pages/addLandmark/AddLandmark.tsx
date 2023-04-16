@@ -22,8 +22,8 @@ export default function AddLandmark() {
         let markerNode : ChildNode = (document.querySelector("img[alt='Marker'") as ChildNode);
         if (markerNode) markerNode.remove();
         new L.Marker([latitude, longitude]).setIcon(L.icon({iconUrl: markerIcon})).addTo(map.current as L.Map);
-        (document.getElementById("latitude") as HTMLInputElement).value = coords[0].toPrecision(4);
-        (document.getElementById("longitude") as HTMLInputElement).value = coords[1].toPrecision(4);
+        (document.getElementById("latitude") as HTMLParagraphElement).textContent = latitude.toFixed(3);
+        (document.getElementById("longitude") as HTMLParagraphElement).textContent = longitude.toFixed(3);
     }
     const {session} = useSession();
 
@@ -62,7 +62,6 @@ export default function AddLandmark() {
         return null;
     }
 
-
     return <Grid container>
             <Grid item xs = {12}>
             <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 46}} >Add a landmark</Typography>
@@ -82,14 +81,12 @@ export default function AddLandmark() {
                         </FormControl>
                         <Grid container rowGap = {4}>
                             <FormControl fullWidth>
-                                <InputLabel htmlFor="latitude" style={{color:"#FFF"}}>Latitude  </InputLabel>
-                                <Input type="number" name = "latitude" 
-                                    id = "latitude" style={{color:"#FFF"}}/>
+                                <Typography style={{color:"#FFF"}}>Latitude:  </Typography>
+                                <Typography id = "latitude" style={{color:"#FFF"}}/>
                             </FormControl>
                             <FormControl fullWidth>
-                                <InputLabel htmlFor="longitude" style={{color:"#FFF"}}>Longitude  </InputLabel>
-                                <Input type="number" name = "longitude" 
-                                    id = "longitude" style={{color:"#FFF"}}/>
+                                <Typography style={{color:"#FFF"}}>Longitude:  </Typography>
+                                <Typography id = "longitude" style={{color:"#FFF"}}/>
                             </FormControl>                  
                         </Grid>
                         <Grid item justifyContent="flex-end">
