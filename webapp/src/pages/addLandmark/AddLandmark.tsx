@@ -2,7 +2,7 @@ import Map, { SingleMarker } from "../../components/map/Map";
 import markerIcon from "leaflet/dist/images/marker-icon.png"
 import "./addLandmark.css";
 import "../../components/map/stylesheets/addLandmark.css"
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Button, MenuItem, Grid, Input, InputLabel, Select, Typography, FormControl } from "@mui/material";
 import React from "react";
 import L from "leaflet";
@@ -12,9 +12,9 @@ import { useSession } from "@inrupt/solid-ui-react";
 import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
 export default function AddLandmark() {
 
-    const [coords, setCoords] = useState([0,0]);
+    let coords : [number, number] = [0,0];
     const setCoordinates = (latitude : number, longitude : number) => {
-        setCoords([latitude, longitude]);
+        coords = [latitude, longitude];
         (map.current as L.Map).panTo([latitude, longitude]);
         
         // Manual delete to create the effect of moving the marker, 
@@ -54,11 +54,13 @@ export default function AddLandmark() {
     });
 
     const MapEvents = () => {
-        useMapEvents({
-          click(e) {
-            setCoordinates(e.latlng.lat, e.latlng.lng);
-          },
-        });
+        useMapEvents(
+            {
+                click(e) {
+                    setCoordinates(e.latlng.lat, e.latlng.lng);
+                }
+            }
+        );
         return null;
     }
 
