@@ -1,7 +1,7 @@
-import { render, fireEvent, act } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import AddLandmarks from "../src/pages/addLandmark/AddLandmark"
 import {Landmark} from '../src/shared/shareddtypes';
-jest.mock('../api/api');
+import React from "react";
 
 test("Check all the landmark types are rendered", () => {
     const {getAllByTestId} = render(<AddLandmarks />)
