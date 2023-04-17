@@ -47,7 +47,7 @@ export default function AddLandmark() {
     };
     const map = useRef<L.Map>(null);
     let selectItems : JSX.Element[] = Object.keys(LandmarkCategories).map(key => {
-        return <MenuItem value = {key}>{key}</MenuItem>;
+        return <MenuItem data-testid = "option-test" value = {key} key = {key}>{key}</MenuItem>;
     });
 
     return <Grid container>
@@ -55,19 +55,19 @@ export default function AddLandmark() {
             <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 46}} >Add a landmark</Typography>
             </Grid>
             <Grid item xs = {4} className = "leftPane">
-                <form method = "post" className ="addLandmarkForm" onSubmit={submit}>
+                <form method = "post" className ="addLandmarkForm" onSubmit={submit} data-testid = "form-test">
                     <Grid container spacing={3} rowGap={8}>
-                        <FormControl fullWidth>
+                        <FormControl fullWidth data-testid = "firstField-testid">
                             <InputLabel style={{color:"#FFF"}}>Name of the landmark</InputLabel>
                             <Input id = "name" name = "name" style={{color:"#FFF"}}></Input>
                         </FormControl>
-                        <FormControl fullWidth>
+                        <FormControl fullWidth data-testid = "secondField-testid">
                             <InputLabel htmlFor="category" style={{color:"#FFF"}}>Category of the landmark</InputLabel>
-                            <Select id = "category" name = "category" defaultValue={"Other"} label="Category of the landmark" style={{color:"#FFF"}}>
+                            <Select id = "category" name = "category" defaultValue={"Other"} style={{color:"#FFF"}}>
                                 {selectItems}
                             </Select>
                         </FormControl>
-                        <Grid container rowGap = {4}>
+                        <Grid container rowGap = {4} data-testid="thirdField-testid">
                             <FormControl fullWidth>
                                 <InputLabel htmlFor="latitude" style={{color:"#FFF"}}>Latitude  </InputLabel>
                                 <Input type="number" name = "latitude" 
