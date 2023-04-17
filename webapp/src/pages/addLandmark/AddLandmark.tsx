@@ -71,19 +71,19 @@ export default function AddLandmark() {
                             <FormControl fullWidth>
                                 <InputLabel htmlFor="latitude" style={{color:"#FFF"}}>Latitude  </InputLabel>
                                 <Input type="number" name = "latitude" 
-                                    id = "latitude" style={{color:"#FFF"}}/>
+                                    id = "latitude" style={{color:"#FFF"}} data-testid="Latitude-test"/>
                             </FormControl>
                             <FormControl fullWidth>
                                 <InputLabel htmlFor="longitude" style={{color:"#FFF"}}>Longitude  </InputLabel>
                                 <Input type="number" name = "longitude" 
-                                    id = "longitude" style={{color:"#FFF"}}/>
+                                    id = "longitude" style={{color:"#FFF"}} data-testid="Longitude-test"/>
                             </FormControl>
                             <FormControl>
                                 <Button variant = "contained" onClick = {() => {setCoordinates();}}>Search coordinates</Button>
                             </FormControl>                        
                         </Grid>
                         <Grid item justifyContent="flex-end">
-                            <Button type = "submit" variant = "contained" >Save new landmark</Button>
+                            <Button type = "submit" variant = "contained" data-testid="Save button" >Save new landmark</Button>
                         </Grid>
                     </Grid>
                 </form>

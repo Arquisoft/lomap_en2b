@@ -29,4 +29,30 @@ test("Check the form is correctly rendered", () => {
     expect(getByTestId("thirdField-testid")).toBeInTheDocument();
     expect(getByText("Latitude")).toBeInTheDocument();
     expect(getByTestId("Latitude-test")).toBeInTheDocument();
+    // Fourth field group
+    expect(getByTestId("fourthField-testid")).toBeInTheDocument();
+    expect(getByText("Longitude")).toBeInTheDocument();
+    expect(getByTestId("Longitude-test")).toBeInTheDocument();
+    // Button
+    expect(getByText("Save new landmark")).toBeInTheDocument();
 });
+
+test("Check the map is rendered", () => {
+    const {container} = render(<AddLandmarks />)
+    expect(container.querySelector("div[class *= \"leaflet\"]")).toBeInTheDocument();
+});
+
+test("Check clicking in the map once generates a landmark", () => {
+   const {container} = render(<AddLandmarks />);
+   const mapElement = container.querySelector("div[class *= \"leaflet\"]");
+   fireEvent.click(mapElement);
+   expect(container.querySelector("img[alt='Marker']")).toBeInTheDocument();
+});
+
+test("Check clicking in the map twice does not generate a landmark", () => {
+    const {container} = render(<AddLandmarks />);
+    const mapElement = container.querySelector("div[class *= \"leaflet\"]");
+    fireEvent.dblClick(mapElement);
+    expect(container.querySelector("img[alt='Marker']")).not.toBeInTheDocument();
+});
+
