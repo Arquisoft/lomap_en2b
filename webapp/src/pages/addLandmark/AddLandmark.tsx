@@ -98,7 +98,7 @@ export default function AddLandmark() {
                 </form>
             </Grid>
             <Grid item xs = {8} className = "rightPane  ">
-                <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true} ref={map}>
+                <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

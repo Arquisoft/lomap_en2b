@@ -1,8 +1,9 @@
 import { Grid, Typography } from "@mui/material";
 import Map from "../../components/map/Map";
-import { useRef } from "react";
+import React, { useRef } from "react";
 import * as LFF from "./LandmarkFriendFunctions";
 import "../../components/map/stylesheets/addLandmark.css"
+import {MapContainer, TileLayer} from "react-leaflet";
 
 export default function LandmarkFriend() : JSX.Element{
 
@@ -24,10 +25,14 @@ export default function LandmarkFriend() : JSX.Element{
                         <LFF.LandmarkAddScore isCommentEnabled={isCommentEnabled}/>
                     </form>
                 </Grid>
-                <Grid item xs = {6} className = "rightPane">
-                    <Map map = {map}>
+                <Grid item xs = {8} className = "rightPane  ">
+                    <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true} ref={map}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
                         <LFF.LandmarkPlacer isCommentEnabled={isCommentEnabled}/>
-                    </Map>
+                    </MapContainer>;
                 </Grid>
             </Grid>
         ;
