@@ -1,6 +1,6 @@
 import React from 'react';
-import { Landmark } from '../../shared/shareddtypes';
-import { Marker, Popup } from 'react-leaflet';
+import {Landmark} from '../../shared/shareddtypes';
+import {Marker, Popup} from 'react-leaflet';
 
 class MapMarker extends React.Component {
 

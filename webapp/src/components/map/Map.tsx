@@ -1,8 +1,7 @@
-import { MapContainer, TileLayer, useMapEvents} from 'react-leaflet';
+import {MapContainer, TileLayer} from 'react-leaflet';
 import 'leaflet-css'
-import { useRef } from 'react';
-import { useLeafletContext } from '@react-leaflet/core';
-import L, { LeafletMouseEvent } from 'leaflet';
+import {useRef} from 'react';
+import {useLeafletContext} from '@react-leaflet/core';
 
 export default function Map(props : any): JSX.Element {
     let map = useRef(null);

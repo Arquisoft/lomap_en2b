@@ -1,8 +1,13 @@
 import {
-    Button, Checkbox,
-    FormControl, FormControlLabel,
-    Grid, Input,
-    InputLabel, MenuItem, Select,
+    Button,
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    Grid,
+    Input,
+    InputLabel,
+    MenuItem,
+    Select,
     TextField,
     Typography
 } from "@mui/material";
@@ -14,12 +19,13 @@ import {useParams} from "react-router-dom";
 import {Landmark, LandmarkCategories, User} from "../../shared/shareddtypes";
 import {useQuery} from "@tanstack/react-query";
 import {makeRequest} from "../../axios";
+import L from "leaflet";
 
 export default function LandmarkFriend() : JSX.Element{
 
     const map = useRef<L.Map>(null);
     const [isCommentEnabled, setIsCommentEnabled] = useState<boolean>(false);
-    const [selectedMarker, setSelectedMarker] = useState<L.Marker>(null);
+    const [selectedMarker, setSelectedMarker] = useState<L.Marker>(new L.Marker([0,0]));
 
     return  <Grid container>
                 <Grid item xs = {12}>
@@ -74,7 +80,7 @@ function AddCommentForm() : JSX.Element {
             </form>;
 }
 
-function LandmarkPlacer(props : any) : JSX.Element {
+function LandmarkPlacer(props : any) {
 
     const setIsCommentEnabled = props.commFunction;
     const setSelectedMarker = props.markerFunction;
@@ -83,16 +89,17 @@ function LandmarkPlacer(props : any) : JSX.Element {
         setSelectedMarker(e.target);
         return null;
     };
+    return null;
 
     // TODO: Retrieve all the landmarks. The array that follows is a temporal placeholder.
-    let landmarks : JSX.Element[] = [].map(element => {
-        <Marker position={element.position} icon={markerIcon} eventHandlers={{click(e): {clickHandler(e)}}}>
-            <Popup>
-                {element.text}
-            </Popup>
-        </Marker>
-    });
-    return {landmarks};
+//     let landmarks : JSX.Element[] = [].map(element => {
+//         <Marker position={element.position} icon={markerIcon} eventHandlers={{click(e): {clickHandler(e)}}}>
+//             <Popup>
+//                 {element.text}
+//             </Popup>
+//         </Marker>
+//     });
+//     return {landmarks};
 }
 
 function LandmarkFilter(props : any) : JSX.Element {

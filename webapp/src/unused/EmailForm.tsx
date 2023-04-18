@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Snackbar from '@mui/material/Snackbar';
+import type {AlertColor} from '@mui/material/Alert';
 import Alert from '@mui/material/Alert';
-import type { AlertColor } from '@mui/material/Alert';
-import {add} from './api/userApi';
-import {User} from '../shared/shareddtypes';
 
 type EmailFormProps = {
   OnUserListChange: () => void;

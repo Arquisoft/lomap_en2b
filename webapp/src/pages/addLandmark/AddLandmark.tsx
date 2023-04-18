@@ -1,27 +1,34 @@
-import Map, { SingleMarker } from "../../components/map/Map";
 import markerIcon from "leaflet/dist/images/marker-icon.png"
 import "./addLandmark.css";
 import "../../components/map/stylesheets/addLandmark.css"
-import { useRef } from "react";
-import { Button, MenuItem, Grid, Input, InputLabel, Select, Typography, FormControl } from "@mui/material";
-import React from "react";
+import React, {useRef} from "react";
+import {
+    Button,
+    FormControl,
+    Grid,
+    Input,
+    InputLabel,
+    MenuItem,
+    Select,
+    Typography
+} from "@mui/material";
 import L from "leaflet";
-import { LandmarkCategories } from "../../shared/shareddtypes";
-import { makeRequest } from "../../axios";
-import { useSession } from "@inrupt/solid-ui-react";
-import { MapContainer, TileLayer, useMapEvents } from "react-leaflet";
+import {LandmarkCategories} from "../../shared/shareddtypes";
+import {makeRequest} from "../../axios";
+import {useSession} from "@inrupt/solid-ui-react";
+import {MapContainer, TileLayer, useMapEvents} from "react-leaflet";
+
 export default function AddLandmark() {
 
     let coords : [number, number] = [0,0];
+    let marker : L.Marker;
     const setCoordinates = (latitude : number, longitude : number) => {
         coords = [latitude, longitude];
         (map.current as L.Map).panTo([latitude, longitude]);
-        
-        // Manual delete to create the effect of moving the marker, 
-        // since scoping the variable outside the function and updating it does not seem to work
-        let markerNode : ChildNode = (document.querySelector("img[alt='Marker'") as ChildNode);
-        if (markerNode) markerNode.remove();
-        new L.Marker([latitude, longitude]).setIcon(L.icon({iconUrl: markerIcon})).addTo(map.current as L.Map);
+        if (marker !== undefined) {
+            (map.current as L.Map).removeLayer(marker);
+        }
+        marker = new L.Marker([latitude, longitude]).setIcon(L.icon({iconUrl: markerIcon})).addTo(map.current as L.Map);        
         (document.getElementById("latitude") as HTMLParagraphElement).textContent = latitude.toFixed(3);
         (document.getElementById("longitude") as HTMLParagraphElement).textContent = longitude.toFixed(3);
     }
@@ -98,7 +105,7 @@ export default function AddLandmark() {
                 </form>
             </Grid>
             <Grid item xs = {8} className = "rightPane  ">
-                <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true}>
+                <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true} ref={map}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

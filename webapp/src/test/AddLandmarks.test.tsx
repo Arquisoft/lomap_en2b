@@ -1,21 +1,22 @@
-import { render, fireEvent } from "@testing-library/react";
-import AddLandmarks from "../src/pages/addLandmark/AddLandmark"
-import {Landmark} from '../src/shared/shareddtypes';
+import {fireEvent, render} from "@testing-library/react";
+import AddLandmarks from "../pages/addLandmark/AddLandmark"
+import {Landmark} from '../shared/shareddtypes';
 import React from "react";
+import assert from "assert";
 
 test("Check all the landmark types are rendered", () => {
-    const {getAllByTestId} = render(<AddLandmarks />)
-    let values : string[] = Object.values(Landmark);
-    let renderedValues : string[] = getAllByTestId("option-test").map(elem => elem.toString());
+    const {getAllByTestId} = render(<AddLandmarks/>)
+    let values: string[] = Object.values(Landmark);
+    let renderedValues: string[] = getAllByTestId("option-test").map(elem => elem.toString());
 
     expect(renderedValues.length === values.length).toBeTruthy();
-    for (let i : number = 0; i < values.length; i++){
+    for (let i: number = 0; i < values.length; i++) {
         expect(renderedValues[i] === values[i]).toBeTruthy();
     }
 });
 
 test("Check the form is correctly rendered", () => {
-    const {getByTestId, getByText, getByLabelText} = render(<AddLandmarks />)
+    const {getByTestId, getByText, getByLabelText} = render(<AddLandmarks/>)
     expect(getByTestId("form-testid")).toBeInTheDocument();
     // First field group
     expect(getByTestId("firstField-testid")).toBeInTheDocument();
@@ -38,20 +39,22 @@ test("Check the form is correctly rendered", () => {
 });
 
 test("Check the map is rendered", () => {
-    const {container} = render(<AddLandmarks />)
+    const {container} = render(<AddLandmarks/>)
     expect(container.querySelector("div[class *= \"leaflet\"]")).toBeInTheDocument();
 });
 
 test("Check clicking in the map once generates a landmark", () => {
-   const {container} = render(<AddLandmarks />);
-   const mapElement = container.querySelector("div[class *= \"leaflet\"]");
-   fireEvent.click(mapElement);
-   expect(container.querySelector("img[alt='Marker']")).toBeInTheDocument();
+    const {container} = render(<AddLandmarks/>);
+    const mapElement: HTMLElement | null = container.querySelector("div[class *= \"leaflet\"]");
+    assert(mapElement !== null);
+    fireEvent.click(mapElement);
+    expect(container.querySelector("img[alt='Marker']")).toBeInTheDocument();
 });
 
 test("Check clicking in the map twice does not generate a landmark", () => {
-    const {container} = render(<AddLandmarks />);
+    const {container} = render(<AddLandmarks/>);
     const mapElement = container.querySelector("div[class *= \"leaflet\"]");
+    assert(mapElement !== null);
     fireEvent.dblClick(mapElement);
     expect(container.querySelector("img[alt='Marker']")).not.toBeInTheDocument();
 });
