@@ -1,13 +1,16 @@
-import {fireEvent, render} from "@testing-library/react";
+import {
+    screen,
+    render,
+    fireEvent
+} from "@testing-library/react";
 import AddLandmarks from "../pages/addLandmark/AddLandmark"
 import {Landmark} from '../shared/shareddtypes';
-import React from "react";
 import assert from "assert";
 
 test("Check all the landmark types are rendered", () => {
-    const {getAllByTestId} = render(<AddLandmarks/>)
+    const {container} = render(<AddLandmarks/>)
     let values: string[] = Object.values(Landmark);
-    let renderedValues: string[] = getAllByTestId("option-test").map(elem => elem.toString());
+    let renderedValues: string[] = Array.from(container.querySelectorAll("option")).map(elem => elem.toString());
 
     expect(renderedValues.length === values.length).toBeTruthy();
     for (let i: number = 0; i < values.length; i++) {
@@ -15,47 +18,43 @@ test("Check all the landmark types are rendered", () => {
     }
 });
 
-test("Check the form is correctly rendered", () => {
-    const {getByTestId, getByText, getByLabelText} = render(<AddLandmarks/>)
-    expect(getByTestId("form-testid")).toBeInTheDocument();
-    // First field group
-    expect(getByTestId("firstField-testid")).toBeInTheDocument();
-    expect(getByText("Name of the landmark")).toBeInTheDocument();
-    expect(getByLabelText("Name of the landmark")).toBeInTheDocument();
-    // Second field group
-    expect(getByTestId("secondField-testid")).toBeInTheDocument();
-    expect(getByText("Category of the landmark")).toBeInTheDocument();
-    expect(getByLabelText("Category of the landmark")).toBeInTheDocument();
-    // Third field group
-    expect(getByTestId("thirdField-testid")).toBeInTheDocument();
-    expect(getByText("Latitude")).toBeInTheDocument();
-    expect(getByTestId("Latitude-test")).toBeInTheDocument();
-    // Fourth field group
-    expect(getByTestId("fourthField-testid")).toBeInTheDocument();
-    expect(getByText("Longitude")).toBeInTheDocument();
-    expect(getByTestId("Longitude-test")).toBeInTheDocument();
-    // Button
-    expect(getByText("Save new landmark")).toBeInTheDocument();
+test("Check the different containers are rendered", () => {
+    const {container} = render(<AddLandmarks />);
+    expect(container.querySelector("h1")).toBeInTheDocument();
+    expect(screen.getByText("Add a landmark")).toBeInTheDocument();
+    expect(container.querySelector("div[class*='leftPane']")).toBeInTheDocument();
+    expect(container.querySelector("div[class*='rightPane']")).toBeInTheDocument();
 });
 
-test("Check the map is rendered", () => {
-    const {container} = render(<AddLandmarks/>)
-    expect(container.querySelector("div[class *= \"leaflet\"]")).toBeInTheDocument();
-});
-
-test("Check clicking in the map once generates a landmark", () => {
-    const {container} = render(<AddLandmarks/>);
-    const mapElement: HTMLElement | null = container.querySelector("div[class *= \"leaflet\"]");
-    assert(mapElement !== null);
-    fireEvent.click(mapElement);
-    expect(container.querySelector("img[alt='Marker']")).toBeInTheDocument();
-});
-
-test("Check clicking in the map twice does not generate a landmark", () => {
-    const {container} = render(<AddLandmarks/>);
-    const mapElement = container.querySelector("div[class *= \"leaflet\"]");
-    assert(mapElement !== null);
-    fireEvent.dblClick(mapElement);
+test("Check the map is rendered in the right panel, and it does not contain any mark", () => {
+    const {container} = render(<AddLandmarks />);
+    expect(container.querySelector("div[class*='rightPane'] > div")).toBeInTheDocument();
     expect(container.querySelector("img[alt='Marker']")).not.toBeInTheDocument();
 });
 
+test("Check the map is rendered in the right panel, and it does not contain any mark", () => {
+    const {container} = render(<AddLandmarks />);
+    expect(container.querySelector("div[class*='rightPane'] > div")).toBeInTheDocument();
+});
+
+test("Check the form is rendered in the left panel", () => {
+    const {container} = render(<AddLandmarks />);
+    expect(container.querySelector("div[class*='leftPane'] > form")).toBeInTheDocument();
+    expect(screen.getByText("Name of the landmark")).toBeInTheDocument();
+    expect(container.querySelector("input[class*='MuiSelect']")).toBeInTheDocument();
+
+    expect(screen.getByText("Latitude:")).toBeInTheDocument();
+    expect(screen.getByText("Longitude:")).toBeInTheDocument();
+    expect(container.querySelector("button[class*='MuiButton']")).toBeInTheDocument();
+});
+
+test("Check that, when clicking the map, a marker appears", () => {
+    const {container} = render(<AddLandmarks />);
+    let mapContainer = container.querySelector("div[class*='rightPane'] > div");
+    assert(mapContainer !== null);
+    expect(container.querySelector("img[alt='Marker']")).not.toBeInTheDocument();
+    fireEvent(mapContainer, new MouseEvent('click'));
+    expect(container.querySelector("img[alt='Marker']")).toBeInTheDocument();
+    assert(container.querySelector("#latitude")?.textContent != "")
+    assert(container.querySelector("#longitude")?.textContent != "")
+});
