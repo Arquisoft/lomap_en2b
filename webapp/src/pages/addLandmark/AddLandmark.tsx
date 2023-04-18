@@ -1,7 +1,7 @@
 import markerIcon from "leaflet/dist/images/marker-icon.png"
 import "./addLandmark.css";
 import "../../components/map/stylesheets/addLandmark.css"
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import {
     Button,
     FormControl,
@@ -22,7 +22,9 @@ export default function AddLandmark() {
 
     let coords : [number, number] = [0,0];
     let marker : L.Marker;
+    const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
     const setCoordinates = (latitude : number, longitude : number) => {
+        setIsButtonEnabled(true);
         coords = [latitude, longitude];
         (map.current as L.Map).panTo([latitude, longitude]);
         if (marker !== undefined) {
@@ -98,13 +100,18 @@ export default function AddLandmark() {
                                 <Typography id = "longitude" style={{color:"#FFF"}}/>
                             </FormControl>                  
                         </Grid>
-                        <Grid item justifyContent="flex-end">
-                            <Button type = "submit" variant = "contained" data-testid="Save button" >Save new landmark</Button>
-                        </Grid>
+                        {isButtonEnabled 
+                            ? <Grid item justifyContent="flex-end">
+                                <Button type = "submit" variant = "contained" data-testid="Save button">
+                                    Save new landmark
+                                </Button>
+                            </Grid> 
+                            : null
+                        }
                     </Grid>
                 </form>
             </Grid>
-            <Grid item xs = {8} className = "rightPane  ">
+            <Grid item xs = {8} className = "rightPane">
                 <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true} ref={map}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

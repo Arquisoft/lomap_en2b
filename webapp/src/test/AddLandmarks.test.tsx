@@ -45,7 +45,7 @@ test("Check the form is rendered in the left panel", () => {
 
     expect(screen.getByText("Latitude:")).toBeInTheDocument();
     expect(screen.getByText("Longitude:")).toBeInTheDocument();
-    expect(container.querySelector("button[class*='MuiButton']")).toBeInTheDocument();
+    expect(container.querySelector("button[class*='MuiButton']")).not.toBeInTheDocument();
 });
 
 test("Check that, when clicking the map, a marker appears", () => {
@@ -55,6 +55,7 @@ test("Check that, when clicking the map, a marker appears", () => {
     expect(container.querySelector("img[alt='Marker']")).not.toBeInTheDocument();
     fireEvent(mapContainer, new MouseEvent('click'));
     expect(container.querySelector("img[alt='Marker']")).toBeInTheDocument();
-    assert(container.querySelector("#latitude")?.textContent != "")
-    assert(container.querySelector("#longitude")?.textContent != "")
+    assert(container.querySelector("#latitude")?.textContent != "");
+    assert(container.querySelector("#longitude")?.textContent != "");
+    expect(container.querySelector("button[class*='MuiButton']")).toBeVisible();
 });
