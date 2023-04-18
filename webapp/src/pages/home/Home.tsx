@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import Map from "../../components/map/Map";
 import "../../components/map/stylesheets/home.css";
 import "./home.css"
 import { useSession } from "@inrupt/solid-ui-react";
 import { makeRequest } from "../../axios";
 import { Landmark } from "../../shared/shareddtypes";
-import { Marker, Popup } from "react-leaflet";
+import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import { useState } from "react";
 
 function Home(): JSX.Element {
@@ -48,7 +48,13 @@ function Home(): JSX.Element {
   return (
     <div className="homeContainer">
       <h1>Home</h1>
-      <Map>{landmarks}</Map>
+      <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true}>
+        <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {landmarks}
+      </MapContainer>;
     </div>
   );
 }
