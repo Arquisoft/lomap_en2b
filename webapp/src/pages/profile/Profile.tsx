@@ -1,15 +1,11 @@
 import "./profile.css";
-import Map from "../../components/map/Map";
 
 
-import { makeRequest } from "../../axios";
-import { useParams } from "react-router";
-import { useState } from "react";
-import {useEffect} from "react";
-import { useQuery } from '@tanstack/react-query';
-import { getStringNoLocale,Thing } from "@inrupt/solid-client";
-import { FOAF } from "@inrupt/vocab-common-rdf";
-import { useSession } from "@inrupt/solid-ui-react";
+import {makeRequest} from "../../axios";
+import {useParams} from "react-router";
+import {useEffect, useState} from "react";
+import {useSession} from "@inrupt/solid-ui-react";
+import {MapContainer, TileLayer} from "react-leaflet";
 
 function Profile(): JSX.Element {
   
@@ -80,7 +76,12 @@ function Profile(): JSX.Element {
           
           
         </div>
-        <Map/>
+        <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true}>
+        <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+      </MapContainer>;
 
       </div>
   );

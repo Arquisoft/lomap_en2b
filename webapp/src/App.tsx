@@ -1,11 +1,9 @@
-
 import './App.css';
 
-import { QueryClient,QueryClientProvider} from '@tanstack/react-query';
-import { createBrowserRouter,Outlet,Navigate,RouterProvider } from 'react-router-dom';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {createBrowserRouter, Outlet, RouterProvider} from 'react-router-dom';
 import Navbar from './components/navbar/Navbar';
-import { SessionContext, useSession} from "@inrupt/solid-ui-react";
-
+import {useSession} from "@inrupt/solid-ui-react";
 
 
 import Home from './pages/home/Home';

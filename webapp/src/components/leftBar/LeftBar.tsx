@@ -1,13 +1,11 @@
 import "./leftBar.css";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import DirectionsIcon from '@mui/icons-material/Directions';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import { useEffect } from "react";
-import { makeRequest } from "../../axios";
-import { useState } from "react";
-import { useSession } from "@inrupt/solid-ui-react";
+import {useEffect, useState} from "react";
+import {makeRequest} from "../../axios";
+import {useSession} from "@inrupt/solid-ui-react";
 
 function LeftBar(): JSX.Element{
         const [user, setUser] = useState("");

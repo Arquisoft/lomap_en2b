@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import "./navbar.css";
-import { makeRequest } from "../../axios";
 
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import {LogoutButton, useSession} from "@inrupt/solid-ui-react";

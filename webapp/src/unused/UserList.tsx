@@ -6,7 +6,6 @@ import ListItemText from '@mui/material/ListItemText';
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 
 
-
 type UserListProps = {
   users: User[];
 }
