@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import "../../components/map/stylesheets/home.css";
+import "../../map/stylesheets/home.css";
 import "./home.css"
 import {useSession} from "@inrupt/solid-ui-react";
 import {makeRequest} from "../../axios";
