@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import React, {useRef, useState} from "react";
-import "../../components/map/stylesheets/addLandmark.css"
+import "../../map/stylesheets/addLandmark.css"
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {useParams} from "react-router-dom";
 import {Landmark, LandmarkCategories, User} from "../../shared/shareddtypes";

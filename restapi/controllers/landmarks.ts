@@ -19,8 +19,8 @@ router.post("/", async (req: any, res: any, next: any) => {
     try {
         console.log("POST /landmarks/");
         const landmark = Landmark.create(
-            {name: req.body.name.toString(), category: req.body.category.toString(), latitude: req.body.latitude, 
-            longitude: req.body.longitude, webID: req.body.webID.toString()});
+            {name: req.body.name.toString(), category: req.body.category.toString(), latitude: req.body.latitude.toString(), 
+            longitude: req.body.longitude.toString(), webID: req.body.webID.toString()});
         
             const result = await landmark.save();
         res.status(200).send(result);

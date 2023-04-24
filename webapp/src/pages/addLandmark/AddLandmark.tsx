@@ -1,6 +1,6 @@
 import markerIcon from "leaflet/dist/images/marker-icon.png"
 import "./addLandmark.css";
-import "../../components/map/stylesheets/addLandmark.css"
+import "../../map/stylesheets/addLandmark.css"
 import React, {useRef, useState} from "react";
 import {
     Button,

@@ -14,6 +14,7 @@ const users = require("./controllers/users");
 const landmarks = require("./controllers/landmarks");
 
 const app = express();
+app.disable("x-powered-by");
 const metricsMiddleware:RequestHandler = promBundle({includeMethod: true});
 
 
@@ -51,7 +52,6 @@ app.use(
       "Required, but value not relevant for this demo - key2",
     ],
     maxAge: 1 * 60 * 60 * 1000, // 1 hour
-    httpOnly: false,
   })
 );
 
