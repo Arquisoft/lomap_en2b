@@ -15,4 +15,5 @@
 | Landmarks | We have been dealing with a problem related with the persistence of the landmarks on solid, as a temporal solution, we decided to store them in the mongo database, which in the future will be changed.
 | Friends | We had a little discussion over this topic on a meeting, reaching an agreement over only allowing the users to add friends via lomap. As the way of adding friends is quite special on this app and is done via Solid, we decided not allowing to cancel a friendship via lomap, as we thought it was something external to lomap, more related only with Solid.
 | Coordinates | When we were dealing with adding landmarks, we were trying to add coordinates by writing the number, and we are changing our inicial approach to be able to click on the map and retrieve the coords of that point.
+| The old map interface | In prior versions, we used a custom _Map_ component to handle the map logic. This component has been discarded in version 1.1 due to it becoming an obstacle when implementing event handling related to the map.
 |===
