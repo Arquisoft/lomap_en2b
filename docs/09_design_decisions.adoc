@@ -16,4 +16,5 @@
 | Friends | We had a little discussion over this topic on a meeting, reaching an agreement over only allowing the users to add friends via lomap. As the way of adding friends is quite special on this app and is done via Solid, we decided not allowing to cancel a friendship via lomap, as we thought it was something external to lomap, more related only with Solid.
 | Coordinates | When we were dealing with adding landmarks, we were trying to add coordinates by writing the number, and we are changing our inicial approach to be able to click on the map and retrieve the coords of that point.
 | The old map interface | In prior versions, we used a custom _Map_ component to handle the map logic. This component has been discarded in version 1.1 due to it becoming an obstacle when implementing event handling related to the map.
+| Monitoring and profiling | We are quite short of time so we decided to try to improve the tests and the features of the app rather than recording our perfonmance, as it was optional, we thought we should put all our focus on delivering a nice app.
 |===
