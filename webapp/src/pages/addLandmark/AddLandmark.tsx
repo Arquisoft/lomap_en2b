@@ -21,7 +21,7 @@ import {MapContainer, TileLayer, useMapEvents} from "react-leaflet";
 export default function AddLandmark() {
 
     let coords : [number, number] = [0,0];
-    let option : string = "Other";
+    const [option, setOption] = useState<string>("Other");
     let marker : L.Marker;
     const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
     const setCoordinates = (latitude : number, longitude : number) => {
@@ -60,7 +60,7 @@ export default function AddLandmark() {
 
     const map = useRef<L.Map>(null);
     let selectItems : JSX.Element[] = Object.keys(LandmarkCategories).map(key => {
-        return <MenuItem data-testid = "option-test" value = {key} key = {key} onClick={() => option = key}>{key}</MenuItem>;
+        return <MenuItem data-testid = "option-test" value = {key} key = {key} onClick={() => setOption(key)}>{key}</MenuItem>;
     });
 
     const MapEvents = () => {
