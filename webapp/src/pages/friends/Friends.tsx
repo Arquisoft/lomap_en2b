@@ -28,7 +28,7 @@ function Friends(): JSX.Element {
                         error
                             ? "Something went wrong"
                             : isLoading
-                                ? "loading"
+                                ? "Loading..."
                                 : data.map((user: User) => (
                                     <Link to={"/profile/" + user._id}>
                                         <div className="userList">

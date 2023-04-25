@@ -59,10 +59,9 @@ router.post("/", async (req : any, res : any, next : any) => {
       console.log("POST /users/");
       res.status(201).json(result);
   
+    } catch(err){
+      res.status(404).json(err);
     }
-      catch(err){
-       
-      }
-    });
+  });
 module.exports = router;
 
