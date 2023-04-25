@@ -1,7 +1,7 @@
 import markerIcon from "leaflet/dist/images/marker-icon.png"
 import "./addLandmark.css";
 import "../../map/stylesheets/addLandmark.css"
-import React, {useRef, useState} from "react";
+import React, {SelectHTMLAttributes, useRef, useState} from "react";
 import {
     Button,
     FormControl,
@@ -17,6 +17,7 @@ import {LandmarkCategories} from "../../shared/shareddtypes";
 import {makeRequest} from "../../axios";
 import {useSession} from "@inrupt/solid-ui-react";
 import {MapContainer, TileLayer, useMapEvents} from "react-leaflet";
+import { JsxElement } from "typescript";
 
 export default function AddLandmark() {
 
@@ -41,7 +42,7 @@ export default function AddLandmark() {
         
         // Collect everything
         let name : string | undefined = (document.getElementById("name") as HTMLInputElement).value;
-        let category : string | undefined = (document.getElementById("category") as HTMLInputElement)?.value;
+        let category : any = (document.getElementById("category") as HTMLInputElement).value;
         let latitude : number = coords[0];
         let longitude : number = coords[1];
         let obj = {
@@ -51,6 +52,12 @@ export default function AddLandmark() {
             longitude : longitude,
             webID: session.info.webId
         };
+
+        console.log(obj.name);
+        console.log(obj.category);
+        console.log(obj.latitude);
+        console.log(obj.longitude);
+        console.log(obj.webID);
 
         await makeRequest.post("/landmarks/", obj);
 
