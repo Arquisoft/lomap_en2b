@@ -4,7 +4,8 @@ import { fetch } from "@inrupt/solid-client-authn-browser";
 import {
     createThing, setThing, buildThing,
     getSolidDataset, saveSolidDatasetAt,
-    createSolidDataset
+    createSolidDataset, getStringNoLocale,
+    Thing, getThing, getThingAll
   } from "@inrupt/solid-client";
   
   import { SCHEMA_INRUPT, RDF} from "@inrupt/vocab-common-rdf"
@@ -51,6 +52,80 @@ At this moment, the structure of the information stored in the pod sticks to the
 // ************** FUNCTIONS *****************
 
 // READ FUNCTIONS
+
+/**
+ * Get all the locations from the pod
+ * @param webID contains the user webID
+ * @returns array of locations
+ */
+export async function getLocations(webID:string) {
+  let inventoryFolder = webID.split("profile")[0] + "private/lomap/inventory/index.ttl"; // inventory folder path
+  let locations: Landmark[] = []; // initialize array of locations
+  let locationPaths; 
+  try {
+    let dataSet = await getSolidDataset(inventoryFolder, {fetch: fetch}); // get the inventory dataset
+    locationPaths = getThingAll(dataSet) // get the things from the dataset (location paths)
+    for (let locationPath of locationPaths) { // for each location in the dataset
+      // get the path of the actual location
+      let path = getStringNoLocale(locationPath, SCHEMA_INRUPT.identifier) as string;
+      // get the location : Location from the dataset of that location
+      try{
+        let location = await getLocationFromDataset(path)
+        locations.push(location)
+        // add the location to the array
+      }
+      catch(error){
+        //The url is not accessed(no permision)
+      }
+     
+    }
+  } catch (error) {
+    // if the location dataset does no exist, return empty array of locations
+    locations = [];
+  }
+  // return the locations
+  return locations;
+}
+
+/**
+ * Retrieve the location from its dataset
+ * @param locationPath contains the path of the location dataset
+ * @returns location object
+ */
+export async function getLocationFromDataset(locationPath:string){
+  let datasetPath = locationPath.split('#')[0] // get until index.ttl
+  let locationDataset = await getSolidDataset(datasetPath, {fetch: fetch}) // get the whole dataset
+  let locationAsThing = getThing(locationDataset, locationPath) as Thing; // get the location as thing
+
+  // retrieve location information
+  let name = getStringNoLocale(locationAsThing, SCHEMA_INRUPT.name) as string; 
+  let longitude = getStringNoLocale(locationAsThing, SCHEMA_INRUPT.longitude) as string; 
+  let latitude = getStringNoLocale(locationAsThing, SCHEMA_INRUPT.latitude) as string; 
+  let description = getStringNoLocale(locationAsThing, SCHEMA_INRUPT.description) as string; 
+  let url = getStringNoLocale(locationAsThing, SCHEMA_INRUPT.identifier) as string;
+  let categoriesDeserialized = getStringNoLocale(locationAsThing, SCHEMA_INRUPT.Product) as string;
+
+ /* 
+  let locationImages: string = ""; // initialize array to store the images as strings
+  locationImages = await getLocationImage(datasetPath); // get the images
+  let reviews: string = ""; // initialize array to store the reviews
+  reviews = await getLocationReviews(datasetPath) // get the reviews
+  let scores : number; // map to store the ratings
+  scores = await getLocationScores(datasetPath); // get the ratings
+  */
+
+  // create Location object
+  let landmark : Landmark = {
+      name: name,
+      longitude: parseFloat(longitude),
+      latitude: parseFloat(latitude),
+      url: url,
+      category: categoriesDeserialized,
+  }
+  return landmark;
+}
+
+
 
 
 // WRITE FUNCTIONS

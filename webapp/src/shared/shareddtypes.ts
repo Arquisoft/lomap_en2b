@@ -14,7 +14,8 @@ export class Landmark  {
     comment?:string;
     score?:number;
     picture?:string;
-    constructor(title:string, latitude:number, longitude:number, category:string, comment?:string, score?:number, picture?:string){
+    url?:string;
+    constructor(title:string, latitude:number, longitude:number, category:string, comment?:string, score?:number, picture?:string, url?:string){
         this.name = title;
         this.category = category;
         this.latitude = latitude;
@@ -22,6 +23,7 @@ export class Landmark  {
         this.comment = comment;
         this.score = score;
         this.picture = picture;
+        this.url = url;
     }
 };
 
