@@ -59,10 +59,29 @@ router.post("/", async (req : any, res : any, next : any) => {
       console.log("POST /users/");
       res.status(201).json(result);
   
+    } catch(err){
+      res.status(404).json(err);
     }
-      catch(err){
-       
+  });
+
+router.delete("/", async (req : any, res : any, next : any) => {
+    try {
+
+      if(!req.body.solidURL){
+        res.status(400).json("No solidURL provided");
+        return;
       }
-    });
+      let id = req.body.solidURL;
+      id = id.split("#")[0];
+      
+      const user = User.deleteOne({ solidURL: id });
+      console.log("DELETE /users/");
+      res.status(201).json(user);
+  
+    } catch(err){
+      res.status(404).json(err);
+    }
+  });
+
 module.exports = router;
 
