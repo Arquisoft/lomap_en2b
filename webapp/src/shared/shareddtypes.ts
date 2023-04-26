@@ -8,13 +8,13 @@ export type User = {
 
 export class Landmark  {
     name:string;
-    category?:string;
+    category:string;
     latitude:number;
     longitude:number;
     comment?:string;
     score?:number;
     picture?:string;
-    constructor(title:string, latitude:number, longitude:number, category?:string, comment?:string, score?:number, picture?:string){
+    constructor(title:string, latitude:number, longitude:number, category:string, comment?:string, score?:number, picture?:string){
         this.name = title;
         this.category = category;
         this.latitude = latitude;
