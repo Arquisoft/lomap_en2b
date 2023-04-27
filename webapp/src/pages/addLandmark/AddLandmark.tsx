@@ -13,10 +13,11 @@ import {
     Typography
 } from "@mui/material";
 import L from "leaflet";
-import {LandmarkCategories} from "../../shared/shareddtypes";
+import {Landmark, LandmarkCategories} from "../../shared/shareddtypes";
 import {makeRequest} from "../../axios";
 import {useSession} from "@inrupt/solid-ui-react";
 import {MapContainer, TileLayer, useMapEvents} from "react-leaflet";
+import {createLocation} from "./solidLandmarkManagement";
 
 export default function AddLandmark() {
 
@@ -45,14 +46,30 @@ export default function AddLandmark() {
         let category : string = option;
         let latitude : number = coords[0];
         let longitude : number = coords[1];
-        let obj = {
+        /*let obj = {
             name : name,
             category : category,
             latitude : latitude,
             longitude : longitude,
             webID: session.info.webId
         };
-        console.log(obj);
+        console.log(obj);*/
+
+        let landmark : Landmark = {
+            name : name,
+            category : category,
+            latitude : latitude,
+            longitude : longitude
+        }
+        console.log(landmark);
+
+        let webID = session.info.webId;
+        if (webID === undefined) {
+            webID = "";
+        }
+
+        await createLocation(webID, landmark);
+
         //await makeRequest.post("/landmarks/", obj);
 
         // Here goes the access to SOLID
