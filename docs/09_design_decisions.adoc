@@ -17,4 +17,7 @@
 | Coordinates | When we were dealing with adding landmarks, we were trying to add coordinates by writing the number, and we are changing our inicial approach to be able to click on the map and retrieve the coords of that point.
 | The old map interface | In prior versions, we used a custom _Map_ component to handle the map logic. This component has been discarded in version 1.1 due to it becoming an obstacle when implementing event handling related to the map.
 | Monitoring and profiling | We are quite short of time so we decided to try to improve the tests and the features of the app rather than recording our perfonmance, as it was optional, we thought we should put all our focus on delivering a nice app.
+| Puppeteer | We think it was the easier way in order to implement the necesary e2e tests for the application, we considered other options seen in class and that we tried searching for, but finally decided to use puppeteer.
+| Use of pods and interoperability | We as a team participated in the debates on the other github issues about the interoperability, not arriving to a very clear conclusion. As a result we spoke to some colleagues in order to try and make our applications interoperable, causing this decision to change our approach of storing landmarks on the pods.
+| Way of storing landmarks | Connecting with the previous decision and probably as a result of having trouble with storing information on solid through the restApi, we decided to stop that approach and start dealing with writing and reading from the pods from the webApp.
 |===
