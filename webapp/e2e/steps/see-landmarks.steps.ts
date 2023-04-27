@@ -1,7 +1,7 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import puppeteer from "puppeteer";
 
-const feature = loadFeature('../features/profile.feature');
+const feature = loadFeature('../features/see-landmarks.feature');
 
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
@@ -21,7 +21,7 @@ defineFeature(feature, test => {
       .catch(() => {});
   });
 
-  test('The user is logged in the site', ({given,when,then}) => {
+  test('The user logs in the site', ({given,when,then}) => {
     
     let email:string;
     let username:string;
@@ -30,12 +30,12 @@ defineFeature(feature, test => {
       
     });
 
-    when('I click on the friends tab', async () => {
-      await expect(page).toClick('Link', { text: 'Friends' })
+    when('I click on the see Landmarks tab', async () => {
+      await expect(page).toClick('Link', { text: 'Add a landmark' })
     });
 
-    then('I am able to see my friends', async () => {
-      await expect(page).toMatch('Friends')
+    then('I am able to see the page to see other landmarks', async () => {
+      await expect(page).toMatch('See friends\' landmarks')
     });
   })
 
