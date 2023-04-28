@@ -12,7 +12,7 @@ import {
     Typography
 } from "@mui/material";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import "../../map/stylesheets/addLandmark.css"
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {useParams} from "react-router-dom";
@@ -20,33 +20,74 @@ import {Landmark, LandmarkCategories, User} from "../../shared/shareddtypes";
 import {useQuery} from "@tanstack/react-query";
 import {makeRequest} from "../../axios";
 import L from "leaflet";
+import { getLocations } from "../addLandmark/solidLandmarkManagement";
+import { useSession } from "@inrupt/solid-ui-react";
 
 export default function LandmarkFriend() : JSX.Element{
 
     const map = useRef<L.Map>(null);
     const [isCommentEnabled, setIsCommentEnabled] = useState<boolean>(false);
-    const [selectedMarker, setSelectedMarker] = useState<L.Marker>(new L.Marker([0,0]));
+    const [selectedMarker, setSelectedMarker] = useState<L.Marker | null>(null);
+    const [landmarksReact, setLandmarksReact] = useState<JSX.Element[]>([]);
+    const [filters, setFilters] = useState<Map<string, boolean> | null>(null);
+
+    const clickHandler : any = (e : any) => {
+        setIsCommentEnabled(true);
+        setSelectedMarker(e.target);
+        return null;
+    };
+
+    useEffect( () => {
+        if (useSession().session.info.webId !== undefined) {
+            getData(setIsCommentEnabled, setSelectedMarker, setLandmarksReact, filters);
+        }
+    });
 
     return  <Grid container>
                 <Grid item xs = {12}>
                     <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 46}} >See friends' landmarks</Typography>
                 </Grid>
                 <Grid item xs = {6} className = "leftPane">
-                    <LandmarkFilter />
+                    <LandmarkFilter map = {setFilters}/>
                     { isCommentEnabled ? <AddCommentForm /> : null}
                     { isCommentEnabled ? <AddScoreForm /> : null }
                 </Grid>
-                <Grid item xs = {8} className = "rightPane  ">
+                <Grid item xs = {8} className = "rightPane">
                     <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true} ref={map}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <LandmarkPlacer commFunction={setIsCommentEnabled} markerFunction={setSelectedMarker}/>
                     </MapContainer>;
                 </Grid>
             </Grid>
         ;
+}
+
+async function getData(setIsCommentEnabled : Function, setSelectedMarker : Function, setLandmarksReact : Function, map : Map<string, boolean> | null) {
+    let landmarks : Landmark[] | undefined = await getLocations(useSession().session.info.webId);
+    if (landmarks === undefined || map === null) return null;
+
+    if (!(document.getElementById("all") as HTMLInputElement).checked) {
+        landmarks = landmarks.filter(landmark => map.get(landmark.category))
+    }
+
+    let landmarksComponent : JSX.Element[] = landmarks.map(landmark => {
+        return <Marker position={[landmark.longitude, landmark.latitude]} eventHandlers={
+            {
+                click: (e) => {
+                    setIsCommentEnabled(true);
+                    setSelectedMarker(e.target);
+                }
+            }
+        }>
+                <Popup>
+                        {landmark.name} - {landmark.category}
+                </Popup>
+            </Marker>
+    });
+    
+    setLandmarksReact(landmarksComponent);
 }
 
 function AddScoreForm() : JSX.Element {
@@ -80,51 +121,7 @@ function AddCommentForm() : JSX.Element {
             </form>;
 }
 
-function LandmarkPlacer(props : any) {
-
-    const setIsCommentEnabled = props.commFunction;
-    const setSelectedMarker = props.markerFunction;
-    const clickHandler : any = (e : any) => {
-        setIsCommentEnabled(true);
-        setSelectedMarker(e.target);
-        return null;
-    };
-    return null;
-
-    // TODO: Retrieve all the landmarks. The array that follows is a temporal placeholder.
-//     let landmarks : JSX.Element[] = [].map(element => {
-//         <Marker position={element.position} icon={markerIcon} eventHandlers={{click(e): {clickHandler(e)}}}>
-//             <Popup>
-//                 {element.text}
-//             </Popup>
-//         </Marker>
-//     });
-//     return {landmarks};
-}
-
 function LandmarkFilter(props : any) : JSX.Element {
-
-    const uuid = useParams().id;
-    const [landmarks,setLandmarks] = useState<Landmark[]>([]);
-    const { isLoading, error, data:friends } = useQuery(["results"], () =>
-
-        makeRequest.get("/solid/" + uuid + "/friends").then((res) => {
-            let landmks:Landmark[] = [];
-            for (let i = 0; i < res.data.length; i++) {
-
-
-                makeRequest.post("/landmarks/friend",{webId: res.data[i].solidURL}).then((res1) => {
-                        for (let i = 0; i < res1.data.length; i++) {
-                            let landmark = new Landmark(res1.data[i].name, res1.data[i].latitude, res1.data[i].longitude,res1.data[i].category);
-                            landmks.push(landmark);
-                        }
-                    }
-                )
-            }
-            setLandmarks(landmks);
-            console.log(landmks);
-        })
-    );
 
     // TODO: Import here the users that are friends with the logged one
     const loadUsers = () => {
@@ -138,13 +135,24 @@ function LandmarkFilter(props : any) : JSX.Element {
             {userItems}
         </Select>;
     }
+
     const loadCategories = () => {
         let categoryList : string[] = Object.values(LandmarkCategories);
+        let map : Map<string, boolean> = new Map<string, boolean>();
+        categoryList.forEach(category => map.set(category, true));
+
+        const changeValue = (id : string) => {
+            let newValue : boolean = (document.getElementById(id) as HTMLInputElement).checked;
+            map.set(id, newValue);
+        }
+
         let categories : JSX.Element[] = categoryList.map(key => {
             return <Grid item xs = {4}>
-                <FormControlLabel control={<Checkbox defaultChecked />} label={key} />
+                <FormControlLabel control={<Checkbox id = {key} onClick={( () => changeValue(key))} defaultChecked/>} label={key} />
             </Grid>
         });
+
+        props.setFilters(map);
 
         return  <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
             {categories}
