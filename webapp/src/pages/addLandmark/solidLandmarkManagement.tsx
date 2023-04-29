@@ -5,53 +5,20 @@ import {
     createThing, setThing, buildThing,
     getSolidDataset, saveSolidDatasetAt,
     createSolidDataset, getStringNoLocale,
-    Thing, getThing, getThingAll
+    Thing, getThing, getThingAll,
+    getSolidDatasetWithAcl, hasResourceAcl,
+    hasFallbackAcl, hasAccessibleAcl, createAcl,
+    createAclFromFallbackAcl, getResourceAcl,
+    setAgentResourceAccess, saveAclFor,
+    setAgentDefaultAccess, getUrl, getUrlAll
   } from "@inrupt/solid-client";
   
-  import { SCHEMA_INRUPT, RDF} from "@inrupt/vocab-common-rdf"
+  import { SCHEMA_INRUPT, RDF, FOAF} from "@inrupt/vocab-common-rdf";
   
-  import {v4 as uuid} from "uuid" // for the uuids of the locations
-
-  // ****************************************
-/*
-=== POD STRUCTURE ===
-At this moment, the structure of the information stored in the pod sticks to the following architecture:
-+ All the information belonging to LoMap is stored in the private folder of the user's pod, more precisely in
-  private/lomap.
-+ A dataset for each location was created to ease the manipulation of data and the granting of the access
-  to some locations (friends logic). This datasets are contained in private/lomap/locations/{locationId}/index.ttl
-  This dataset contains:
-    # The location Thing itselft (name, description, longitude, latitude ...)
-    # Things representing the images of the location
-    # Things representing the reviews of the location
-    # Things representing the ratings of the location.
-+ Apart from that folder hierarchy, another one is needed to register the locations. If this was not done, we would have
-  to iterate through all the folders of the locations directory in order to retrieve all of them. Since we did not 
-  find an efficient way of doing this, we keep a locations record, which stores the location path for each one of them.
-  This record is stored in /private/lomap/inventory/index.ttl
-
-  TREE REPRESENTATION 
-  - private
-    - lomap
-      - locations
-        - LOC_ID1
-          - location Thing
-          - images Things
-          - reviews Things
-          - scores Things
-        - LOC_ID2
-          - . . .
-        - . . .
-      - inventory
-        - LOC_ID1 path (private/lomap/locations/LOC_ID1)
-        - LOC_ID2 path (private/lomap/locations/LOC_ID2)
-        - . . .
-*/
+  import {v4 as uuid} from "uuid";
 
 
-// ************** FUNCTIONS *****************
-
-// READ FUNCTIONS
+// Reading landmarks from POD
 
 /**
  * Get all the locations from the pod
@@ -132,7 +99,7 @@ export async function getLocationFromDataset(locationPath:string){
 
 
 
-// WRITE FUNCTIONS
+// Wrtiting landmarks to POD
 
 /**
  * Add the location to the inventory and creates the location dataset.
@@ -267,3 +234,137 @@ export async function addLocationImage(url: string, location:Landmark) {
       }
     );*/
   }
+
+
+// Friend management
+
+/**
+ * Grant/ Revoke permissions of friends regarding a particular location
+ * @param friend webID of the friend to grant or revoke permissions
+ * @param locationURL location to give/revoke permission to
+ * @param giveAccess if true, permissions are granted, if false permissions are revoked
+ */
+export async function setAccessToFriend(friend:string, locationURL:string, giveAccess:boolean){
+  let myInventory = `${locationURL.split("private")[0]}private/lomap/inventory/index.ttl`
+  await giveAccessToInventory(myInventory, friend);
+  let resourceURL = locationURL.split("#")[0]; // dataset path
+  // Fetch the SolidDataset and its associated ACL, if available:
+  let myDatasetWithAcl : any;
+  try {
+    myDatasetWithAcl = await getSolidDatasetWithAcl(resourceURL, {fetch: fetch});
+    // Obtain the SolidDataset's own ACL, if available, or initialise a new one, if possible:
+    let resourceAcl;
+    if (!hasResourceAcl(myDatasetWithAcl)) {
+      
+      if (!hasFallbackAcl(myDatasetWithAcl)) {
+        // create new access control list
+        resourceAcl = createAcl(myDatasetWithAcl);
+      }
+      else{
+        // create access control list from fallback
+        resourceAcl = createAclFromFallbackAcl(myDatasetWithAcl);
+      }
+    } else {
+      // get the access control list of the dataset
+      resourceAcl = getResourceAcl(myDatasetWithAcl);
+    }
+
+  let updatedAcl;
+  if (giveAccess) {
+    // grant permissions
+    updatedAcl = setAgentDefaultAccess(
+      resourceAcl,
+      friend,
+      { read: true, append: true, write: false, control: true }
+    );
+  }
+  else{
+    // revoke permissions
+    updatedAcl = setAgentDefaultAccess(
+      resourceAcl,
+      friend,
+      { read: false, append: false, write: false, control: false }
+    );
+  }
+  // save the access control list
+  await saveAclFor(myDatasetWithAcl, updatedAcl, {fetch: fetch});
+  }
+  catch (error){ // catch any possible thrown errors
+    console.log(error)
+  }
+}
+
+export async function giveAccessToInventory(resourceURL:string, friend:string){
+  let myDatasetWithAcl : any;
+  try {
+    myDatasetWithAcl = await getSolidDatasetWithAcl(resourceURL, {fetch: fetch}); // inventory
+    // Obtain the SolidDataset's own ACL, if available, or initialise a new one, if possible:
+    let resourceAcl;
+    if (!hasResourceAcl(myDatasetWithAcl)) {
+      if (!hasAccessibleAcl(myDatasetWithAcl)) {
+        //  "The current user does not have permission to change access rights to this Resource."
+      }
+      if (!hasFallbackAcl(myDatasetWithAcl)) {
+        // create new access control list
+        resourceAcl = createAcl(myDatasetWithAcl);
+      }
+      else{
+        // create access control list from fallback
+        resourceAcl = createAclFromFallbackAcl(myDatasetWithAcl);
+      }
+    } else {
+      // get the access control list of the dataset
+      resourceAcl = getResourceAcl(myDatasetWithAcl);
+    }
+
+  let updatedAcl;
+    // grant permissions
+    updatedAcl = setAgentResourceAccess(
+      resourceAcl,
+      friend,
+      { read: true, append: true, write: false, control: false }
+    );
+  // save the access control list
+  await saveAclFor(myDatasetWithAcl, updatedAcl, {fetch: fetch});
+  }
+  catch (error){ // catch any possible thrown errors
+    console.log(error)
+  }
+}
+
+export async function addSolidFriend(webID: string,friendURL: string): Promise<{error:boolean, errorMessage:string}>{
+    let profile = webID.split("#")[0];
+    let dataSet = await getSolidDataset(profile+"#me", {fetch: fetch});//dataset card me
+  
+    let thing =await getThing(dataSet, profile+"#me") as Thing; // :me from dataset
+  
+    try{
+      let newFriend = buildThing(thing)
+      .addUrl(FOAF.knows, friendURL as string)
+      .build();
+  
+      dataSet = setThing(dataSet, newFriend);
+      dataSet = await saveSolidDatasetAt(webID, dataSet, {fetch: fetch})
+    } catch(err){
+      return{error:true,errorMessage:"The url is not valid."}
+    }
+  
+    return{error:false,errorMessage:""}
+  
+  }
+
+  export async function getFriendsLandmarks(webID:string){
+    let friends = getUrlAll(await getUserProfile(webID), FOAF.knows);
+    const landmarkPromises = friends.map(friend => getLocations(friend as string));
+
+    return await Promise.all(landmarkPromises);
+  }
+
+  export async function getUserProfile(webID: string) : Promise<Thing>{
+    // get the url of the full dataset
+    let profile = webID.split("#")[0]; //just in case there is extra information in the url
+    // get the dataset from the url
+    let dataSet = await getSolidDataset(profile, {fetch: fetch});
+    // return the dataset as a thing
+    return getThing(dataSet, webID) as Thing;
+}
