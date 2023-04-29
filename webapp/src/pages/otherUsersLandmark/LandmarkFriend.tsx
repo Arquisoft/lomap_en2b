@@ -30,7 +30,7 @@ export default function LandmarkFriend() : JSX.Element{
     const [selectedMarker, setSelectedMarker] = useState<L.Marker | null>(null);
     const [landmarksReact, setLandmarksReact] = useState<JSX.Element[]>([]);
     const [filters, setFilters] = useState<Map<string, boolean> | null>(null);
-
+    const session = useRef<string | undefined>(useSession().session.info.webId);
     const clickHandler : any = (e : any) => {
         setIsCommentEnabled(true);
         setSelectedMarker(e.target);
@@ -38,17 +38,17 @@ export default function LandmarkFriend() : JSX.Element{
     };
 
     useEffect( () => {
-        if (useSession().session.info.webId !== undefined) {
-            getData(setIsCommentEnabled, setSelectedMarker, setLandmarksReact, filters);
+        if (session.current  !== undefined) {
+            getData(setIsCommentEnabled, setSelectedMarker, setLandmarksReact, filters, session.current);
         }
-    });
+    }, [filters]);
 
     return  <Grid container>
                 <Grid item xs = {12}>
                     <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 46}} >See friends' landmarks</Typography>
                 </Grid>
                 <Grid item xs = {6} className = "leftPane">
-                    <LandmarkFilter map = {setFilters}/>
+                    <LandmarkFilter setFilters = {setFilters}/>
                     { isCommentEnabled ? <AddCommentForm /> : null}
                     { isCommentEnabled ? <AddScoreForm /> : null }
                 </Grid>
@@ -64,8 +64,8 @@ export default function LandmarkFriend() : JSX.Element{
         ;
 }
 
-async function getData(setIsCommentEnabled : Function, setSelectedMarker : Function, setLandmarksReact : Function, map : Map<string, boolean> | null) {
-    let landmarks : Landmark[] | undefined = await getLocations(useSession().session.info.webId);
+async function getData(setIsCommentEnabled : Function, setSelectedMarker : Function, setLandmarksReact : Function, map : Map<string, boolean> | null, webId : string | undefined) {
+    let landmarks : Landmark[] | undefined = await getLocations(webId);
     if (landmarks === undefined || map === null) return null;
 
     if (!(document.getElementById("all") as HTMLInputElement).checked) {
@@ -144,6 +144,7 @@ function LandmarkFilter(props : any) : JSX.Element {
         const changeValue = (id : string) => {
             let newValue : boolean = (document.getElementById(id) as HTMLInputElement).checked;
             map.set(id, newValue);
+            props.setFilters(map);
         }
 
         let categories : JSX.Element[] = categoryList.map(key => {
@@ -151,8 +152,6 @@ function LandmarkFilter(props : any) : JSX.Element {
                 <FormControlLabel control={<Checkbox id = {key} onClick={( () => changeValue(key))} defaultChecked/>} label={key} />
             </Grid>
         });
-
-        props.setFilters(map);
 
         return  <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
             {categories}
