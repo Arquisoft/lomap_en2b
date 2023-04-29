@@ -21,39 +21,36 @@ import {createLocation} from "./solidLandmarkManagement";
 
 export default function AddLandmark() {
 
-    let coords : [number, number] = [0,0];
+    const [coords, setCoords] = useState<number[]>([0,0]);
     const [option, setOption] = useState<string>("Other");
-    let marker : L.Marker;
+    const [marker, setMarker] = useState<L.Marker | null>(null);
     const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
-    const setCoordinates = (latitude : number, longitude : number) => {
-        setIsButtonEnabled(true);
-        coords = [latitude, longitude];
+    const {session} = useSession();
+
+    const setCoordinates = async (latitude : number, longitude : number) => {
+        setIsButtonEnabled(false);
         (map.current as L.Map).panTo([latitude, longitude]);
-        if (marker !== undefined) {
+        if (marker !== null) {
             (map.current as L.Map).removeLayer(marker);
         }
-        marker = new L.Marker([latitude, longitude]).setIcon(L.icon({iconUrl: markerIcon})).addTo(map.current as L.Map);        
         (document.getElementById("latitude") as HTMLParagraphElement).textContent = latitude.toFixed(3);
         (document.getElementById("longitude") as HTMLParagraphElement).textContent = longitude.toFixed(3);
+        await setMarker(new L.Marker([latitude, longitude]).setIcon(L.icon({iconUrl: markerIcon})).addTo(map.current as L.Map));
+        await setCoords([latitude, longitude]);
+        setIsButtonEnabled(true);        
     }
-    const {session} = useSession();
 
     const submit = async (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
         // Collect everything
         let name : string | undefined = (document.getElementById("name") as HTMLInputElement).value;
+        if (name.trim() === "") {
+            return;
+        }
         let category : string = option;
         let latitude : number = coords[0];
         let longitude : number = coords[1];
-        /*let obj = {
-            name : name,
-            category : category,
-            latitude : latitude,
-            longitude : longitude,
-            webID: session.info.webId
-        };
-        console.log(obj);*/
 
         let landmark : Landmark = {
             name : name,
@@ -63,16 +60,11 @@ export default function AddLandmark() {
         }
         console.log(landmark);
 
+        // Access to SOLID
         let webID = session.info.webId;
-        if (webID === undefined) {
-            webID = "";
+        if (webID !== undefined) {   
+            await createLocation(webID, landmark);
         }
-
-        await createLocation(webID, landmark);
-
-        //await makeRequest.post("/landmarks/", obj);
-
-        // Here goes the access to SOLID
     };
 
     const map = useRef<L.Map>(null);

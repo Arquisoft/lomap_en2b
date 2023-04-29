@@ -58,7 +58,11 @@ At this moment, the structure of the information stored in the pod sticks to the
  * @param webID contains the user webID
  * @returns array of locations
  */
-export async function getLocations(webID:string) {
+export async function getLocations(webID:string | undefined) {
+  if (webID === undefined) {
+    throw new Error("The user is not logged in");
+    return;
+  }
   let inventoryFolder = webID.split("profile")[0] + "private/lomap/inventory/index.ttl"; // inventory folder path
   let locations: Landmark[] = []; // initialize array of locations
   let locationPaths; 
