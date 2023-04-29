@@ -12,13 +12,10 @@ import {
     Typography
 } from "@mui/material";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
-import React, {useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import "../../map/stylesheets/addLandmark.css"
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import {useParams} from "react-router-dom";
 import {Landmark, LandmarkCategories, User} from "../../shared/shareddtypes";
-import {useQuery} from "@tanstack/react-query";
-import {makeRequest} from "../../axios";
 import L from "leaflet";
 import { getLocations } from "../addLandmark/solidLandmarkManagement";
 import { useSession } from "@inrupt/solid-ui-react";
@@ -47,12 +44,12 @@ export default function LandmarkFriend() : JSX.Element{
                 <Grid item xs = {12}>
                     <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 46}} >See friends' landmarks</Typography>
                 </Grid>
-                <Grid item xs = {6} className = "leftPane">
+                <Grid item xs = {5} className = "leftPane">
                     <LandmarkFilter setFilters = {setFilters}/>
                     { isCommentEnabled ? <AddCommentForm /> : null}
                     { isCommentEnabled ? <AddScoreForm /> : null }
                 </Grid>
-                <Grid item xs = {8} className = "rightPane">
+                <Grid item xs = {7} className = "rightPane">
                     <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true} ref={map}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -80,7 +77,7 @@ async function getData(setIsCommentEnabled : Function, setSelectedMarker : Funct
                     setSelectedMarker(e.target);
                 }
             }
-        }>
+        } icon = {L.icon({iconUrl: markerIcon})}>
                 <Popup>
                         {landmark.name} - {landmark.category}
                 </Popup>
