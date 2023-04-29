@@ -18,7 +18,7 @@ function Home(): JSX.Element {
 
         async function fetchLandmarks() {
             let landmks: Landmark[] = [];
-            makeRequest.post("/landmarks/friend", {webId: session.info.webId?.split("#")[0]}).then((res1) => {
+            makeRequest.post("/main/landmarks/friend", {webId: session.info.webId?.split("#")[0]}).then((res1) => {
                 for (let i = 0; i < res1.data.length; i++) {
                     let landmark = new Landmark(res1.data[i].name, res1.data[i].latitude, res1.data[i].longitude, res1.data[i].category);
                     landmks.push(landmark);

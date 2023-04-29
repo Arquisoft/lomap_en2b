@@ -28,7 +28,7 @@ const Login = () => {
                     InputProps={{
                         endAdornment: (
                             <LoginButton oidcIssuer={idp}
-                                         redirectUrl="http://localhost:3000/"
+                                         redirectUrl="http://localhost:3000/main"
                                          onError={console.error}>
                                 <Button variant="contained">
                                     Login

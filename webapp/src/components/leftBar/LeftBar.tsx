@@ -27,19 +27,19 @@ function LeftBar(): JSX.Element{
             <div className="leftbarWrapper">
                 <ul className="sidebarList">
                     <li className="sidebarListItem">
-                        <Link to={"/profile/"+user} style={{ textDecoration: 'none', color: 'inherit' }} id="profileLB">
+                        <Link to={"/main/profile/"+user} style={{ textDecoration: 'none', color: 'inherit' }} id="profileLB">
                         <PersonIcon className="sidebarIcon"/>
                         Profile
                         </Link>
                     </li>
                     <li className="sidebarListItem">
-                            <Link to="/landmarks/add" style={{ textDecoration: 'none', color: 'inherit' }} id="addlandmarkLB">
+                            <Link to="/main/landmarks/add" style={{ textDecoration: 'none', color: 'inherit' }} id="addlandmarkLB">
                             <LocationOnIcon className="sidebarIcon"/>
                             Add a landmark
                             </Link>
                         </li>
                     <li className="sidebarListItem">
-                        <Link to={"/landmarks/filter/"+user} style={{ textDecoration: 'none', color: 'inherit' }} id="seelandmarksLB">
+                        <Link to={"/main/landmarks/filter/"+user} style={{ textDecoration: 'none', color: 'inherit' }} id="seelandmarksLB">
                         <LocationOnIcon className="sidebarIcon"/>
                         See friends' landmarks
                         </Link>
@@ -51,7 +51,7 @@ function LeftBar(): JSX.Element{
                         </Link>
                     </li> */}
                     <li className="sidebarListItem">
-                        <Link to={"/friends/"+user} style={{ textDecoration: 'none', color: 'inherit' }} id="friendsLB">
+                        <Link to={"/main/friends/"+user} style={{ textDecoration: 'none', color: 'inherit' }} id="friendsLB">
                         <PeopleAltIcon className="sidebarIcon"/>
                         Friends
                         </Link>

@@ -14,11 +14,11 @@ function Navbar(): JSX.Element {
 
   const getLoginButton = () => {
     if (sessionStarted) {
-      return <Button className="logout" variant="contained">
+      return <Button className="logout" variant="contained" onClick={ () => navigate("/")}>
         Logout
       </Button>
     } else {
-      return <Button className="login" variant="contained" onClick={ () => navigate("/login")}>
+      return <Button className="login" variant="contained" onClick={ () => navigate("/")}>
         Login
       </Button>
     }
@@ -27,7 +27,7 @@ function Navbar(): JSX.Element {
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
-        <Link className="logo" to="/" style={{ textDecoration: "none" }} id="logoLinkNB">
+        <Link className="logo" to="/main/" style={{ textDecoration: "none" }} id="logoLinkNB">
           <img className="logo"  id="logoImgNB" src="/Lomap.png" alt="bug" height={50} />
         </Link>
 
@@ -46,7 +46,7 @@ function Navbar(): JSX.Element {
                 id="searchInputNB"
                 onChange={(event) => setInputValue(event.target.value)}
               />
-              <Link to={"/users/" + inputValue} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link to={"/main/users/" + inputValue} style={{ textDecoration: 'none', color: 'inherit' }}>
               <button type="submit" id="submitButtonNB" className="searchUsers">Search</button>
               </Link>
             </div>
