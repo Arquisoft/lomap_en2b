@@ -57,7 +57,7 @@ function App(): JSX.Element {
 
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: "/main",
       element: (
         <ProtectedRoute>
           <Layout />
@@ -65,34 +65,34 @@ function App(): JSX.Element {
       ),
       children: [
         {
-          path: "/",
+          path: "/main/",
           element: <Home />,
         },
         {
-          path: "/profile/:id",
+          path: "/main/profile/:id",
           element: <Profile />,
         },
         {
-          path: "/friends/:id",
+          path: "/main/friends/:id",
           element: <Friends />,
         },
         {
-          path: "/landmarks/add",
+          path: "/main/landmarks/add",
           element: <AddLandmark />,
         },
         {
-          path: "/landmarks/filter/:id",
+          path: "/main/landmarks/filter/:id",
           element: <LandmarkFriend />,
         },
         {
-          path: "/users/:text",
+          path: "/main/users/:text",
           element: <Users />,
         },
 
       ],
     },
     {
-      path: "/login",
+      path: "/",
       element: <Login />,
     },
     {

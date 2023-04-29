@@ -29,7 +29,7 @@ function Users() {
                             : isLoading
                                 ? "Loading..."
                                 : data.map((user: User) => (
-                                    <Link to={"/profile/" + user._id}>
+                                    <Link to={"/main/profile/" + user._id}>
                                         <div className="userList">
                                             <div className="userListItemLeft">
                                                 {"User solidURL: " + user.solidURL}
