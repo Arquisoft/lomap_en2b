@@ -1,9 +1,10 @@
 [[section-introduction-and-goals]]
 == Introduction and Goals
 
-This project consists on developing an application that allows users to personalize a map of their city. 
+This project consists on developing an application that allows users to personalize a map of Brussels. 
 In their map they can add the landmarks they want, like shops, sights or restaurants.
 In addition, users will be able to share their map information with the users they want while restricting other users from seeing it.
+Ideally, this application should easily be implemented for using it in a different city, while it should be interoperable with similar applications.
 
 === Requirements Overview
 
