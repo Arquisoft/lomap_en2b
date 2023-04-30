@@ -393,9 +393,8 @@ export async function addLocationReview(Landmark:Landmark, review:Review){
 
   export async function getFriendsLandmarks(webID:string){
     let friends = getUrlAll(await getUserProfile(webID), FOAF.knows);
-    const landmarkPromises = friends.map(friend => getLocations(friend as string));
 
-    return await Promise.all(landmarkPromises);
+    return await Promise.all(friends.map(friend => getLocations(friend as string)));
   }
 
   export async function getUserProfile(webID: string) : Promise<Thing>{
