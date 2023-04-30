@@ -16,8 +16,8 @@ export class Landmark  {
     scores?:Map<string,Number>;
     pictures?:string[];
     url?:string;
-    constructor(title:string, category:string, latitude:number, longitude:number, description:string, reviews?:Array<Review>, scores?:Map<string,Number>, pictures?:string[], url?:string){
-        this.name = title;
+    constructor(name:string, category:string, latitude:number, longitude:number, description:string, reviews?:Array<Review>, scores?:Map<string,Number>, pictures?:string[], url?:string){
+        this.name = name;
         this.category = category;
         this.latitude = latitude;
         this.longitude = longitude;

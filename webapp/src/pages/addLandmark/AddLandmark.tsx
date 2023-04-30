@@ -3,14 +3,9 @@ import "./addLandmark.css";
 import "../../map/stylesheets/addLandmark.css"
 import React, {useRef, useState} from "react";
 import {
-    Button,
-    FormControl,
-    Grid,
-    Input,
-    InputLabel,
-    MenuItem,
-    Select,
-    Typography
+    Button, FormControl,
+    Grid, Input, InputLabel,
+    MenuItem, Select, Typography
 } from "@mui/material";
 import L from "leaflet";
 import {Landmark, LandmarkCategories} from "../../shared/shareddtypes";
@@ -51,18 +46,24 @@ export default function AddLandmark() {
         let category : string = option;
         let latitude : number = coords[0];
         let longitude : number = coords[1];
+        
+        let description : string | undefined = (document.getElementById("name") as HTMLInputElement).value;
+        if (description.trim() === "") {
+            return;
+        }
 
         let landmark : Landmark = {
             name : name,
             category : category,
             latitude : latitude,
-            longitude : longitude
+            longitude : longitude,
+            description : description
         }
         console.log(landmark);
 
         // Access to SOLID
         let webID = session.info.webId;
-        if (webID !== undefined) {   
+        if (webID !== undefined) {
             await createLocation(webID, landmark);
         }
     };
@@ -108,7 +109,11 @@ export default function AddLandmark() {
                             <FormControl fullWidth>
                                 <Typography style={{color:"#FFF"}}>Longitude:  </Typography>
                                 <Typography id = "longitude" style={{color:"#FFF"}}/>
-                            </FormControl>                  
+                            </FormControl>  
+                            <FormControl fullWidth data-testid = "firstField-testid">
+                                <InputLabel style={{color:"#FFF"}}>Description</InputLabel>
+                                <Input id = "description" name = "description" style={{color:"#FFF"}}></Input>
+                            </FormControl>            
                         </Grid>
                         {isButtonEnabled 
                             ? <Grid item justifyContent="flex-end">
