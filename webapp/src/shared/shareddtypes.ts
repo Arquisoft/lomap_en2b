@@ -11,21 +11,39 @@ export class Landmark  {
     category:string;
     latitude:number;
     longitude:number;
-    comment?:string;
-    score?:number;
-    picture?:string;
+    description?:string;
+    reviews?:Array<Review>;
+    scores?:Map<string,Number>;
+    pictures?:string[];
     url?:string;
-    constructor(title:string, latitude:number, longitude:number, category:string, comment?:string, score?:number, picture?:string, url?:string){
+    constructor(title:string, category:string, latitude:number, longitude:number, description:string, reviews?:Array<Review>, scores?:Map<string,Number>, pictures?:string[], url?:string){
         this.name = title;
         this.category = category;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.comment = comment;
-        this.score = score;
-        this.picture = picture;
+        this.description = description;
+        this.reviews = reviews;
+        this.scores = scores;
+        this.pictures = pictures;
         this.url = url;
     }
 };
+
+export class Review {
+    webId:string;
+    date: string;
+    username:string;
+    title:string;
+    content:string;
+
+    constructor(webId:string, date:string, username:string, title:string, content:string){
+        this.webId = webId;
+        this.date = date;
+        this.username = username;
+        this.title = title;
+        this.content = content;
+    }
+}
 
 export const LandmarkCategories = {
     Shop: "Shop",
