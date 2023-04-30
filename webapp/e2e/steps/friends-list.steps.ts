@@ -1,7 +1,7 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import puppeteer from "puppeteer";
 
-const feature = loadFeature('../features/profile.feature');
+const feature = loadFeature('../features/friends-list.feature');
 
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
@@ -23,12 +23,21 @@ defineFeature(feature, test => {
 
   test('The user is logged in the site', ({given,when,then}) => {
     
-    let email:string;
-    let username:string;
-
-    given('A logged user', () => {
+    given("The user logs in", async () => {
+      await expect(page).toClick("button", {text:"Login"});
       
-    });
+      await page.waitForNavigation(); // wait for the login page to load
+
+      await page.type('#username', "ArqSoftLoMapEn2b")
+      await page.type('#password', "#HappySW123")
+
+      await page.click('#login')
+
+      await page.waitForNavigation(); // wait for the redirect
+      // await page.waitForTimeout(30000); // wait for 25 seconds (load locations??)
+      await page.waitForTimeout(8000);
+
+  });
 
     when('I click on the friends tab', async () => {
       await expect(page).toClick('Link', { text: 'Friends' })

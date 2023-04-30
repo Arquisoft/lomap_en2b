@@ -7,6 +7,7 @@ import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import { getLocations } from "../addLandmark/solidLandmarkManagement";
 import markerIcon from "leaflet/dist/images/marker-icon.png"
 import { Icon } from "leaflet";
+import {makeRequest} from "../../axios";
 
 function Home(): JSX.Element {
     const {session} = useSession();
@@ -22,6 +23,11 @@ function Home(): JSX.Element {
     }
 
     useEffect( () => { 
+        if (session.info.webId !== undefined && session.info.webId !== "") {
+            console.log(session.info.webId);
+            makeRequest.post("/users/",{solidURL: session.info.webId});
+          } 
+
         async function doGetLandmarks() {
             await getLandmarks();
             let array : JSX.Element[] = [];
