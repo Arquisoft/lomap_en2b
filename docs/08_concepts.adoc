@@ -18,24 +18,24 @@ object User{
 }
 
 object Landmark{
-    id?: int;
-    name: String;
-    category: String;
-    latitude: int;
-    longitude: int;
-    description?: String;
-    reviews?: Array<Review>;
-    scores?: Map<string,Number>;
-    pictures?: String[];
-    url?: String;
+    id?: int
+    name: String
+    category: String
+    latitude: int
+    longitude: int
+    description?: String
+    reviews?: Array<Review>
+    scores?: Map<string,Number>
+    pictures?: String[]
+    url?: String
 }
 
 object Review{
-    webId: String;
-    date: String;
-    username: String;
-    title: String;
-    content: String;
+    webId: String
+    date: String
+    username: String
+    title: String
+    content: String
 }
 
 User o--> User
