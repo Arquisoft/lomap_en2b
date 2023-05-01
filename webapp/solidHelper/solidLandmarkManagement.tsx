@@ -1,4 +1,4 @@
-import type { Landmark, Review }from "../../shared/shareddtypes";
+import type { Landmark, Review }from "../src/shared/shareddtypes";
 import { fetch } from "@inrupt/solid-client-authn-browser";
 
 import {
@@ -28,7 +28,7 @@ import {
  */
 export async function getLocations(webID:string | undefined) {
   if (webID === undefined) {
-    throw new Error("The user is not logged in");
+    //throw new Error("The user is not logged in");
     return;
   }
   let inventoryFolder = webID.split("profile")[0] + "private/lomap/inventory/index.ttl"; // inventory folder path

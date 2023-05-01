@@ -8,7 +8,6 @@ import {useSession} from "@inrupt/solid-ui-react";
 
 import Home from './pages/home/Home';
 import Login from './pages/login/Login';
-import Register from './pages/register/Register';
 import AddLandmark from './pages/addLandmark/AddLandmark';
 import Profile from './pages/profile/Profile';
 import Users from './pages/users/Users';
@@ -29,7 +28,7 @@ function App(): JSX.Element {
     return (
     <QueryClientProvider client={queryClient} >
       <div style = {{backgroundImage:'url(/brussels1.png)'}}>
-      <div style={{backgroundColor:"rgba(71, 64, 64, 0.678)"}}>
+      <div style = {{backgroundColor:"rgba(71, 64, 64, 0.678)"}}>
       <Navbar />
       <div style={{ display: "flex" }}>
             <LeftBar />
@@ -95,14 +94,10 @@ function App(): JSX.Element {
       path: "/",
       element: <Login />,
     },
-    {
-      path: "/register",
-      element: <Register />,
-    },
   ]);
 
   return (
-    <div>
+    <div className='mainContainer'>
       <RouterProvider router={router} />
     </div>
   );
