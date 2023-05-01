@@ -171,6 +171,7 @@ function AddCommentForm(props : any) : JSX.Element {
             </form>
 }
 
+
 function getCategories() : string[] {
     let categories : string[] = Object.values(LandmarkCategories);
     categories.push("All");
