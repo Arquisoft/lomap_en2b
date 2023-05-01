@@ -153,9 +153,11 @@ function AddScoreForm(props : any) : JSX.Element {
 
 function AddCommentForm(props : any) : JSX.Element {
     const sendComment : Function = () => {
-        let comment : string = (document.getElementById("comment") as HTMLInputElement).textContent!;
-        if (comment.trim() !== "") {
+        if (document.getElementById("comment") !== null) {
+            let comment : string = (document.getElementById("comment") as HTMLInputElement).textContent!;
+            if (comment.trim() !== "") {
             props.sendComment(comment);
+            }
         }
     };
     return <form method = "post" onSubmit={sendComment()}>
