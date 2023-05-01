@@ -3,7 +3,7 @@ import "./addLandmark.css";
 import "../../map/stylesheets/addLandmark.css"
 import React, {useRef, useState} from "react";
 import {
-    Button, FormControl,
+    Button, Container, FormControl,
     Grid, Input, InputLabel,
     MenuItem, Select, Typography
 } from "@mui/material";
@@ -51,13 +51,17 @@ export default function AddLandmark() {
         if (description.trim() === "") {
             return;
         }
+        let pictures : string[] = [];
+        let picture : string | undefined = (document.getElementById("images") as HTMLInputElement).value;
+        pictures.concat(picture);
 
         let landmark : Landmark = {
             name : name,
             category : category,
             latitude : latitude,
             longitude : longitude,
-            description : description
+            description : description,
+            pictures : pictures
         }
         console.log(landmark);
 
@@ -113,10 +117,14 @@ export default function AddLandmark() {
                             <FormControl fullWidth data-testid = "firstField-testid">
                                 <InputLabel style={{color:"#FFF"}}>Description</InputLabel>
                                 <Input id = "description" name = "description" style={{color:"#FFF"}}></Input>
-                            </FormControl>            
-                        </Grid>
-                        {isButtonEnabled 
-                            ? <Grid item justifyContent="flex-end">
+                            </FormControl>
+                            <FormControl>
+                                <Typography style={{color:"#FFF"}}>Add an image</Typography>
+                                <input type="file" id="images" accept=".png"/>
+                            </FormControl>     
+                            </Grid>
+                                {isButtonEnabled 
+                                ? <Grid item justifyContent="flex-end">
                                 <Button type = "submit" variant = "contained" data-testid="Save button">
                                     Save new landmark
                                 </Button>

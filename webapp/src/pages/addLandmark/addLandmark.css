@@ -15,6 +15,10 @@ h1 {
     margin-left: 3em;
 }
 
+#images {
+    font-size: 0.7em;
+}
+
 input {
     font-size: 1.2em;
 }
