@@ -213,7 +213,7 @@ export async function createLandmark(webID:string, landmark:Landmark) {
       return; // if the landmark could not be added, return (error)
   
     // path for the new landmark dataset
-    let individualLandmarkFolder = baseURL + "private/lomap/landmarks/" + landmarkId + "/index.ttl";
+    let individualLandmarkFolder = baseURL + "private/lomap/locations/" + landmarkId + "/index.ttl";
   
     // create dataset for the landmark
     try {
@@ -231,7 +231,7 @@ export async function createLandmark(webID:string, landmark:Landmark) {
  */
 export async function addLandmarkToInventory(landmarksFolder:string, landmark:Landmark) {
     let landmarkId = "LOC_" + uuid(); // create landmark uuid
-    let landmarkURL = landmarksFolder.split("private")[0] + "private/lomap/landmarks/" + landmarkId + "/index.ttl#" + landmarkId // landmark dataset path
+    let landmarkURL = landmarksFolder.split("private")[0] + "private/lomap/locations/" + landmarkId + "/index.ttl#" + landmarkId // landmark dataset path
   
     let newLandmark = buildThing(createThing({name: landmarkId}))
       .addStringNoLocale(SCHEMA_INRUPT.identifier, landmarkURL) // add to the thing the path of the landmark dataset
@@ -255,7 +255,7 @@ export async function addLandmarkToInventory(landmarksFolder:string, landmark:La
  */
 export async function createInventory(landmarksFolder: string, landmark:Landmark){
     let landmarkId = "LOC_" + uuid(); // landmark uuid
-    let landmarkURL = landmarksFolder.split("private")[0] + "private/lomap/landmarks/" + landmarkId + "/index.ttl#" + landmarkId; // landmark dataset path
+    let landmarkURL = landmarksFolder.split("private")[0] + "private/lomap/locations/" + landmarkId + "/index.ttl#" + landmarkId; // landmark dataset path
   
     let newLandmark = buildThing(createThing({name: landmarkId})) // create thing with the landmark dataset path
       .addStringNoLocale(SCHEMA_INRUPT.identifier, landmarkURL)
@@ -273,7 +273,7 @@ export async function createInventory(landmarksFolder: string, landmark:Landmark
 
 /**
  * Create the landmark in the given folder
- * @param landmarkFolder contains the folder to store the landmark .../private/lomap/landmarks/${landmarkId}/index.ttl
+ * @param landmarkFolder contains the folder to store the landmark .../private/lomap/locations/${landmarkId}/index.ttl
  * @param landmark contains the landmark to be created
  * @param id contains the landmark uuid
  */
