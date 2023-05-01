@@ -120,7 +120,7 @@ export default function AddLandmark() {
                             </FormControl>
                             <FormControl>
                                 <Typography style={{color:"#FFF"}}>Add an image</Typography>
-                                <input type="file" id="images" accept=".png"/>
+                                <input type="file" id="images" accept=".jpg"/>
                             </FormControl>     
                             </Grid>
                                 {isButtonEnabled 

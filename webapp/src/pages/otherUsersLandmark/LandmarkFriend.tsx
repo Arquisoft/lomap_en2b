@@ -48,6 +48,59 @@ export default function LandmarkFriend() : JSX.Element{
         </Grid>;
     };
 
+    const getCurrentLandmark = () => {
+        let landmark = landmarks.get(selectedMarker);
+        let l : Landmark = {
+            name : "None selected",
+            category : "None selected",
+            latitude : 0, longitude : 0,
+            description : "None selected",
+            reviews : [],
+            scores : new Map<string, Number>(),
+            pictures : [],
+            url: "None selected",
+        }
+        landmark === undefined ? landmark=l : landmark=landmark;
+
+
+        return landmark;
+    };
+
+    const getPicture = () => {
+        let landmark = getCurrentLandmark();
+        if (landmark.pictures !== undefined) {
+            return landmark.pictures[0];
+        }
+        return undefined;
+    };
+
+    const getScore = () => {
+        let score = 0;
+        let landmark = getCurrentLandmark();
+
+        if (landmark.scores === undefined) {
+            return score;
+        }
+        landmark.scores.forEach((value, key) => {
+            score += value.valueOf();
+        });
+        return score/landmark.scores.size;
+    };
+
+    const getReviews = () => {
+        let landmark = getCurrentLandmark();
+
+        if (landmark.reviews === undefined) {
+            return <p></p>;
+        }
+        
+        return landmark.reviews.forEach((value) => {
+            <div>
+                <Typography> {value.content} </Typography>
+            </div>
+        });
+    }
+
     const sendComment : Function = async (comment : string) => {
         let webId : string = session.info.webId!;
         let date : string = new Date().toLocaleString();
@@ -76,6 +129,24 @@ export default function LandmarkFriend() : JSX.Element{
                     </Grid>
                     { isCommentEnabled ? <AddScoreForm sendScore={sendScore}/> : null }
                     { isCommentEnabled ? <AddCommentForm sendComment={sendComment} /> : null}
+                    { isCommentEnabled ?
+                        <Grid>
+                            <Typography style={{fontSize: 30}}> Name: </Typography>
+                            <Typography> {getCurrentLandmark().name}</Typography>
+                            <Typography style={{fontSize: 30}}> Category: </Typography>
+                            <Typography> {getCurrentLandmark().category}</Typography>
+                            <Typography style={{fontSize: 30}}> Coordinates: </Typography>
+                            <Typography> Latitude: {getCurrentLandmark().latitude} | Longitude {getCurrentLandmark().longitude} </Typography>
+                            <Typography style={{fontSize: 30}}> Description: </Typography>
+                            <Typography> {getCurrentLandmark().description}</Typography>
+                            <Typography style={{fontSize: 30}}> Picture: </Typography>
+                            {getPicture()===undefined ? <p>No picture uploaded</p> : <img src={getPicture()} alt="Landmark picture"></img>}
+                            <Typography style={{fontSize: 30}}> Score: </Typography>
+                            <Typography> {getScore().toString() =="NaN" ? 0 : getScore() } </Typography>
+                            <Typography style={{fontSize: 30}}> Reviews: </Typography>
+                            {getReviews()}
+                            
+                        </Grid> : null}
                 </Grid>
                 <Grid item xs = {7} className = "rightPane">
                     <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true} ref={map}>
