@@ -1,7 +1,7 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import puppeteer from "puppeteer";
 
-const feature = loadFeature('../features/find-friends.feature');
+const feature = loadFeature('./features/find-friends.feature');
 
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
@@ -21,7 +21,7 @@ defineFeature(feature, test => {
       .catch(() => {});
   });
 
-  test('The user is logged in the site', ({given,when,then}) => {
+  test('Searching for garabato', ({given,when,then}) => {
 
     given("The user logs in", async () => {
       await expect(page).toClick("button", {text:"Login"});
@@ -44,13 +44,13 @@ defineFeature(feature, test => {
       await expect(page).toClick('button', { text: 'Search' })
     });
 
-    then('Some people should appear', async () => {
+    then('Some test people should appear', async () => {
       await expect(page).toMatch('Usuarios encontrados');
       await expect(page).toMatch('User name: garabato');
     });
   })
 
-  test('The user is logged in the site', ({given,when,then}) => {
+  test('Searching for random', ({given,when,then}) => {
     
     given("The user logs in", async () => {
       await expect(page).toClick("button", {text:"Login"});
@@ -67,7 +67,7 @@ defineFeature(feature, test => {
       await page.waitForTimeout(8000);
 
   });
-    when('When He searches for asdfgh', async () => {
+    when('He searches for asdfgh', async () => {
       await expect(page).toFill("input[className='searchInput']", "garabato");
       await expect(page).toClick('button', { text: 'Search' })
     });
