@@ -15,7 +15,7 @@ import "../../map/stylesheets/addLandmark.css"
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {Landmark, LandmarkCategories, Review} from "../../shared/shareddtypes";
 import L from "leaflet";
-import { addLocationReview, addLocationScore, getFriendsLandmarks} from "../addLandmark/solidLandmarkManagement";
+import { addLocationReview, addLocationScore, getFriendsLandmarks} from "../../../solidHelper/solidLandmarkManagement";
 import { useSession } from "@inrupt/solid-ui-react";
 
 export default function LandmarkFriend() : JSX.Element{
