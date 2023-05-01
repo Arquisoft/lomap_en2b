@@ -12,7 +12,7 @@ import {Landmark, LandmarkCategories} from "../../shared/shareddtypes";
 import {makeRequest} from "../../axios";
 import {useSession} from "@inrupt/solid-ui-react";
 import {MapContainer, TileLayer, useMapEvents} from "react-leaflet";
-import {createLocation} from "./solidLandmarkManagement";
+import {createLocation} from "../../../solidHelper/solidLandmarkManagement";
 
 export default function AddLandmark() {
 

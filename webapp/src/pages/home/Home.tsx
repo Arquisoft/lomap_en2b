@@ -4,7 +4,7 @@ import "./home.css"
 import {useSession} from "@inrupt/solid-ui-react";
 import {Landmark} from "../../shared/shareddtypes";
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import { getLocations } from "../addLandmark/solidLandmarkManagement";
+import { getLocations } from "../../../solidHelper/solidLandmarkManagement";
 import markerIcon from "leaflet/dist/images/marker-icon.png"
 import { Icon } from "leaflet";
 import {makeRequest} from "../../axios";

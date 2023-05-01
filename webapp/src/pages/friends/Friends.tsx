@@ -2,9 +2,19 @@ import "./friends.css";
 
 import {makeRequest} from '../../axios';
 import {useParams} from 'react-router';
-import {useQuery} from '@tanstack/react-query';
+import {QueryClient, QueryClientProvider, useQuery} from 'react-query';
 import {User} from "../../shared/shareddtypes";
 import {Link} from "react-router-dom";
+
+const queryClient = new QueryClient();
+
+export default function App() {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <Friends />
+      </QueryClientProvider>
+    )
+ }
 
 function Friends(): JSX.Element {
 
@@ -21,9 +31,9 @@ function Friends(): JSX.Element {
         <div className="friendsContainer">
             <div className="dashboard">
                 <div className="dashboardTitle">
-                    Friends:
+                <h1>Your friends:</h1>
                 </div>
-                <div className="listUsers">
+                <div className="friendList">
                     {
                         error
                             ? "Something went wrong"
@@ -46,5 +56,3 @@ function Friends(): JSX.Element {
         </div>
     );
 }
-
-export default Friends;
