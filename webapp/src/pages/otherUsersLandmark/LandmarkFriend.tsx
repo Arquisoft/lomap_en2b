@@ -59,18 +59,19 @@ export default function LandmarkFriend() : JSX.Element{
         let date : string = new Date().toLocaleString();
         let review : Review = new Review(webId, date, "", "", comment);
         let landmark : Landmark = landmarks.get(selectedMarker) as Landmark;
-
         await addLocationReview(landmark, review);
     };
 
     const sendScore : Function = async (score : number) => {
         let landmark : Landmark = landmarks.get(selectedMarker) as Landmark;
-
         await addLocationScore(session.info.webId!, landmark, score);
     };
     return  <Grid container>
                 <Grid item xs = {12}>
-                    <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 46}} >See friends' landmarks</Typography>
+                    <Typography variant="h1" component="h1" 
+                    textAlign={"center"} style={{color:"#FFF", fontSize: 46}} >
+                        See friends' landmarks
+                        </Typography>
                 </Grid>
                 <Grid item xs = {5} className = "leftPane">
                     <Grid container rowGap={4} spacing = {5}>
@@ -101,29 +102,20 @@ async function getData(setIsCommentEnabled : Function, setSelectedMarker : Funct
     if (webId === undefined) return null;
     let fetchedLandmarks = await getFriendsLandmarks(webId);
     if (fetchedLandmarks === undefined) return null;
-
     let landmarks : Landmark[] = fetchedLandmarks[0] as Landmark[];
     if (!(document.getElementById("all") as HTMLInputElement).checked) {
         landmarks = landmarks.filter(landmark => filters.get(landmark.category))
     }
     setIsCommentEnabled(false);
     setSelectedMarker(-1);
-
     let landmarksComponent : JSX.Element[] = [];
     let mapLandmarks : Map<number, Landmark> = new Map<number, Landmark>();
     for (let i : number = 0; i < landmarks.length; i++) {
         mapLandmarks.set(i, landmarks[i]);
         landmarksComponent.push(<Marker position={[landmarks[i].latitude, landmarks[i].longitude]} eventHandlers={
-                {
-                    click: () => {
-                        setIsCommentEnabled(true);
-                        setSelectedMarker(i);
-                    }
-                }
+                { click: () => {setIsCommentEnabled(true); setSelectedMarker(i);}}
             } icon = {L.icon({iconUrl: markerIcon})}>
-                    <Popup>
-                            {landmarks[i].name} - {landmarks[i].category}
-                    </Popup>
+                    <Popup>{landmarks[i].name} - {landmarks[i].category}</Popup>
                 </Marker>
         );
     }
@@ -141,12 +133,9 @@ function AddScoreForm(props : any) : JSX.Element {
                 <Typography variant="h2" style={{color:"#FFF", fontSize:32}}>Add a score</Typography>
                 <FormControl fullWidth>
                     <InputLabel htmlFor="score" style={{color:"#FFF"}}>Score  </InputLabel>
-                    <Input type="number" name = "score"
-                        id = "score" inputProps={{min: 0, max: 10}} style={{color:"#FFF"}}/>
+                    <Input type="number" name = "score" id = "score" inputProps={{min: 0, max: 10}} style={{color:"#FFF"}}/>
                 </FormControl>
-                <Grid item>
-                    <Button variant="contained">Score</Button>
-                </Grid>
+                <Grid item><Button variant="contained">Score</Button></Grid>
             </Grid>
         </form>;
     }
@@ -155,9 +144,7 @@ function AddCommentForm(props : any) : JSX.Element {
     const sendComment : Function = () => {
         if (document.getElementById("comment") !== null) {
             let comment : string = (document.getElementById("comment") as HTMLInputElement).textContent!;
-            if (comment.trim() !== "") {
-            props.sendComment(comment);
-            }
+            if (comment.trim() !== "") {props.sendComment(comment);}
         }
     };
     return <form method = "post" onSubmit={sendComment()}>
@@ -166,9 +153,7 @@ function AddCommentForm(props : any) : JSX.Element {
                     <FormControl fullWidth>
                         <TextField id = "comment" name = "comment" multiline rows = {3} maxRows = {6} style={{color:"#FFF", fontSize:32}}/>
                     </FormControl>
-                    <Grid item>
-                        <Button variant="contained">Comment</Button>
-                    </Grid>
+                    <Grid item><Button variant="contained">Comment</Button></Grid>
                 </Grid>
             </form>
 }
