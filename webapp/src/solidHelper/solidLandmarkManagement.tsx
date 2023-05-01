@@ -1,4 +1,4 @@
-import type { Landmark, Review }from "../src/shared/shareddtypes";
+import type { Landmark, Review }from "../shared/shareddtypes";
 import { fetch } from "@inrupt/solid-client-authn-browser";
 
 import {
