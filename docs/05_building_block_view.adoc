@@ -22,10 +22,8 @@ rectangle webapp/src/ {
 
 rectangle restapi/ {
     agent "Controller"
-    agent "Persistance"
 }
 
-"Controller" -> "Persistance"
 "View" -> "Controller"
 @enduml
 ----
@@ -36,9 +34,7 @@ As seen, the different components are the following:
 
 * *View*: The view layer is composed of those elements that the client will interact with; it includes the React code, CSS sheets and the client-side code.
 
-* *Controller*: The controller layer will ensure a proper communication the client and the server.
-
-* *Persistance*: The persistance layer handles data retrieval and persistence logic.
+* *Controller*: The controller layer will ensure a proper communication the client and the server. It currently handles also persistence.
 
 ==== View layer
 
@@ -66,34 +62,8 @@ The controller layer will handle internal communication between the view and the
 
 ===== Interfaces
 
-* *The controllers*: they handle the communication between the persistence and the view layers, and can be found in the _restapi/controllers_ folder.
+* *The controllers*: they handle the logic and the persistence of the application. They can be found in the _restapi_ folder.
 
 ===== Open Issues/Problems/Risks
 
 No issues, problems or risks are known.
-
-==== Persistence layer
-
-The persistance layer is structured the following way:
-
-[plantuml,png, id = "PersistenceLayer"]
-----
-@startuml
-
-header Structure of the persistence layer
-title Structure of the persistence layer
-
-folder "Persistence layer"{
-agent Database
-agent "User pod"
-}
-agent "Controller layer"
-Database <-- "Controller layer"
-"User pod" <-- "Controller layer"
-@enduml
-----
-
-As you can see, it is divided in in several two components: the pods and the database.
-
-* The pods will store the user data.
-* The database.
