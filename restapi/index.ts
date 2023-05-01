@@ -60,8 +60,8 @@ app.use("/solid", solid);
 app.use("/users", users);
 app.use("/landmarks",landmarks );
 
-app.listen(process.env.API_PORT, ():void => {
-  console.log('Restapi listening on '+ process.env.API_PORT);
+app.listen(8800, ():void => {
+  console.log('Restapi listening on 8800');
 }).on("error",(error:Error)=>{
   console.error('Error occured: ' + error.message);
 });
