@@ -49,25 +49,4 @@ router.get("/:id/friends", async (req: any, res: any) => {
     }
 });
 
-router.post("/addFriend", async (req: any, res: any, next: any) => {
-    try {
-        console.log("POST /solid/addFriend");
-        let dataSet = await getSolidDataset(req.body.webID.split("#")[0], { fetch: fetch });
-
-        let userThing = getThing(dataSet, req.body.webID) as Thing;
-
-        let newFriend = buildThing(userThing)
-            .addUrl(FOAF.knows, req.body.friendWID as string)
-            .build();
-
-
-        dataSet = setThing(dataSet, userThing);
-        dataSet = await saveSolidDatasetAt(req.body.webID, dataSet, { fetch: fetch })
-       
-        res.status(200).json("Friend added");
-    } catch (error) {
-        res.status(500).json(error);
-    }
-});
-
 module.exports = router;

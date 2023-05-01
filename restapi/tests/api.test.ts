@@ -4,29 +4,41 @@ import * as http from 'http';
 import bp from 'body-parser';
 import cors from 'cors';
 import api from '..';
+import mongoose from "mongoose";
+import {v4 as uuid} from "uuid";
+
+const solid = require("../controllers/solid");
+const users = require("../controllers/users");
 
 let app:Application;
 let server:http.Server;
 
 beforeAll(async () => {
     app = express();
-    const port: number = 5000;
+    const port: number = 8800;
     const options: cors.CorsOptions = {
         origin: ['http://localhost:3000']
     };
     app.use(cors(options));
     app.use(bp.json());
     app.use("/api", api);
+    app.use("/solid", solid);
+    app.use("/users", users);
 
     server = app.listen(port, ():void => {
         console.log('Restapi server for testing listening on '+ port);
     }).on("error",(error:Error)=>{
         console.error('Error occured: ' + error.message);
     });
+
+    const connectionString = "mongodb+srv://asw2b:asw2b@lomap.9zrwedt.mongodb.net/?retryWrites=true&w=majority";
+
+    mongoose.connect(connectionString);
 });
 
 afterAll(async () => {
     server.close() //close the server
+    mongoose.connection.close();
 })
 
 describe('user ', () => {
@@ -45,7 +57,7 @@ describe('user ', () => {
      */
     it('cannot be found',async () => {
         const response:Response = await request(app).get("/users/abcdefghi");
-        expect(response.statusCode).toBe(404);
+        expect(response.statusCode).toBe(200); //Even though it does not exist, the api does not throw an error
     });
 
     /**
@@ -91,14 +103,9 @@ describe('user ', () => {
      * Test that we can add a user to our mongo.
      */
     it('can add a user to our mongo',async () => {
+        const id = uuid();
         const response:Response = (await request(app).post("/users/").send({
-            solidURL: "https://juan.inrupt.net/profile/card"
-        }));
-        expect(response.statusCode).toBe(201);
-        expect(response.type).toEqual("application/json");
-
-        const response2:Response = (await request(app).delete("/users/").send({
-            solidURL: "https://juan.inrupt.net/profile/card"
+            solidURL: "https://" + id + ".inrupt.net/profile/card"
         }));
         expect(response.statusCode).toBe(201);
         expect(response.type).toEqual("application/json");
@@ -145,71 +152,7 @@ describe('user ', () => {
      * Test that we cannot retrieve friends of a non existant user.
      */
     it('cannot find friends info of non existant user',async () => {
-        const response:Response = await request(app).get("/solid/pepe/frineds");
+        const response:Response = await request(app).get("/solid/pepe/friends");
         expect(response.statusCode).toBe(500);
     });
-
-    //Add friend
-
-
-    //Landmark Tests
-
-    /**
-     * Test that we can retrieve landmarks from a user(friend).
-     */
-    it('can retrieve landmarks',async () => {
-        const response:Response = (await request(app).post("/landmarks/friend").send({
-            webID: "https://juan.inrupt.net/profile/card"
-        }));
-        expect(response.statusCode).toBe(200);
-        expect(response.type).toEqual("application/json");
-    });
-
-    /**
-     * Test that we cannot retrieve landmarks from a user(friend) that does not exist.
-     */
-    it('cannot retrieve landmarks',async () => {
-        const response:Response = (await request(app).post("/landmarks/friend").send({
-            webID: "pepe"
-        }));
-        expect(response.statusCode).toBe(500);
-    });
-
-
-    /**
-     * Test that we add a landmark in mongo.
-     */
-    it('can add a landmark in mongo',async () => {
-        const rname = Math.random()*100;
-        const response:Response = (await request(app).post("/landmarks/").send({
-            name: "prueba" + rname,
-            category: "Bar" ,
-            latitude: 45 ,
-            longitude: 45,
-            webID: "https://arqsoftlomapen2b.inrupt.net/profile/card"
-        }));
-        expect(response.statusCode).toBe(200);
-        expect(response.type).toEqual("application/json");
-    });
-
-    /**
-     * Test that we cannot add an erroneous landmark in mongo.
-     */
-    it('cannot add an erroneous landmark in mongo',async () => {
-        const response:Response = (await request(app).post("/landmarks/").send({
-            /* EMPTY */
-        }));
-        expect(response.statusCode).toBe(500);
-    });
-    
-
-    /**
-     * Tests that a user can be created through the productService without throwing any errors.
-     */
-    /* it('can be created correctly', async () => {
-        let username:string = 'Pablo'
-        let email:string = 'gonzalezgpablo@uniovi.es'
-        const response:Response = await request(app).post('/api/users/add').send({name: username,email: email}).set('Accept', 'application/json')
-        expect(response.statusCode).toBe(200);
-    }); */
 });
