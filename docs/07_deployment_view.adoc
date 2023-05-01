@@ -46,4 +46,4 @@ Although we have yet to choose the operating system that will run it, it will pr
 
 ==== The database management system
 
-We have chosen to use MongoDB. This decision was considered due to the experience of one member of the group using MongoDB through Mongoose, as well as using Typescript to run the product and, thus being posible to manipulate the data directly.
+We have chosen to use MongoDB. This decision was considered due to the experience of one member of the group using MongoDB through Mongoose, as well as using Typescript to run the product and, thus being posible to manipulate the data directly using JSON notation.

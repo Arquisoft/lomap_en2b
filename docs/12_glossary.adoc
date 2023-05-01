@@ -4,7 +4,7 @@
 [options="header"]
 |===
 | Term         | Definition
-| SOLID     | SOLID is a web decentralization project where the users have control over their data. It is led by the inventor of the WWW, Tim Berners-Lee. SOLID guarantees that users decide what and with whom they should share their data. 
 | N-Tier architecture | Client–server architecture in which different layers are separated allowing the development of flexible and reusable applications.
-| MVC architecture | Architecture style that separates the application data, the UI and the business logic in three different components.
+| SOLID     | SOLID is a web decentralization project where the users have control over their data. It is led by the inventor of the WWW, Tim Berners-Lee. SOLID guarantees that users decide what and with whom they should share their data. 
+| POD | Secure personal web servers for data. When data is stored in someone's Pod, they control which people and applications can access it.
 |===

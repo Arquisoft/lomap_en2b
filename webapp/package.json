@@ -26,16 +26,18 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",
+    "react-query": "^3.39.3",
     "react-router": "^6.10.0",
     "react-router-dom": "^6.9.0",
+    "ts-node": "^10.9.1",
     "typescript": "^4.9.4",
     "web-vitals": "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage",
-    "test:e2e": "start-server-and-test 'npm --prefix ../restapi start' http://localhost:5000/api/users/list prod 3000 'cd e2e && jest'",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!ol)/\" --coverage ./test",
+    "test:e2e": "start-server-and-test prod 3000 \"cd e2e && jest\"",
     "eject": "react-scripts eject",
     "prod": "ts-node-dev ./server.ts"
   },

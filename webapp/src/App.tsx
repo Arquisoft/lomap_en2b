@@ -1,16 +1,13 @@
-
 import './App.css';
 
-import { QueryClient,QueryClientProvider} from '@tanstack/react-query';
-import { createBrowserRouter,Outlet,Navigate,RouterProvider } from 'react-router-dom';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {createBrowserRouter, Outlet, RouterProvider} from 'react-router-dom';
 import Navbar from './components/navbar/Navbar';
-import { SessionContext, useSession} from "@inrupt/solid-ui-react";
-
+import {useSession} from "@inrupt/solid-ui-react";
 
 
 import Home from './pages/home/Home';
 import Login from './pages/login/Login';
-import Register from './pages/register/Register';
 import AddLandmark from './pages/addLandmark/AddLandmark';
 import Profile from './pages/profile/Profile';
 import Users from './pages/users/Users';
@@ -31,7 +28,7 @@ function App(): JSX.Element {
     return (
     <QueryClientProvider client={queryClient} >
       <div style = {{backgroundImage:'url(/brussels1.png)'}}>
-      <div style={{backgroundColor:"rgba(71, 64, 64, 0.678)"}}>
+      <div style = {{backgroundColor:"rgba(71, 64, 64, 0.678)"}}>
       <Navbar />
       <div style={{ display: "flex" }}>
             <LeftBar />
@@ -59,7 +56,7 @@ function App(): JSX.Element {
 
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: "/main",
       element: (
         <ProtectedRoute>
           <Layout />
@@ -67,44 +64,40 @@ function App(): JSX.Element {
       ),
       children: [
         {
-          path: "/",
+          path: "/main/",
           element: <Home />,
         },
         {
-          path: "/profile/:id",
+          path: "/main/profile/:id",
           element: <Profile />,
         },
         {
-          path: "/friends/:id",
+          path: "/main/friends/:id",
           element: <Friends />,
         },
         {
-          path: "/landmarks/add",
+          path: "/main/landmarks/add",
           element: <AddLandmark />,
         },
         {
-          path: "/landmarks/filter/:id",
+          path: "/main/landmarks/filter/:id",
           element: <LandmarkFriend />,
         },
         {
-          path: "/users/:text",
+          path: "/main/users/:text",
           element: <Users />,
         },
 
       ],
     },
     {
-      path: "/login",
+      path: "/",
       element: <Login />,
-    },
-    {
-      path: "/register",
-      element: <Register />,
     },
   ]);
 
   return (
-    <div>
+    <div className='mainContainer'>
       <RouterProvider router={router} />
     </div>
   );

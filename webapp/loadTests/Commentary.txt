@@ -1,0 +1,36 @@
+After doing the load tests, we've analyzed them and we arrived to some conclusions about our app.
+First of all, in the lab class we've seen some examples of this tools with other apps without a restApi, which made their
+request to not fail mainly because it was only a react application, no external database or restApi which could have a 
+negative impact on the performance of the application.
+
+On terms of the tests we made, we focused on testing mainly the interaction between some of our pages and mainly the connections 
+with our mongo database in which we store the users logged into our application with Solid. We also make a request to test the 
+access to the pod, in which we test retrieving the profile of some user existing in our application.
+
+We recorded these orders and then we executed the tests with different number of users arriving at the same time to the app and 
+with a greater number of users but arriving to the app constantly during one minute.
+
+To start of, we tried our app with three different sizes of users at the same time, the first one was only one user to see
+how the app works as we are using it now, just one user at a time requesting different pages and the times are considerably 
+good, being 93% of the requests below the 800ms time mark and the rest no more than 1200ms.
+The next size we tested was 10 users, and the errors improve on some sense, as there are 10 requests being made all at the same
+exact time, so some time increased and we got some errors as well, a 14% of the requests, but at the end, a 70% of all requests were 
+still done in less than 800ms.
+Lastly, we tried to have 25 users at once in our app, with the same patters, the failure rate increased quite less than in the previous 
+jump of only nine users compared to this jump of fifteen users, and it is only up to a 23%, being the rate of requests responded in 
+a perfect time of 63%.
+What we saw with these first tests was that obviously our application is not yet prepared to receive a large number of users at exactly 
+the same time with some guarantee of responding perfectly, and that the rate of failure incrased quite more on the first users arriving
+than on the last ones, as with the first users increased the app suffered much more than with the other fifteen users we increased.
+
+On the other hand, we tested the app with a fixed amount of users arriving to it during one minute.
+We started with 50 users, and the result were amazing, less than a 1% of requests failed, and 86% of them were responded below the 800ms 
+mark, having a 7% each the requests served below 1200ms and over that benchmark.
+We increased to 150 the users and the resuts were not bad either, but in these quantities there were some requests failing, increasing 
+the percentage of KOs up to a 13%, remaining the rest of the percentages the same, reducing the responses below 800ms down to a 73% of them
+which is still not bad.
+The last tests was done with 250 users, in which the results got worse, as expected. The percentage of responses below 800ms was a 63%, 
+with a failure rate of 19%, having this time more requests served over 1200ms with a percentage of 11%.
+
+As a final conclusion, we think our application responded in quite a good way taking into account not much has been done focusing on 
+lowering these failures and optimising the response times up until now.

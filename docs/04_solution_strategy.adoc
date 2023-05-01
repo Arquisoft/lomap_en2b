@@ -10,7 +10,7 @@ Up until now, we have made some decisions about the project, those decisions can
 * Map API: Used to plot the map in the application in order to allow the user to do every possible action. The selected API to do it is Leaflet.
 
 . *Decisions on top-level decomposition:*
-* MVC: We are using the MVC (Model-View-Controller) pattern in order to organize the code in a clean and obvious way.
+* N-Layers: We are using an N-Layers pattern of two components: the controller and the frontend. The former can be found in _/restapi/_ and the latter in _/webapp/_.
 * Editor: We are all using Visual Studio Code to work on this project, it is the editor we are used to program in and it has some features that made us work using it.
 * Github: The project is on a public repository as given by the professors of the subject. We are all able to work using it, and the main features of it are the pull requests in order to upload code.
 

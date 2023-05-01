@@ -1,96 +1,147 @@
-import Map from "../../components/map/Map";
 import markerIcon from "leaflet/dist/images/marker-icon.png"
 import "./addLandmark.css";
-import "../../components/map/stylesheets/addLandmark.css"
-import { useRef, useState } from "react";
-import { Button, MenuItem, Grid, Input, InputLabel, Select, Typography, FormControl } from "@mui/material";
-import React from "react";
+import "../../map/stylesheets/addLandmark.css"
+import React, {useRef, useState} from "react";
+import {
+    Button, Container, FormControl,
+    Grid, Input, InputLabel,
+    MenuItem, Select, Typography
+} from "@mui/material";
 import L from "leaflet";
-import { LandmarkCategories } from "../../shared/shareddtypes";
-import { makeRequest } from "../../axios";
-import { useSession } from "@inrupt/solid-ui-react";
+import {Landmark, LandmarkCategories} from "../../shared/shareddtypes";
+import {makeRequest} from "../../axios";
+import {useSession} from "@inrupt/solid-ui-react";
+import {MapContainer, TileLayer, useMapEvents} from "react-leaflet";
+import {createLandmark} from "../../solidHelper/solidLandmarkManagement";
+
 export default function AddLandmark() {
 
-    const [coords, setCoords] = useState([0,0]);
-    let setCoordinates = () => {
-        let latitude : number | undefined = parseFloat((document.getElementById("latitude") as HTMLInputElement).value);
-        let longitude : number | undefined = parseFloat((document.getElementById("longitude") as HTMLInputElement).value);
-        setCoords([latitude, longitude]);
-        (map.current as L.Map).panTo([latitude, longitude]);
-        
-        // Manual delete, since scoping the variable outside the function and updating it does not seem to work
-        let markerNode : ChildNode = (document.querySelector("img[alt='Marker'") as ChildNode);
-        if (markerNode) markerNode.remove();
-        new L.Marker([latitude, longitude]).setIcon(L.icon({iconUrl: markerIcon})).addTo(map.current as L.Map);
-    }
+    const [coords, setCoords] = useState<number[]>([0,0]);
+    const [option, setOption] = useState<string>("Other");
+    const [marker, setMarker] = useState<L.Marker | null>(null);
+    const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
     const {session} = useSession();
+
+    const setCoordinates = async (latitude : number, longitude : number) => {
+        setIsButtonEnabled(false);
+        (map.current as L.Map).panTo([latitude, longitude]);
+        if (marker !== null) {
+            (map.current as L.Map).removeLayer(marker);
+        }
+        (document.getElementById("latitude") as HTMLParagraphElement).textContent = latitude.toFixed(3);
+        (document.getElementById("longitude") as HTMLParagraphElement).textContent = longitude.toFixed(3);
+        await setMarker(new L.Marker([latitude, longitude]).setIcon(L.icon({iconUrl: markerIcon})).addTo(map.current as L.Map));
+        await setCoords([latitude, longitude]);
+        setIsButtonEnabled(true);        
+    }
 
     const submit = async (e : React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
         // Collect everything
         let name : string | undefined = (document.getElementById("name") as HTMLInputElement).value;
-        let category : string | undefined = (document.getElementById("category") as HTMLInputElement)?.value;
+        if (name.trim() === "") {
+            return;
+        }
+        let category : string = option;
         let latitude : number = coords[0];
         let longitude : number = coords[1];
-        let obj = {
+        
+        let description : string | undefined = (document.getElementById("name") as HTMLInputElement).value;
+        if (description.trim() === "") {
+            return;
+        }
+        let pictures : string[] = [];
+        let picture : string | undefined = (document.getElementById("images") as HTMLInputElement).value;
+        pictures.concat(picture);
+
+        let landmark : Landmark = {
             name : name,
             category : category,
             latitude : latitude,
             longitude : longitude,
-            webID: session.info.webId
-        };
+            description : description,
+            pictures : pictures
+        }
+        console.log(landmark);
 
-        await makeRequest.post("/landmarks/", obj);
-
-        // Here goes the access to SOLID
+        // Access to SOLID
+        let webID = session.info.webId;
+        if (webID !== undefined) {
+            await createLandmark(webID, landmark);
+        }
     };
+
     const map = useRef<L.Map>(null);
     let selectItems : JSX.Element[] = Object.keys(LandmarkCategories).map(key => {
-        return <MenuItem value = {key}>{key}</MenuItem>;
+        return <MenuItem data-testid = "option-test" value = {key} key = {key} onClick={() => setOption(key)}>{key}</MenuItem>;
     });
+
+    const MapEvents = () => {
+        useMapEvents(
+            {
+                click(e) {
+                    setCoordinates(e.latlng.lat, e.latlng.lng);
+                }
+            }
+        );
+        return null;
+    }
 
     return <Grid container>
             <Grid item xs = {12}>
             <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 46}} >Add a landmark</Typography>
             </Grid>
             <Grid item xs = {4} className = "leftPane">
-                <form method = "post" className ="addLandmarkForm" onSubmit={submit}>
+                <form method = "post" className ="addLandmarkForm" onSubmit={submit} data-testid = "form-test">
                     <Grid container spacing={3} rowGap={8}>
-                        <FormControl fullWidth>
+                        <FormControl fullWidth data-testid = "firstField-testid">
                             <InputLabel style={{color:"#FFF"}}>Name of the landmark</InputLabel>
                             <Input id = "name" name = "name" style={{color:"#FFF"}}></Input>
                         </FormControl>
-                        <FormControl fullWidth>
+                        <FormControl fullWidth data-testid = "secondField-testid">
                             <InputLabel htmlFor="category" style={{color:"#FFF"}}>Category of the landmark</InputLabel>
-                            <Select id = "category" name = "category" defaultValue={"Other"} label="Category of the landmark" style={{color:"#FFF"}}>
+                            <Select id = "category" name = "category" defaultValue={"Other"} style={{color:"#FFF"}}>
                                 {selectItems}
                             </Select>
                         </FormControl>
-                        <Grid container rowGap = {4}>
+                        <Grid container rowGap = {4} data-testid="thirdField-testid">
                             <FormControl fullWidth>
-                                <InputLabel htmlFor="latitude" style={{color:"#FFF"}}>Latitude  </InputLabel>
-                                <Input type="number" name = "latitude" 
-                                    id = "latitude" style={{color:"#FFF"}}/>
+                                <Typography style={{color:"#FFF"}}>Latitude:  </Typography>
+                                <Typography id = "latitude" style={{color:"#FFF"}}/>
                             </FormControl>
                             <FormControl fullWidth>
-                                <InputLabel htmlFor="longitude" style={{color:"#FFF"}}>Longitude  </InputLabel>
-                                <Input type="number" name = "longitude" 
-                                    id = "longitude" style={{color:"#FFF"}}/>
+                                <Typography style={{color:"#FFF"}}>Longitude:  </Typography>
+                                <Typography id = "longitude" style={{color:"#FFF"}}/>
+                            </FormControl>  
+                            <FormControl fullWidth data-testid = "firstField-testid">
+                                <InputLabel style={{color:"#FFF"}}>Description</InputLabel>
+                                <Input id = "description" name = "description" style={{color:"#FFF"}}></Input>
                             </FormControl>
                             <FormControl>
-                                <Button variant = "contained" onClick = {() => {setCoordinates();}}>Search coordinates</Button>
-                            </FormControl>                        
-                        </Grid>
-                        <Grid item justifyContent="flex-end">
-                            <Button type = "submit" variant = "contained" >Save new landmark</Button>
-                        </Grid>
+                                <Typography style={{color:"#FFF"}}>Add an image</Typography>
+                                <input type="file" id="images" accept=".jpg"/>
+                            </FormControl>     
+                            </Grid>
+                                {isButtonEnabled 
+                                ? <Grid item justifyContent="flex-end">
+                                <Button type = "submit" variant = "contained" data-testid="Save button">
+                                    Save new landmark
+                                </Button>
+                            </Grid> 
+                            : null
+                        }
                     </Grid>
                 </form>
             </Grid>
-            <Grid item xs = {8} className = "rightPane  ">
-                <Map map={map}>
-                </Map>
+            <Grid item xs = {8} className = "rightPane">
+                <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true} ref={map}>
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <MapEvents />
+            </MapContainer>;
             </Grid>
         </Grid>
         ;

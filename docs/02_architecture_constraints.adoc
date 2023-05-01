@@ -8,7 +8,7 @@ These constraints are the base of the architecture process, and are the roots of
 [options="header",cols="1,4"]
 |===
 |Constraint|Description
-| Solid | _Provided by the stakeholders. A way of building decentralized social apps, it gives every user a choice about where data is stored, helping the privacy of each user._
+| SOLID | _Provided by the stakeholders. A way of building decentralized social apps, it gives every user a choice about where data is stored, helping the privacy of each user._
 | Github | _The development team was given a starting draft of a project in GitHub as a public repository. From then on, all the work related with this project will be tracked and uploaded in this repository._
 | Time | _The application is developed in a semester during a course, that means time is limited._
 |===
