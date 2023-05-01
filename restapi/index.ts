@@ -11,7 +11,6 @@ const dotenv = require("dotenv");
 
 const solid = require("./controllers/solid");
 const users = require("./controllers/users");
-const landmarks = require("./controllers/landmarks");
 
 const app = express();
 app.disable("x-powered-by");
@@ -31,11 +30,11 @@ app.use(bp.json());
 
 
 
-mongoose.connect(process.env.MONGO_URL).then(
+mongoose.connect("mongodb+srv://asw2b:asw2b@lomap.9zrwedt.mongodb.net/?retryWrites=true&w=majority").then(
   console.log('Succesfully connected to MongoDB')
 );
 
-app.use(cors({origin:"http://localhost:"+process.env.WEBAPP_PORT}))
+app.use(cors({origin:"http://localhost:8800"}))
 
 
 app.use(cookieParser());
@@ -58,13 +57,12 @@ app.use(
 
 app.use("/solid", solid);
 app.use("/users", users);
-app.use("/landmarks",landmarks );
 
-app.listen(process.env.API_PORT, ():void => {
+/*app.listen(process.env.API_PORT, ():void => {
   console.log('Restapi listening on '+ process.env.API_PORT);
 }).on("error",(error:Error)=>{
   console.error('Error occured: ' + error.message);
-});
+}); */
 
 
 export default app;
