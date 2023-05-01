@@ -47,7 +47,7 @@ export default function AddLandmark() {
         let latitude : number = coords[0];
         let longitude : number = coords[1];
         
-        let description : string | undefined = (document.getElementById("name") as HTMLInputElement).value;
+        let description : string | undefined = (document.getElementById("description") as HTMLInputElement).value;
         if (description.trim() === "") {
             return;
         }
