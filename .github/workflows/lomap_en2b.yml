@@ -60,7 +60,7 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@v5
       env:
-        API_URI: http://${{ secrets.DEPLOY_HOST }}:5000/api
+        API_URI: http://${{ secrets.DEPLOY_HOST }}:8800/
       with:
           name: arquisoft/lomap_en2b/webapp
           username: ${{ github.actor }}

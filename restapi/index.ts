@@ -34,7 +34,7 @@ mongoose.connect(process.env.MONGO_URL).then(
   console.log('Succesfully connected to MongoDB')
 );
 
-app.use(cors({origin:"http://localhost:"+process.env.WEBAPP_PORT}))
+app.use(cors({origin:"http://localhost:3000"}))
 
 
 app.use(cookieParser());
