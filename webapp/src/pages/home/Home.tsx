@@ -13,20 +13,19 @@ function Home(): JSX.Element {
     const {session} = useSession();
     const [landmarks, setLandmarks] = useState<Landmark[]>([]);
     const [generatedLandmarks, setGeneratedLandmarks] = useState<JSX.Element[]>([]);
-    async function getLandmarks() {
-        let fetchedLandmarks : Landmark[] | undefined = await getLocations(session.info.webId);
-        console.log(fetchedLandmarks);
-        if (fetchedLandmarks === undefined) return null;;
-    
-        await setLandmarks(fetchedLandmarks);
-        console.log(landmarks);
-    }
 
     useEffect( () => { 
         if (session.info.webId !== undefined && session.info.webId !== "") {
-            console.log(session.info.webId);
             makeRequest.post("/users/",{solidURL: session.info.webId});
-          } 
+        }
+        doGetLandmarks();
+
+        async function getLandmarks(){
+            let fetchedLandmarks : Landmark[] | undefined = await getLocations(session.info.webId);
+            if (fetchedLandmarks === undefined) return null;
+            console.log(session.info.webId);
+            setLandmarks(fetchedLandmarks);
+        }
 
         async function doGetLandmarks() {
             await getLandmarks();
@@ -38,13 +37,14 @@ function Home(): JSX.Element {
                         </Popup>
                     </Marker>;
                 array.push(element);
-                    }
-                );
+                console.log(array);
+                }
+            );
             
-            await setGeneratedLandmarks(array);
+            setGeneratedLandmarks(array);
             }
         doGetLandmarks();
-    });
+    }, [session.info.webId, landmarks]);
 
     return (
         <div className="homeContainer">

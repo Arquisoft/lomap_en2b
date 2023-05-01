@@ -7,6 +7,7 @@ export type User = {
   };
 
 export class Landmark  {
+    id?: number;
     name:string;
     category:string;
     latitude:number;

@@ -6,8 +6,6 @@ import {
     Grid,
     Input,
     InputLabel,
-    MenuItem,
-    Select,
     TextField,
     Typography
 } from "@mui/material";
@@ -15,39 +13,74 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import {useEffect, useRef, useState} from "react";
 import "../../map/stylesheets/addLandmark.css"
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
-import {Landmark, LandmarkCategories, User} from "../../shared/shareddtypes";
+import {Landmark, LandmarkCategories, Review} from "../../shared/shareddtypes";
 import L from "leaflet";
-import { getLocations } from "../addLandmark/solidLandmarkManagement";
+import { addLocationReview, addLocationScore, getFriendsLandmarks} from "../addLandmark/solidLandmarkManagement";
 import { useSession } from "@inrupt/solid-ui-react";
 
 export default function LandmarkFriend() : JSX.Element{
 
     const map = useRef<L.Map>(null);
+    const categories = useRef<string[]>(getCategories());
     const [isCommentEnabled, setIsCommentEnabled] = useState<boolean>(false);
-    const [selectedMarker, setSelectedMarker] = useState<L.Marker | null>(null);
+    const [selectedMarker, setSelectedMarker] = useState<number>(-1);
     const [landmarksReact, setLandmarksReact] = useState<JSX.Element[]>([]);
-    const [filters, setFilters] = useState<Map<string, boolean> | null>(null);
-    const session = useRef<string | undefined>(useSession().session.info.webId);
-    const clickHandler : any = (e : any) => {
-        setIsCommentEnabled(true);
-        setSelectedMarker(e.target);
-        return null;
+    const [filters, setFilters] = useState<Map<string, boolean>>(new Map<string, boolean>());
+    const [landmarks, setLandmarks] = useState<Map<number, Landmark>>(new Map<number, Landmark>);
+    const {session} = useSession();
+
+    function changeFilter(name : string) {
+        let auxFilters : Map<string, boolean> = filters;
+        auxFilters.set(name, (document.getElementById(name.toLowerCase()) as HTMLInputElement).checked);
+        getData(setIsCommentEnabled, setSelectedMarker, setLandmarks, setLandmarksReact, auxFilters, session.info.webId);
+    }
+
+    useEffect(() => {
+        if (session.info.webId  !== undefined) {
+            getData(setIsCommentEnabled, setSelectedMarker, setLandmarks, setLandmarksReact, filters, session.info.webId);
+        }
+    }, [filters, session.info.webId]);
+
+    const loadCategories = () => {
+        let categoriesElement : JSX.Element[] = categories.current.map(key => {
+            filters.set(key, true);
+            return <Grid item xs = {4}> 
+                <FormControlLabel control={<Checkbox id = {key.toLowerCase()} onClick={( () => changeFilter(key))} defaultChecked/>} label={key} />
+            </Grid>
+        });
+
+        return  <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+            {categoriesElement}
+        </Grid>;
     };
 
-    useEffect( () => {
-        if (session.current  !== undefined) {
-            getData(setIsCommentEnabled, setSelectedMarker, setLandmarksReact, filters, session.current);
-        }
-    }, [filters]);
+    const sendComment : Function = async (comment : string) => {
+        let webId : string = session.info.webId!;
+        let date : string = new Date().toLocaleString();
+        let review : Review = new Review(webId, date, "", "", comment);
+        let landmark : Landmark = landmarks.get(selectedMarker) as Landmark;
 
+        await addLocationReview(landmark, review);
+    };
+
+    const sendScore : Function = async (score : number) => {
+        let landmark : Landmark = landmarks.get(selectedMarker) as Landmark;
+
+        await addLocationScore(session.info.webId!, landmark, score);
+    };
     return  <Grid container>
                 <Grid item xs = {12}>
                     <Typography variant="h1" component="h1" textAlign={"center"} style={{color:"#FFF", fontSize: 46}} >See friends' landmarks</Typography>
                 </Grid>
                 <Grid item xs = {5} className = "leftPane">
-                    <LandmarkFilter setFilters = {setFilters}/>
-                    { isCommentEnabled ? <AddCommentForm /> : null}
-                    { isCommentEnabled ? <AddScoreForm /> : null }
+                    <Grid container rowGap={4} spacing = {5}>
+                        <FormControl fullWidth>
+                            <Typography style={{color:"#FFF"}}>Category</Typography>
+                            {loadCategories()}
+                        </FormControl>
+                    </Grid>
+                    { isCommentEnabled ? <AddScoreForm sendScore={sendScore}/> : null }
+                    { isCommentEnabled ? <AddCommentForm sendComment={sendComment} /> : null}
                 </Grid>
                 <Grid item xs = {7} className = "rightPane">
                     <MapContainer center={[50.847, 4.357]} zoom={13} scrollWheelZoom={true} ref={map}>
@@ -55,40 +88,77 @@ export default function LandmarkFriend() : JSX.Element{
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                    </MapContainer>;
+                        {landmarksReact}
+                    </MapContainer>
                 </Grid>
             </Grid>
         ;
 }
 
-async function getData(setIsCommentEnabled : Function, setSelectedMarker : Function, setLandmarksReact : Function, map : Map<string, boolean> | null, webId : string | undefined) {
-    let landmarks : Landmark[] | undefined = await getLocations(webId);
-    if (landmarks === undefined || map === null) return null;
+async function getData(setIsCommentEnabled : Function, setSelectedMarker : Function, 
+                        setLandmarks : Function,setLandmarksReact : Function, 
+                        filters : Map<string, boolean>, webId : string | undefined) {
+    if (webId === undefined) return null;
+    let fetchedLandmarks = await getFriendsLandmarks(webId);
+    if (fetchedLandmarks === undefined) return null;
 
+    let landmarks : Landmark[] = fetchedLandmarks[0] as Landmark[];
     if (!(document.getElementById("all") as HTMLInputElement).checked) {
-        landmarks = landmarks.filter(landmark => map.get(landmark.category))
+        landmarks = landmarks.filter(landmark => filters.get(landmark.category))
     }
+    setIsCommentEnabled(false);
+    setSelectedMarker(-1);
 
-    let landmarksComponent : JSX.Element[] = landmarks.map(landmark => {
-        return <Marker position={[landmark.longitude, landmark.latitude]} eventHandlers={
-            {
-                click: (e) => {
-                    setIsCommentEnabled(true);
-                    setSelectedMarker(e.target);
+    let landmarksComponent : JSX.Element[] = [];
+    let mapLandmarks : Map<number, Landmark> = new Map<number, Landmark>();
+    for (let i : number = 0; i < landmarks.length; i++) {
+        mapLandmarks.set(i, landmarks[i]);
+        landmarksComponent.push(<Marker position={[landmarks[i].latitude, landmarks[i].longitude]} eventHandlers={
+                {
+                    click: () => {
+                        setIsCommentEnabled(true);
+                        setSelectedMarker(i);
+                    }
                 }
-            }
-        } icon = {L.icon({iconUrl: markerIcon})}>
-                <Popup>
-                        {landmark.name} - {landmark.category}
-                </Popup>
-            </Marker>
-    });
-    
+            } icon = {L.icon({iconUrl: markerIcon})}>
+                    <Popup>
+                            {landmarks[i].name} - {landmarks[i].category}
+                    </Popup>
+                </Marker>
+        );
+    }
+    setLandmarks(mapLandmarks);
     setLandmarksReact(landmarksComponent);
 }
 
-function AddScoreForm() : JSX.Element {
-    return <form method = "post" action="/landmarks/scores">
+function AddScoreForm(props : any) : JSX.Element {
+    const sendScore : Function = () => {
+        let value : number = parseFloat((document.getElementById("comment") as HTMLInputElement)!.value);
+        props.sendScore(value);
+    };
+    return <form method = "post" action="/landmarks/comments">
+            <Grid container rowSpacing={4}>
+                <Typography variant="h2" style={{color:"#FFF", fontSize:32}}>Add a score</Typography>
+                <FormControl fullWidth>
+                    <InputLabel htmlFor="score" style={{color:"#FFF"}}>Score  </InputLabel>
+                    <Input type="number" name = "score"
+                        id = "score" inputProps={{min: 0, max: 10}} style={{color:"#FFF"}}/>
+                </FormControl>
+                <Grid item>
+                    <Button variant="contained">Score</Button>
+                </Grid>
+            </Grid>
+        </form>;
+    }
+
+function AddCommentForm(props : any) : JSX.Element {
+    const sendComment : Function = () => {
+        let comment : string = (document.getElementById("comment") as HTMLInputElement).textContent!;
+        if (comment.trim() !== "") {
+            props.sendComment(comment);
+        }
+    };
+    return <form method = "post" onSubmit={sendComment()}>
                 <Grid container rowSpacing={4}>
                     <Typography variant="h2" style={{color:"#FFF", fontSize:32}}>Add a comment</Typography>
                     <FormControl fullWidth>
@@ -99,71 +169,10 @@ function AddScoreForm() : JSX.Element {
                     </Grid>
                 </Grid>
             </form>
-    ;
 }
 
-function AddCommentForm() : JSX.Element {
-    return <form method = "post" action="/landmarks/comments">
-                <Grid container rowSpacing={4}>
-                    <Typography variant="h2" style={{color:"#FFF", fontSize:32}}>Add a score</Typography>
-                    <FormControl fullWidth>
-                        <InputLabel htmlFor="score" style={{color:"#FFF"}}>Score  </InputLabel>
-                        <Input type="number" name = "score"
-                               id = "score" inputProps={{min: 0, max: 10}} style={{color:"#FFF"}}/>
-                    </FormControl>
-                    <Grid item>
-                        <Button variant="contained">Score</Button>
-                    </Grid>
-                </Grid>;
-            </form>;
-}
-
-function LandmarkFilter(props : any) : JSX.Element {
-
-    // TODO: Import here the users that are friends with the logged one
-    const loadUsers = () => {
-        let userList : User[] = [];
-        let userItems : JSX.Element[] = userList.map(key => {
-            return <MenuItem value = {key.toString()}>{key}</MenuItem>;
-        });
-
-        userItems.push(<MenuItem key = "all" value = "all">All users</MenuItem>);
-        return  <Select id = "userFilter" name = "userFilter" defaultValue={"all"} label="User filter" style={{color:"#FFF"}}>
-            {userItems}
-        </Select>;
-    }
-
-    const loadCategories = () => {
-        let categoryList : string[] = Object.values(LandmarkCategories);
-        let map : Map<string, boolean> = new Map<string, boolean>();
-        categoryList.forEach(category => map.set(category, true));
-
-        const changeValue = (id : string) => {
-            let newValue : boolean = (document.getElementById(id) as HTMLInputElement).checked;
-            map.set(id, newValue);
-            props.setFilters(map);
-        }
-
-        let categories : JSX.Element[] = categoryList.map(key => {
-            return <Grid item xs = {4}>
-                <FormControlLabel control={<Checkbox id = {key} onClick={( () => changeValue(key))} defaultChecked/>} label={key} />
-            </Grid>
-        });
-
-        return  <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-            {categories}
-        </Grid>;
-    }
-    return <form method = "get" action = "/landmarks/filter">
-               <Grid container rowGap={4} spacing = {5}>
-                    <FormControl fullWidth>
-                        <InputLabel htmlFor="userFilter" style={{color:"#FFF"}}>User</InputLabel>
-                        {loadUsers()}
-                    </FormControl>
-                    <FormControl fullWidth>
-                        <Typography style={{color:"#FFF"}}>Category</Typography>
-                        {loadCategories()}
-                    </FormControl>
-               </Grid>
-            </form>;
-}
+function getCategories() : string[] {
+    let categories : string[] = Object.values(LandmarkCategories);
+    categories.push("All");
+    return categories;
+} 
