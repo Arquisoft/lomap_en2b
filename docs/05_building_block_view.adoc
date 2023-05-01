@@ -16,11 +16,14 @@ This diagram is motivated by the need of having a clear separation of the compos
 header Architecture of the application
 title Architecture of the application
 
-agent "View"
-agent "Controller"
-agent "Persistance"
+rectangle webapp/src/ {
+    agent "View"
+}
 
-"Controller" -> "Persistance"
+rectangle restapi/ {
+    agent "Controller"
+}
+
 "View" -> "Controller"
 @enduml
 ----
@@ -31,9 +34,7 @@ As seen, the different components are the following:
 
 * *View*: The view layer is composed of those elements that the client will interact with; it includes the React code, CSS sheets and the client-side code.
 
-* *Controller*: The controller layer will ensure a proper communication the client and the server.
-
-* *Persistance*: The persistance layer handles data retrieval and persistence logic.
+* *Controller*: The controller layer will ensure a proper communication the client and the server. It currently handles also persistence.
 
 ==== View layer
 
@@ -45,11 +46,9 @@ As already explained this layer will be composed of those components that the us
 
 Since we are not using interfaces, we will be seeing important components:
 
-* *Map*: This component is one of the most important parts of the application. It returns a working map that can be extended, adding functionality through other components. It can be found in _/webapp/src/components/map_, and can be applied several stylesheets.
-
 * *The main UI*: It is divided in several components: the left bar, the navbar and the rightbar, each one with its one subfolder in _/webapp/src/components_.
 
-* *The pages*: These are the React components that compose the web. They can be found in _/webapp/src/pages_.
+* *The pages*: These are the React components that compose the web. They can be found in _/webapp/src/pages_, in their own folder.
 
 ===== Open Issues/Problems/Risks
 
@@ -63,66 +62,8 @@ The controller layer will handle internal communication between the view and the
 
 ===== Interfaces
 
-No interfaces have been defined yet.
+* *The controllers*: they handle the logic and the persistence of the application. They can be found in the _restapi_ folder.
 
 ===== Open Issues/Problems/Risks
 
 No issues, problems or risks are known.
-
-==== Service layer
-
-===== Purpose/responsability
-
-The service layer will handle communication with the persistence layer.
-
-===== Interfaces
-
-No interfaces have been defined yet.
-
-===== Open Issues/Problems/Risks
-
-It is important to consider how we will handle communication between the server and the pods, and if there will be any difference to communicating with the database.
-
-==== Model layer
-
-===== Purpose/responsability
-
-The model layer will handle internal logic.
-
-===== Interfaces
-
-No interfaces have been defined yet.
-
-===== Open Issues/Problems/Risks
-
-No issues, problems or risks are known.
-
-=== Level 2
-
-==== Persistence layer
-
-Currently, the only layer we have somewhat structured is the persistance layer. 
-
-[plantuml,png, id = "PersistenceLayer"]
-----
-@startuml
-
-header Structure of the persistence layer
-title Structure of the persistence layer
-
-folder "Persistence layer"{
-agent Database
-agent "User pod"
-}
-agent "Service layer"
-Database <-- "Service layer"
-"User pod" <-- "Service layer"
-@enduml
-----
-
-As you can see, it is divided in in several two components: the pods and the database.
-
-* The pods will store the user data.
-* The database.
-
-What the database will store and what will also be included in the pods is yet to be decided, as we are trying to reach a compromise between storing mostly everything in the pods (which will significantly harm performance) and storing mostly everything in the database (which will harm privacy and does not follow SOLID).

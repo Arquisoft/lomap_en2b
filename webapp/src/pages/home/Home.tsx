@@ -1,55 +1,64 @@
-import { useEffect } from "react";
-import Map from "../../components/map/Map";
-import "../../components/map/stylesheets/home.css";
+import {useEffect, useState} from "react";
+import "../../map/stylesheets/home.css";
 import "./home.css"
-import { useSession } from "@inrupt/solid-ui-react";
-import { makeRequest } from "../../axios";
-import { Landmark } from "../../shared/shareddtypes";
-import { Marker, Popup } from "react-leaflet";
-import { useState } from "react";
+import {useSession} from "@inrupt/solid-ui-react";
+import {Landmark} from "../../shared/shareddtypes";
+import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+import { getLandmarksPOD } from "../../solidHelper/solidLandmarkManagement";
+import markerIcon from "leaflet/dist/images/marker-icon.png"
+import { Icon } from "leaflet";
+import {makeRequest} from "../../axios";
 
 function Home(): JSX.Element {
-  const {session} = useSession();
-  const [landmarks, setLandmarks] = useState<JSX.Element[]>([]);
+    const {session} = useSession();
+    const [landmarks, setLandmarks] = useState<Landmark[]>([]);
+    const [generatedLandmarks, setGeneratedLandmarks] = useState<JSX.Element[]>([]);
 
-  useEffect(() => {
-    if (session.info.webId !== undefined && session.info.webId !== "") {
-      console.log(session.info.webId);
-      makeRequest.post("/users/",{solidURL: session.info.webId});
-    } 
-    async function fetchLandmarks() {
-      let landmks: Landmark[] = [];
-      makeRequest.post("/landmarks/friend", { webId: session.info.webId?.split("#")[0] }).then((res1) => {
-        for (let i = 0; i < res1.data.length; i++) {
-          let landmark = new Landmark(res1.data[i].name, res1.data[i].latitude, res1.data[i].longitude, res1.data[i].category);
-          landmks.push(landmark);
+    useEffect( () => { 
+        if (session.info.webId !== undefined && session.info.webId !== "") {
+            makeRequest.post("/users/",{solidURL: session.info.webId});
         }
-        setLandmarks(loadLandmarks(landmks));
-      });
+        doGetLandmarks();
 
-    }
-    fetchLandmarks();
-  }, [session,landmarks,setLandmarks]);
+        async function getLandmarks(){
+            let fetchedLandmarks : Landmark[] | undefined = await getLandmarksPOD(session.info.webId);
+            if (fetchedLandmarks === undefined) return null;
+            console.log(session.info.webId);
+            setLandmarks(fetchedLandmarks);
+        }
 
-      function loadLandmarks(data: Landmark[]) {
-        let results = data.map((landmark) => {
-          return (
-            <Marker position={[landmark.latitude, landmark.longitude]}>
-              <Popup>
-                <h3>{landmark.name}</h3>
+        async function doGetLandmarks() {
+            await getLandmarks();
+            let array : JSX.Element[] = [];
+            landmarks.forEach(landmark => {
+                let element =  <Marker position={[landmark.latitude, landmark.longitude]} icon={new Icon({iconUrl: markerIcon})}>
+                        <Popup>
+                                {landmark.name} - {landmark.category}
+                        </Popup>
+                    </Marker>;
+                array.push(element);
+                console.log(array);
+                }
+            );
+            
+            setGeneratedLandmarks(array);
+            }
+        doGetLandmarks();
+    }, [session.info.webId, landmarks]);
 
-              </Popup>
-            </Marker>
-          );
-        });
-
-        return results;
-      }
-  return (
-    <div className="homeContainer">
-      <h1>Home</h1>
-      <Map>{landmarks}</Map>
-    </div>
-  );
+    return (
+        <div className="homeContainer">
+            <h1>Home</h1>
+            <MapContainer center={[50.847, 4.357]} zoom={13}
+                          scrollWheelZoom={true}>
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                { generatedLandmarks }
+            </MapContainer>;
+        </div>
+    );
 }
+
 export default Home;

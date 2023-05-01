@@ -1,7 +1,7 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import puppeteer from "puppeteer";
 
-const feature = loadFeature('./features/profile.feature');
+const feature = loadFeature('./features/find-friends.feature');
 
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
@@ -21,36 +21,53 @@ defineFeature(feature, test => {
       .catch(() => {});
   });
 
-  test('The user is logged in the site', ({given,when,then}) => {
-    
-    let email:string;
-    let username:string;
+  test('Searching for garabato', ({given,when,then}) => {
 
-    given('A logged user', () => {
+    given("The user logs in", async () => {
+      await expect(page).toClick("button", {text:"Login"});
       
-    });
+      await page.waitForNavigation(); // wait for the login page to load
+
+      await page.type('#username', "ArqSoftLoMapEn2b")
+      await page.type('#password', "#HappySW123")
+
+      await page.click('#login')
+
+      await page.waitForNavigation(); // wait for the redirect
+      // await page.waitForTimeout(30000); // wait for 25 seconds (load locations??)
+      await page.waitForTimeout(8000);
+
+  });
 
     when('He searches for garabato', async () => {
       await expect(page).toFill("input[className='searchInput']", "garabato");
       await expect(page).toClick('button', { text: 'Search' })
     });
 
-    then('Some people should appear', async () => {
+    then('Some test people should appear', async () => {
       await expect(page).toMatch('Usuarios encontrados');
       await expect(page).toMatch('User name: garabato');
     });
   })
 
-  test('The user is logged in the site', ({given,when,then}) => {
+  test('Searching for random', ({given,when,then}) => {
     
-    let email:string;
-    let username:string;
-
-    given('A logged user', () => {
+    given("The user logs in", async () => {
+      await expect(page).toClick("button", {text:"Login"});
       
-    });
+      await page.waitForNavigation(); // wait for the login page to load
 
-    when('When He searches for asdfgh', async () => {
+      await page.type('#username', "ArqSoftLoMapEn2b")
+      await page.type('#password', "#HappySW123")
+
+      await page.click('#login')
+
+      await page.waitForNavigation(); // wait for the redirect
+      // await page.waitForTimeout(30000); // wait for 25 seconds (load locations??)
+      await page.waitForTimeout(8000);
+
+  });
+    when('He searches for asdfgh', async () => {
       await expect(page).toFill("input[className='searchInput']", "garabato");
       await expect(page).toClick('button', { text: 'Search' })
     });

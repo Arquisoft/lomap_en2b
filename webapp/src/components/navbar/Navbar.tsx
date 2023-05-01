@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
 import "./navbar.css";
-import { makeRequest } from "../../axios";
 
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import {LogoutButton, useSession} from "@inrupt/solid-ui-react";
@@ -15,11 +14,11 @@ function Navbar(): JSX.Element {
 
   const getLoginButton = () => {
     if (sessionStarted) {
-      return <Button className="logout" variant="contained">
+      return <Button className="logout" variant="contained" onClick={ () => navigate("/")}>
         Logout
       </Button>
     } else {
-      return <Button className="login" variant="contained" onClick={ () => navigate("/login")}>
+      return <Button className="login" variant="contained" onClick={ () => navigate("/")}>
         Login
       </Button>
     }
@@ -28,8 +27,8 @@ function Navbar(): JSX.Element {
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
-        <Link className="logo" to="/" style={{ textDecoration: "none" }}>
-          <img className="logo" src="/Lomap.png" alt="bug" height={50} />
+        <Link className="logo" to="/main/" style={{ textDecoration: "none" }} id="logoLinkNB">
+          <img className="logo"  id="logoImgNB" src="/Lomap.png" alt="bug" height={50} />
         </Link>
 
 
@@ -38,22 +37,23 @@ function Navbar(): JSX.Element {
         <div className="searchForm">
           <form >
             <div className="searchbar">
-              <PersonSearchIcon className="searchIcon" />
+              <PersonSearchIcon  id="searchIconNB" className="searchIcon" />
               <input
                 type="text"
                 placeholder="Search for a friend!"
                 className="searchInput"
                 value={inputValue}
+                id="searchInputNB"
                 onChange={(event) => setInputValue(event.target.value)}
               />
-              <Link to={"/users/" + inputValue} style={{ textDecoration: 'none', color: 'inherit' }}>
-              <button type="submit" className="searchUsers">Search</button>
+              <Link to={"/main/users/" + inputValue} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <button type="submit" id="submitButtonNB" className="searchUsers">Search</button>
               </Link>
             </div>
           </form>
         </div>
       </div>
-      <div className="topbarRight">
+      <div className="topbarRight" id="rightPaneNB">
         <LogoutButton >
           {getLoginButton()}
         </LogoutButton>

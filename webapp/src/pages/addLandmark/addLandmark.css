@@ -3,7 +3,6 @@ h1 {
 }
 
 .myLandmarksContainer > div[class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"]{
-    margin-left: 3em;
     width: 80%;
     min-width: 20%;
     height: 100%;
@@ -14,6 +13,10 @@ h1 {
     font-size: 1.2em;
     margin-top: 3em;
     margin-left: 3em;
+}
+
+#images {
+    font-size: 0.7em;
 }
 
 input {
