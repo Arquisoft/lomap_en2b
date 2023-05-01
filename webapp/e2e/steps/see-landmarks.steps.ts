@@ -1,7 +1,7 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import puppeteer from "puppeteer";
 
-const feature = loadFeature('../features/see-landmarks.feature');
+const feature = loadFeature('./features/see-landmarks.feature');
 
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
@@ -21,7 +21,7 @@ defineFeature(feature, test => {
       .catch(() => {});
   });
 
-  test('The user logs in the site', ({given,when,then}) => {
+  test('Seeing landmarks', ({given,when,then}) => {
     given("The user logs in", async () => {
       console.log("The user logs in");
       await expect(page).toClick("button", {text:"Login"});

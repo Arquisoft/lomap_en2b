@@ -1,7 +1,7 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import puppeteer from "puppeteer";
 
-const feature = loadFeature('../features/friends-list.feature');
+const feature = loadFeature('./features/friends-list.feature');
 
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
@@ -21,7 +21,7 @@ defineFeature(feature, test => {
       .catch(() => {});
   });
 
-  test('The user is logged in the site', ({given,when,then}) => {
+  test('Seeing friends', ({given,when,then}) => {
     
     given("The user logs in", async () => {
       await expect(page).toClick("button", {text:"Login"});
@@ -44,7 +44,7 @@ defineFeature(feature, test => {
     });
 
     then('I am able to see my friends', async () => {
-      await expect(page).toMatch('Friends')
+      await expect(page).toMatch('Your friends:')
     });
   })
 

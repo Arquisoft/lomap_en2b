@@ -1,7 +1,7 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import puppeteer from "puppeteer";
 
-const feature = loadFeature('../features/profile.feature');
+const feature = loadFeature('./features/profile.feature');
 
 let page: puppeteer.Page;
 let browser: puppeteer.Browser;
@@ -21,7 +21,7 @@ defineFeature(feature, test => {
       .catch(() => {});
   });
 
-  test('The user is logged in the site', ({given,when,then}) => {
+  test('Seeing my profile', ({given,when,then}) => {
     
     given("The user logs in", async () => {
       await expect(page).toClick("button", {text:"Login"});
