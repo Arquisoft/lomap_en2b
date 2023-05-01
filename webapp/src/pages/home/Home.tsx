@@ -20,9 +20,9 @@ function Home(): JSX.Element {
         }
         doGetLandmarks();
 
-        async function getLandmarks() {
+        async function getLandmarks(){
             let fetchedLandmarks : Landmark[] | undefined = await getLocations(session.info.webId);
-            if (fetchedLandmarks === undefined) return null;;
+            if (fetchedLandmarks === undefined) return null;
             console.log(session.info.webId);
             setLandmarks(fetchedLandmarks);
         }
