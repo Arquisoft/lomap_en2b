@@ -1,13 +1,7 @@
 import {
-    Button,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    Grid,
-    Input,
-    InputLabel,
-    TextField,
-    Typography
+    Button, Checkbox, FormControl, 
+    FormControlLabel, Grid, Input, 
+    InputLabel, TextField, Typography
 } from "@mui/material";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import {useEffect, useRef, useState} from "react";
@@ -15,7 +9,7 @@ import "../../map/stylesheets/addLandmark.css"
 import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {Landmark, LandmarkCategories, Review} from "../../shared/shareddtypes";
 import L from "leaflet";
-import { addLocationReview, addLocationScore, getFriendsLandmarks} from "../../solidHelper/solidLandmarkManagement";
+import { addLandmarkReview, addLandmarkScore, getFriendsLandmarks} from "../../solidHelper/solidLandmarkManagement";
 import { useSession } from "@inrupt/solid-ui-react";
 
 export default function LandmarkFriend() : JSX.Element{
@@ -59,12 +53,12 @@ export default function LandmarkFriend() : JSX.Element{
         let date : string = new Date().toLocaleString();
         let review : Review = new Review(webId, date, "", "", comment);
         let landmark : Landmark = landmarks.get(selectedMarker) as Landmark;
-        await addLocationReview(landmark, review);
+        await addLandmarkReview(landmark, review);
     };
 
     const sendScore : Function = async (score : number) => {
         let landmark : Landmark = landmarks.get(selectedMarker) as Landmark;
-        await addLocationScore(session.info.webId!, landmark, score);
+        await addLandmarkScore(session.info.webId!, landmark, score);
     };
     return  <Grid container>
                 <Grid item xs = {12}>

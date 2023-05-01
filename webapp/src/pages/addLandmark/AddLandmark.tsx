@@ -12,7 +12,7 @@ import {Landmark, LandmarkCategories} from "../../shared/shareddtypes";
 import {makeRequest} from "../../axios";
 import {useSession} from "@inrupt/solid-ui-react";
 import {MapContainer, TileLayer, useMapEvents} from "react-leaflet";
-import {createLocation} from "../../solidHelper/solidLandmarkManagement";
+import {createLandmark} from "../../solidHelper/solidLandmarkManagement";
 
 export default function AddLandmark() {
 
@@ -68,7 +68,7 @@ export default function AddLandmark() {
         // Access to SOLID
         let webID = session.info.webId;
         if (webID !== undefined) {
-            await createLocation(webID, landmark);
+            await createLandmark(webID, landmark);
         }
     };
 
