@@ -1,7 +1,24 @@
-import type { Landmark, Review }from "../../shared/shareddtypes";
+import type { Landmark, Review }from "../src/shared/shareddtypes";
 import { fetch } from "@inrupt/solid-client-authn-browser";
 
 import {
+
+    
+          
+            
+    
+
+          
+          Expand Down
+          
+            
+    
+
+          
+          Expand Up
+    
+    @@ -28,7 +28,7 @@ import {
+  
     createThing, setThing, buildThing,
     getSolidDataset, saveSolidDatasetAt,
     createSolidDataset, getStringNoLocale,
@@ -17,10 +34,7 @@ import {
   import { SCHEMA_INRUPT, RDF, FOAF, VCARD} from "@inrupt/vocab-common-rdf";
   
   import {v4 as uuid} from "uuid";
-
-
 // Reading landmarks from POD
-
 /**
  * Get all the landmarks from the pod
  * @param webID contains the user webID
@@ -28,23 +42,34 @@ import {
  */
 export async function getLocations(webID:string | undefined) {
   if (webID === undefined) {
-    throw new Error("The user is not logged in");
+    //throw new Error("The user is not logged in");
     return;
   }
   let inventoryFolder = webID.split("profile")[0] + "private/lomap/inventory/index.ttl"; // inventory folder path
+
+    
+          
+            
+    
+
+          
+          Expand Down
+    
+    
+  
   let landmarks: Landmark[] = []; // initialize array of landmarks
   let landmarkPaths; 
   try {
     let dataSet = await getSolidDataset(inventoryFolder, {fetch: fetch}); // get the inventory dataset
-    landmarkPaths = getThingAll(dataSet) // get the things from the dataset (Landmark paths)
-    for (let landmarkPath of landmarkPaths) { // for each Landmark in the dataset
-      // get the path of the actual Landmark
+    landmarkPaths = getThingAll(dataSet) // get the things from the dataset (landmark paths)
+    for (let landmarkPath of landmarkPaths) { // for each landmark in the dataset
+      // get the path of the actual landmark
       let path = getStringNoLocale(landmarkPath, SCHEMA_INRUPT.identifier) as string;
-      // get the Landmark : Location from the dataset of that Landmark
+      // get the landmark : Location from the dataset of that landmark
       try{
-        let Landmark = await getLocationFromDataset(path)
-        landmarks.push(Landmark)
-        // add the Landmark to the array
+        let landmark = await getLocationFromDataset(path)
+        landmarks.push(landmark)
+        // add the landmark to the array
       }
       catch(error){
         //The url is not accessed(no permision)
@@ -52,31 +77,28 @@ export async function getLocations(webID:string | undefined) {
      
     }
   } catch (error) {
-    // if the Landmark dataset does no exist, return empty array of landmarks
+    // if the landmark dataset does no exist, return empty array of landmarks
     landmarks = [];
   }
   // return the landmarks
   return landmarks;
 }
-
 /**
- * Retrieve the Landmark from its dataset
- * @param landmarkPath contains the path of the Landmark dataset
- * @returns Landmark object
+ * Retrieve the landmark from its dataset
+ * @param landmarkPath contains the path of the landmark dataset
+ * @returns landmark object
  */
 export async function getLocationFromDataset(landmarkPath:string){
   let datasetPath = landmarkPath.split('#')[0] // get until index.ttl
   let landmarkDataset = await getSolidDataset(datasetPath, {fetch: fetch}) // get the whole dataset
-  let landmarkAsThing = getThing(landmarkDataset, landmarkPath) as Thing; // get the Landmark as thing
-
-  // retrieve Landmark information
+  let landmarkAsThing = getThing(landmarkDataset, landmarkPath) as Thing; // get the landmark as thing
+  // retrieve landmark information
   let name = getStringNoLocale(landmarkAsThing, SCHEMA_INRUPT.name) as string; 
   let longitude = getStringNoLocale(landmarkAsThing, SCHEMA_INRUPT.longitude) as string; 
   let latitude = getStringNoLocale(landmarkAsThing, SCHEMA_INRUPT.latitude) as string; 
   let description = getStringNoLocale(landmarkAsThing, SCHEMA_INRUPT.description) as string; 
   let url = getStringNoLocale(landmarkAsThing, SCHEMA_INRUPT.identifier) as string;
   let categoriesDeserialized = getStringNoLocale(landmarkAsThing, SCHEMA_INRUPT.Product) as string;
-
  
   let pictures: string [] = []; // initialize array to store the images as strings
   pictures = await getLocationImage(datasetPath); // get the images
@@ -85,9 +107,8 @@ export async function getLocationFromDataset(landmarkPath:string){
   let scores : Map<string, number>; // map to store the ratings
   scores = await getLocationScores(datasetPath); // get the ratings
   
-
   // create Location object
-  let Landmark : Landmark = {
+  let landmark : Landmark = {
         name: name,
         category: categoriesDeserialized,
         latitude: parseFloat(latitude),
@@ -98,11 +119,8 @@ export async function getLocationFromDataset(landmarkPath:string){
         pictures: pictures,
         url: url,
   }
-
-
-  return Landmark;
+  return landmark;
 }
-
 /**
  * Given the folder containing the images of the landmarks, gets the images (things) inside the dataset.
  * @param imagesFolderUrl url of the images folder
@@ -124,7 +142,6 @@ export async function getLocationImage(imagesFolderUrl:string){
         images.push(URL.createObjectURL(file));//Creates the file as URL and pushes it to the
       }
     }catch(e){
-
     }
     }
   } catch (error){
@@ -133,9 +150,8 @@ export async function getLocationImage(imagesFolderUrl:string){
   }
   return images;
 }
-
 /**
- * Get the reviews of a Landmark
+ * Get the reviews of a landmark
  * @param folder contains the dataset containing the reviews
  * @returns array of reviews
  */
@@ -170,9 +186,8 @@ export async function getLocationReviews(folder:string) {
     }
     return reviews;
   }
-
 /**
- * Get the scores of a Landmark
+ * Get the scores of a landmark
  * @param folder contains the dataset containing the scores
  * @returns Map containing the scores and their creator
  */
@@ -195,53 +210,49 @@ export async function getLocationScores(folder:string) {
     }
     return scores;
   }
-
 // Writing landmarks to POD
-
 /**
- * Add the Landmark to the inventory and creates the Landmark dataset.
+ * Add the landmark to the inventory and creates the landmark dataset.
  * @param webID contains the user webID
- * @param Landmark contains the Landmark to be added
+ * @param landmark contains the landmark to be added
  */
-export async function createLocation(webID:string, Landmark:Landmark) {
+export async function createLocation(webID:string, landmark:Landmark) {
     let baseURL = webID.split("profile")[0]; // url of the type https://<nombre>.inrupt.net/
     let landmarksFolder = baseURL + "private/lomap/inventory/index.ttl"; // inventory folder path
     let landmarkId;
-    // add Landmark to inventory
+    // add landmark to inventory
     try {
-      landmarkId = await addLocationToInventory(landmarksFolder, Landmark) // add the Landmark to the inventory and get its ID
+      landmarkId = await addLocationToInventory(landmarksFolder, landmark) // add the landmark to the inventory and get its ID
     } catch (error){
-      // if the inventory does not exist, create it and add the Landmark
-      landmarkId = await createInventory(landmarksFolder, Landmark)
+      // if the inventory does not exist, create it and add the landmark
+      landmarkId = await createInventory(landmarksFolder, landmark)
     }
     if (landmarkId === undefined) 
-      return; // if the Landmark could not be added, return (error)
+      return; // if the landmark could not be added, return (error)
   
-    // path for the new Landmark dataset
+    // path for the new landmark dataset
     let individualLocationFolder = baseURL + "private/lomap/landmarks/" + landmarkId + "/index.ttl";
   
-    // create dataset for the Landmark
+    // create dataset for the landmark
     try {
-      await createLocationDataSet(individualLocationFolder, Landmark, landmarkId)
+      await createLocationDataSet(individualLocationFolder, landmark, landmarkId)
     } catch (error) {
       console.log(error)
     }
 }
-
 /**
- * Adds the given Landmark to the Landmark inventory
+ * Adds the given landmark to the landmark inventory
  * @param landmarksFolder contains the inventory folder
- * @param Landmark contains the Landmark to be added
- * @returns string containing the uuid of the Landmark
+ * @param landmark contains the landmark to be added
+ * @returns string containing the uuid of the landmark
  */
-export async function addLocationToInventory(landmarksFolder:string, Landmark:Landmark) {
-    let landmarkId = "LOC_" + uuid(); // create Landmark uuid
-    let landmarkURL = landmarksFolder.split("private")[0] + "private/lomap/landmarks/" + landmarkId + "/index.ttl#" + landmarkId // Landmark dataset path
+export async function addLocationToInventory(landmarksFolder:string, landmark:Landmark) {
+    let landmarkId = "LOC_" + uuid(); // create landmark uuid
+    let landmarkURL = landmarksFolder.split("private")[0] + "private/lomap/landmarks/" + landmarkId + "/index.ttl#" + landmarkId // landmark dataset path
   
     let newLocation = buildThing(createThing({name: landmarkId}))
-      .addStringNoLocale(SCHEMA_INRUPT.identifier, landmarkURL) // add to the thing the path of the Landmark dataset
+      .addStringNoLocale(SCHEMA_INRUPT.identifier, landmarkURL) // add to the thing the path of the landmark dataset
       .build();
-
     let inventory = await getSolidDataset(landmarksFolder, {fetch: fetch}) // get the inventory
     inventory = setThing(inventory, newLocation); // add thing to inventory
     try {
@@ -251,18 +262,17 @@ export async function addLocationToInventory(landmarksFolder:string, Landmark:La
       console.log(error);
     }
 }
-
   /**
- * Creates the Landmark inventory and adds the given Landmark to it
+ * Creates the landmark inventory and adds the given landmark to it
  * @param landmarksFolder contains the path of the inventory
- * @param Landmark contains the Landmark object
- * @returns Landmark uuid
+ * @param landmark contains the landmark object
+ * @returns landmark uuid
  */
-export async function createInventory(landmarksFolder: string, Landmark:Landmark){
-    let landmarkId = "LOC_" + uuid(); // Landmark uuid
-    let landmarkURL = landmarksFolder.split("private")[0] + "private/lomap/landmarks/" + landmarkId + "/index.ttl#" + landmarkId; // Landmark dataset path
+export async function createInventory(landmarksFolder: string, landmark:Landmark){
+    let landmarkId = "LOC_" + uuid(); // landmark uuid
+    let landmarkURL = landmarksFolder.split("private")[0] + "private/lomap/landmarks/" + landmarkId + "/index.ttl#" + landmarkId; // landmark dataset path
   
-    let newLocation = buildThing(createThing({name: landmarkId})) // create thing with the Landmark dataset path
+    let newLocation = buildThing(createThing({name: landmarkId})) // create thing with the landmark dataset path
       .addStringNoLocale(SCHEMA_INRUPT.identifier, landmarkURL)
       .build();
     
@@ -275,26 +285,25 @@ export async function createInventory(landmarksFolder: string, Landmark:Landmark
       console.log(error);
     }
 }
-
 /**
- * Create the Landmark in the given folder
- * @param landmarkFolder contains the folder to store the Landmark .../private/lomap/landmarks/${landmarkId}/index.ttl
- * @param Landmark contains the Landmark to be created
- * @param id contains the Landmark uuid
+ * Create the landmark in the given folder
+ * @param landmarkFolder contains the folder to store the landmark .../private/lomap/landmarks/${landmarkId}/index.ttl
+ * @param landmark contains the landmark to be created
+ * @param id contains the landmark uuid
  */
-export async function createLocationDataSet(landmarkFolder:string, Landmark:Landmark, id:string) {
-    let landmarkIdUrl = `${landmarkFolder}#${id}` // construct the url of the Landmark
+export async function createLocationDataSet(landmarkFolder:string, landmark:Landmark, id:string) {
+    let landmarkIdUrl = `${landmarkFolder}#${id}` // construct the url of the landmark
   
-    // create dataset for the Landmark
+    // create dataset for the landmark
     let dataSet = createSolidDataset();
-    // build Landmark thing
+    // build landmark thing
     let newLocation = buildThing(createThing({name: id})) 
-    .addStringNoLocale(SCHEMA_INRUPT.name, Landmark.name.toString())
-    .addStringNoLocale(SCHEMA_INRUPT.longitude, Landmark.longitude.toString())
-    .addStringNoLocale(SCHEMA_INRUPT.latitude, Landmark.latitude.toString())
+    .addStringNoLocale(SCHEMA_INRUPT.name, landmark.name.toString())
+    .addStringNoLocale(SCHEMA_INRUPT.longitude, landmark.longitude.toString())
+    .addStringNoLocale(SCHEMA_INRUPT.latitude, landmark.latitude.toString())
     .addStringNoLocale(SCHEMA_INRUPT.description, "No description")
-    .addStringNoLocale(SCHEMA_INRUPT.identifier, landmarkIdUrl) // store the url of the Landmark
-    .addStringNoLocale(SCHEMA_INRUPT.Product, Landmark.category) // store string containing the categories
+    .addStringNoLocale(SCHEMA_INRUPT.identifier, landmarkIdUrl) // store the url of the landmark
+    .addStringNoLocale(SCHEMA_INRUPT.Product, landmark.category) // store string containing the categories
     .addUrl(RDF.type, "https://schema.org/Place")
     .build();
   
@@ -302,23 +311,21 @@ export async function createLocationDataSet(landmarkFolder:string, Landmark:Land
     dataSet = setThing(dataSet, newLocation); // store thing in dataset
     // save dataset to later add the images
     dataSet = await saveSolidDatasetAt(landmarkFolder, dataSet, {fetch: fetch}) // save dataset 
-    await addLocationImage(landmarkFolder, Landmark); // store the images
+    await addLocationImage(landmarkFolder, landmark); // store the images
     try {
       await saveSolidDatasetAt(landmarkFolder, dataSet, {fetch: fetch}) // save dataset 
     } catch (error) {
       console.log(error)
     }
   }
-
-
   /**
- * Add the Landmark images to the given folder
+ * Add the landmark images to the given folder
  * @param url contains the folder of the images
- * @param Landmark contains the Landmark
+ * @param landmark contains the landmark
  */
-export async function addLocationImage(url: string, Landmark:Landmark) {
+export async function addLocationImage(url: string, landmark:Landmark) {
     let landmarkDataset = await getSolidDataset(url, {fetch: fetch})
-    Landmark.pictures?.forEach(async picture => { // for each picture of the Landmark, build a thing and store it in dataset
+    landmark.pictures?.forEach(async picture => { // for each picture of the landmark, build a thing and store it in dataset
         let newImage = buildThing(createThing({name: picture}))
         .addStringNoLocale(SCHEMA_INRUPT.image, picture)
         .build();
@@ -331,15 +338,13 @@ export async function addLocationImage(url: string, Landmark:Landmark) {
       }
     );
   }
-
-
   /**
- * Add a review to the given Landmark
- * @param Landmark contains the Landmark
- * @param review contains the review to be added to the Landmark
+ * Add a review to the given landmark
+ * @param landmark contains the landmark
+ * @param review contains the review to be added to the landmark
  */
-export async function addLocationReview(Landmark:Landmark, review:Review){
-    let url = Landmark.url?.split("#")[0] as string; // get the path of the Landmark dataset
+export async function addLocationReview(landmark:Landmark, review:Review){
+    let url = landmark.url?.split("#")[0] as string; // get the path of the landmark dataset
     // get dataset
     let landmarkDataset = await getSolidDataset(url, {fetch: fetch})
     // create review
@@ -350,7 +355,7 @@ export async function addLocationReview(Landmark:Landmark, review:Review){
       .addStringNoLocale(SCHEMA_INRUPT.Person, review.webId)
       .addUrl(VCARD.Type, VCARD.hasNote)
       .build();
-    // store the review in the Landmark dataset
+    // store the review in the landmark dataset
     landmarkDataset = setThing(landmarkDataset, newReview)
   
     try {
@@ -362,13 +367,13 @@ export async function addLocationReview(Landmark:Landmark, review:Review){
   }
   
   /**
-   * Add a rating to the given Landmark
-   * @param webId contains the webid of the user rating the Landmark
-   * @param Landmark contains the Landmark
+   * Add a rating to the given landmark
+   * @param webId contains the webid of the user rating the landmark
+   * @param landmark contains the landmark
    * @param score contains the score of the rating
    */
-  export async function addLocationScore(webId:string, Landmark:Landmark, score:number){
-    let url = Landmark.url?.split("#")[0] as string; // get Landmark dataset path
+  export async function addLocationScore(webId:string, landmark:Landmark, score:number){
+    let url = landmark.url?.split("#")[0] as string; // get landmark dataset path
     // get dataset
     let landmarkDataset = await getSolidDataset(url, {fetch: fetch})
     // create score
@@ -387,16 +392,122 @@ export async function addLocationReview(Landmark:Landmark, review:Review){
       console.log(error);
     }
   }
-
-
 // Friend management
-
+/**
+ * Grant/ Revoke permissions of friends regarding a particular landmark
+ * @param friend webID of the friend to grant or revoke permissions
+ * @param landmarkURL landmark to give/revoke permission to
+ * @param giveAccess if true, permissions are granted, if false permissions are revoked
+ */
+export async function setAccessToFriend(friend:string, landmarkURL:string, giveAccess:boolean){
+  let myInventory = `${landmarkURL.split("private")[0]}private/lomap/inventory/index.ttl`
+  await giveAccessToInventory(myInventory, friend);
+  let resourceURL = landmarkURL.split("#")[0]; // dataset path
+  // Fetch the SolidDataset and its associated ACL, if available:
+  let myDatasetWithAcl : any;
+  try {
+    myDatasetWithAcl = await getSolidDatasetWithAcl(resourceURL, {fetch: fetch});
+    // Obtain the SolidDataset's own ACL, if available, or initialise a new one, if possible:
+    let resourceAcl;
+    if (!hasResourceAcl(myDatasetWithAcl)) {
+      
+      if (!hasFallbackAcl(myDatasetWithAcl)) {
+        // create new access control list
+        resourceAcl = createAcl(myDatasetWithAcl);
+      }
+      else{
+        // create access control list from fallback
+        resourceAcl = createAclFromFallbackAcl(myDatasetWithAcl);
+      }
+    } else {
+      // get the access control list of the dataset
+      resourceAcl = getResourceAcl(myDatasetWithAcl);
+    }
+  let updatedAcl;
+  if (giveAccess) {
+    // grant permissions
+    updatedAcl = setAgentDefaultAccess(
+      resourceAcl,
+      friend,
+      { read: true, append: true, write: false, control: true }
+    );
+  }
+  else{
+    // revoke permissions
+    updatedAcl = setAgentDefaultAccess(
+      resourceAcl,
+      friend,
+      { read: false, append: false, write: false, control: false }
+    );
+  }
+  // save the access control list
+  await saveAclFor(myDatasetWithAcl, updatedAcl, {fetch: fetch});
+  }
+  catch (error){ // catch any possible thrown errors
+    console.log(error)
+  }
+}
+export async function giveAccessToInventory(resourceURL:string, friend:string){
+  let myDatasetWithAcl : any;
+  try {
+    myDatasetWithAcl = await getSolidDatasetWithAcl(resourceURL, {fetch: fetch}); // inventory
+    // Obtain the SolidDataset's own ACL, if available, or initialise a new one, if possible:
+    let resourceAcl;
+    if (!hasResourceAcl(myDatasetWithAcl)) {
+      if (!hasAccessibleAcl(myDatasetWithAcl)) {
+        //  "The current user does not have permission to change access rights to this Resource."
+      }
+      if (!hasFallbackAcl(myDatasetWithAcl)) {
+        // create new access control list
+        resourceAcl = createAcl(myDatasetWithAcl);
+      }
+      else{
+        // create access control list from fallback
+        resourceAcl = createAclFromFallbackAcl(myDatasetWithAcl);
+      }
+    } else {
+      // get the access control list of the dataset
+      resourceAcl = getResourceAcl(myDatasetWithAcl);
+    }
+  let updatedAcl;
+    // grant permissions
+    updatedAcl = setAgentResourceAccess(
+      resourceAcl,
+      friend,
+      { read: true, append: true, write: false, control: false }
+    );
+  // save the access control list
+  await saveAclFor(myDatasetWithAcl, updatedAcl, {fetch: fetch});
+  }
+  catch (error){ // catch any possible thrown errors
+    console.log(error)
+  }
+}
+export async function addSolidFriend(webID: string,friendURL: string): Promise<{error:boolean, errorMessage:string}>{
+    let profile = webID.split("#")[0];
+    let dataSet = await getSolidDataset(profile+"#me", {fetch: fetch});//dataset card me
+  
+    let thing =await getThing(dataSet, profile+"#me") as Thing; // :me from dataset
+  
+    try{
+      let newFriend = buildThing(thing)
+      .addUrl(FOAF.knows, friendURL as string)
+      .build();
+  
+      dataSet = setThing(dataSet, newFriend);
+      dataSet = await saveSolidDatasetAt(webID, dataSet, {fetch: fetch})
+    } catch(err){
+      return{error:true,errorMessage:"The url is not valid."}
+    }
+  
+    return{error:false,errorMessage:""}
+  
+  }
   export async function getFriendsLandmarks(webID:string){
     let friends = getUrlAll(await getUserProfile(webID), FOAF.knows);
-
-    return await Promise.all(friends.map(friend => getLocations(friend as string)));
+    const landmarkPromises = friends.map(friend => getLocations(friend as string));
+    return await Promise.all(landmarkPromises);
   }
-
   export async function getUserProfile(webID: string) : Promise<Thing>{
     // get the url of the full dataset
     let profile = webID.split("#")[0]; //just in case there is extra information in the url
