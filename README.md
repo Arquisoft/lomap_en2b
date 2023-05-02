@@ -61,18 +61,18 @@ You should be able to access the application in [http://localhost:3000](http://l
 
 In this case we are using React with Typescript for the webapp. Lets create the app in the directory webapp with the following command (make sure you have npm installed in your system):
 ```console
-npx create-react-app my-app --template typescript
-```
-At this point we can already run the app with:
-```console
 cd webapp
+npm i
 npm start
 ```
-The app will launch and it will be listening in port 3000. At this point this app is a Hello World app in React.
+And open a new command console and execute
+```console
+cd restapi
+npm i
+npm run dev
+```
+This runs the application in local, take into account you must have nodejs installed in the system. To access the webpage access in a browser write: localhost:3000
 
-Lets make some modifications to the app, we will create an app that asks the name and email to the user and send it to an api rest. The webapp will list all the register users in the site.
-
-Basically the app should be able to get the name and email of a user, send it to the api, and then refresh the list of the users from the api. You can check the relevant code in the components [EmailForm.tsx](src/components/EmailForm.tsx) and [UserList.tsx](src/components/UserList.tsx). The [App.tsx](src/App.tsx) component acts as the coordinator for the other components.
 
 ### Testing the Webapp
 
