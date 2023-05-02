@@ -34,7 +34,8 @@ mongoose.connect("mongodb+srv://asw2b:asw2b@lomap.9zrwedt.mongodb.net/?retryWrit
   console.log('Succesfully connected to MongoDB')
 );
 
-app.use(cors({origin:"http://localhost:8800"}))
+
+app.use(cors({origin:"http://localhost:3000"}))
 
 
 app.use(cookieParser());
@@ -58,11 +59,13 @@ app.use(
 app.use("/solid", solid);
 app.use("/users", users);
 
-/*app.listen(process.env.API_PORT, ():void => {
-  console.log('Restapi listening on '+ process.env.API_PORT);
+
+app.listen(8800, ():void => {
+  console.log('Restapi listening on 8800');
+
 }).on("error",(error:Error)=>{
   console.error('Error occured: ' + error.message);
-}); */
+}); 
 
 
 export default app;
