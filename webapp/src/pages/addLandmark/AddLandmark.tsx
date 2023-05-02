@@ -22,6 +22,12 @@ export default function AddLandmark() {
     const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
     const {session} = useSession();
 
+    let picture : string = "";
+
+    const setPicture = (e : string) => {
+        picture = e;
+    }
+
     const setCoordinates = async (latitude : number, longitude : number) => {
         setIsButtonEnabled(false);
         (map.current as L.Map).panTo([latitude, longitude]);
@@ -48,12 +54,12 @@ export default function AddLandmark() {
         let longitude : number = coords[1];
         
         let description : string | undefined = (document.getElementById("description") as HTMLInputElement).value;
-        if (description.trim() === "") {
-            return;
-        }
+
         let pictures : string[] = [];
-        let picture : string | undefined = (document.getElementById("images") as HTMLInputElement).value;
-        pictures.concat(picture);
+        if(picture !== "") {
+            pictures.push(picture);
+        }
+
 
         let landmark : Landmark = {
             name : name,
@@ -120,7 +126,24 @@ export default function AddLandmark() {
                             </FormControl>
                             <FormControl>
                                 <Typography style={{color:"#FFF"}}>Add an image</Typography>
-                                <input type="file" id="images" accept=".jpg"/>
+                                <input type="file" id="images" accept=".jpg" onChange={function (e) {
+                                    const target = e.target as HTMLInputElement;
+                                    if (target.files == null){
+                                        return;
+                                    }
+                                    const file = target.files[0];
+                                  
+                                    if (!file) {
+                                      return;
+                                    }
+                                  
+                                    const reader = new FileReader();
+                                    reader.onload = (event) => {
+                                      const result = event.target?.result as string;
+                                      setPicture(result);
+                                    };
+                                    reader.readAsDataURL(file);
+                                }}/>
                             </FormControl>     
                             </Grid>
                                 {isButtonEnabled 

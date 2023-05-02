@@ -34,6 +34,7 @@ function Home(): JSX.Element {
                 let element =  <Marker position={[landmark.latitude, landmark.longitude]} icon={new Icon({iconUrl: markerIcon})}>
                         <Popup>
                                 {landmark.name} - {landmark.category}
+                                <img src ={landmark.pictures === undefined ? "" :landmark.pictures[0] } alt = "No images" width={200} height={200}></img>
                         </Popup>
                     </Marker>;
                 array.push(element);
