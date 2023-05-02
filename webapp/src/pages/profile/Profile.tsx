@@ -18,7 +18,8 @@ function Profile(): JSX.Element {
     
     const fetchUser = async () => {
       if (uuid == null) {
-        uuid = "643425320fcf0094a003db0f";  //Only for testing
+        uuid = "6433c2435e3283d2f3f7207e";  //Only for testing
+        return;
       }
       makeRequest.get(`/solid/`+ uuid+"").then((res) => { setUser(res.data);});
       makeRequest.get("/users/id/"+uuid).then((res) => { setWebID(res.data.solidURL); });

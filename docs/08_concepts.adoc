@@ -10,26 +10,32 @@ In addition, landmarks will have reviews associated to them and viceversa.
 ----
 @startuml
 object User{
+    solidURL: String
+    username: String
+    email: String
     id: String
-    friends: List<User>
-    landmarks: List<Landmark>
-    reviews: List<Review>
+    landmarks?:Landmark[]
 }
 
 object Landmark{
-    id: String
+    id?: int
     name: String
     category: String
-    description: String
-    image: String
-    reviews: List<Review>
+    latitude: int
+    longitude: int
+    description?: String
+    reviews?: Array<Review>
+    scores?: Map<string,Number>
+    pictures?: String[]
+    url?: String
 }
 
 object Review{
-    id: String
-    landmarkId: String
-    rating: int
-    comment: String
+    webId: String
+    date: String
+    username: String
+    title: String
+    content: String
 }
 
 User o--> User
@@ -41,7 +47,7 @@ Landmark o--> Review
 
 === Security
 
-This is probably the most important concept of our application. To give users the most safety we only store the information necessary to function and we will store most of it in users' SOLID pods, this means that users will have power over how and with who they share their data.
+This is probably the most important concept of our application. To give users the most safety we only store the information necessary to function and we will store most of it in users' SOLID pods, this means that users will have power over how, where and with who they share their data.
 
 === User experience
 
