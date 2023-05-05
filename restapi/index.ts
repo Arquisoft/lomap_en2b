@@ -35,7 +35,7 @@ mongoose.connect("mongodb+srv://asw2b:asw2b@lomap.9zrwedt.mongodb.net/?retryWrit
 );
 
 
-app.use(cors({origin:"http://localhost:3000"}))
+app.use(cors({origin:"https://localhost:3000"}))
 
 
 app.use(cookieParser());
