@@ -94,7 +94,7 @@ npm run dev
 This runs the application in local, take into account you must have nodejs installed in the system. To access the webpage access in a browser write: localhost:3000
 
 
-### Testing the Webapp
+### Testing the Webapp and the Restapi
 
 #### Unit tests
 
