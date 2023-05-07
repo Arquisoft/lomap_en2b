@@ -2,10 +2,19 @@ import {useState} from "react";
 import {Button, Container, FormGroup, TextField} from "@mui/material";
 import "./login.css"
 import {LoginButton} from "@inrupt/solid-ui-react";
-
+import { login } from "@inrupt/solid-client-authn-browser";
 const Login = () => {
     const [idp, setIdp] = useState("https://inrupt.net");
 
+    const handleSubmit = async (e:any) => {
+        
+        e.preventDefault(); //if not used, the page will reload and data will be lost
+        login({
+          redirectUrl: "http://172.162.240.176:3000/main/", // after redirect, come to the actual page
+          oidcIssuer: idp, // redirect to the url
+          clientName: "Lo Map",
+        });
+      };
 
     return (
         <Container>
@@ -27,13 +36,16 @@ const Login = () => {
                     onChange={(e: any) => setIdp(e.target.value)}
                     InputProps={{
                         endAdornment: (
-                            <LoginButton oidcIssuer={idp}
-                                         redirectUrl="http://172.162.240.176:3000/main/"
-                                         onError={console.error}>
-                                <Button variant="contained">
+                            // <LoginButton oidcIssuer={idp}
+                            //              redirectUrl="http://172.162.240.176:3000/main/"
+                            //              onError={console.error}>
+                                <Button variant="contained" onClick={(e) => {
+                                    handleSubmit(e);
+                                
+                                }}>
                                     Login
                                 </Button>
-                            </LoginButton>
+                            // </LoginButton>
                         ),
                     }}
                 />
