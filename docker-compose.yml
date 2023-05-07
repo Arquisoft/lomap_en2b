@@ -6,7 +6,7 @@ services:
   restapi:
     build: ./restapi
     ports:
-      - "443:443"
+      - "8800:8800"
   webapp:
     build: ./webapp
     ports:
