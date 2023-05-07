@@ -9,20 +9,20 @@
 This is an application done by a team of UniOvi students, simulating a project done by a belgian software company, for the Council of Brussels.
 It is an application where the users can login with their Solid accounts and share their favourite landmarks and places all around the globe with their friends. In the application you will be able to see your friends' landmarks, and you can create landmarks on your favourite places in order to let people see what you enjoy the most about the city of Brussels and also from the whole world.
 
-This is a website done while we learnt some technologies like **React**, **Typescript** or an endpoint using **NodeJS** with **express**.
-
-## Team members
-
-Andres Cadenas Blanco UO282276@uniovi.es  
-Pedro Limeres Granado uo282763@uniovi.es  
-Diego Villanueva Berros UO283615@uniovi.es  
-Jorge Joaquín Gancedo Fernández UO282161@uniovi.es  
+This is a website done while we learnt some technologies like **React**, **Typescript** or an endpoint using **NodeJS** with **express**. 
 
 <p align="center">
 <img src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
 <img src="https://miro.medium.com/max/1200/0*RbmfNyhuBb8G3LWh.png" height="100">
 <img src="https://miro.medium.com/max/365/1*Jr3NFSKTfQWRUyjblBSKeg.png" height="100">
 </p>
+
+## Team members
+
+Andres Cadenas Blanco UO282276@uniovi.es  
+Pedro Limeres Granado uo282763@uniovi.es  
+Diego Villanueva Berros UO283615@uniovi.es  
+Jorge Joaquín Gancedo Fernández UO282161@uniovi.es 
 
 ## Sections
 
