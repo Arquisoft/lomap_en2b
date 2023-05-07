@@ -99,12 +99,20 @@ This runs the application in local, take into account you must have nodejs insta
 #### Unit tests
 
 Basically these tests make sure that each component work isolated. It is important to check that they render properly. These tests are done using jest and you can execute them with `npm run test`. A code coverage analysis is generated every time we run the tests. If properly configured, this can be exploited by tools like [SonarCloud](https://sonarcloud.io/) to create reports of code coverage.
-Some tests needs to mock some parts of the application. For instance, the `EmailForm.tsx` component uses the api for adding a user. In the unitary tests we should mock these calls to make more robusts tests. You can check the file [EmailForm.test.tsx](src/components/EmailForm.test.tsx) to learn how this is done.
-For instance:
-```javascript
-jest.spyOn(api,'addUser').mockImplementation((user:User):Promise<boolean> => Promise.resolve(false))
+These tests have been done both on the webapp and on the restapi.
+
+#### e2e tests
+
+These type of tests make sure that the navigation on the web page is as expected. They are done using cucumber, and they are run via an automatic web browser that executes the orders we want, and compares the results it gets with the ones we want to get.
+```console
+cd restapi
+npm i
+npm run test:e2e
 ```
-will mock the implementation of the addUser function. Instead of calling the API, we just return false simulating that the webservice has failed to add a new user.
+
+#### Load Testing
+
+These type of tests, we external to the code, and they measured how the web application worked facing some high trafic of users, we tried to simulate different scenarios and also we tried with different number o users. We used the tool Gatling for making these tests.
 
 ### Docker image for the web app
 
