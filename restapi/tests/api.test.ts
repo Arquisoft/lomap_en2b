@@ -36,10 +36,7 @@ beforeAll(async () => {
     mongoose.connect(connectionString);
 });
 
-afterAll(async () => {
-    server.close() //close the server
-    mongoose.connection.close();
-})
+
 
 describe('user ', () => {
 
@@ -156,3 +153,8 @@ describe('user ', () => {
         expect(response.statusCode).toBe(500);
     });
 });
+
+afterAll(async () => {
+    server.close() //close the server
+    mongoose.connection.close();
+})
