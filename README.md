@@ -4,6 +4,26 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_en2b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_en2b)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_lomap_en2b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_lomap_en2b)
 
+## Introduction to Lomap
+
+This is an application done by a team of UniOvi students, simulating a project done by a belgian software company, for the Council of Brussels.
+It is an application where the users can login with their Solid accounts and share their favourite landmarks and places all around the globe with their friends. In the application you will be able to see your friends' landmarks, and you can create landmarks on your favourite places in order to let people see what you enjoy the most about the city of Brussels and also from the whole world.
+
+This is a website done while we learnt some technologies like **React**, **Typescript** or an endpoint using **NodeJS** with **express**.
+
+## Team members
+
+Andres Cadenas Blanco UO282276@uniovi.es  
+Pedro Limeres Granado uo282763@uniovi.es  
+Diego Villanueva Berros UO283615@uniovi.es  
+Jorge Joaquín Gancedo Fernández UO282161@uniovi.es  
+
+<p align="center">
+<img src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
+<img src="https://miro.medium.com/max/1200/0*RbmfNyhuBb8G3LWh.png" height="100">
+<img src="https://miro.medium.com/max/365/1*Jr3NFSKTfQWRUyjblBSKeg.png" height="100">
+</p>
+
 ## Sections
 
 * [Quickstart guide](#quickstart-guide)
@@ -91,19 +111,3 @@ will mock the implementation of the addUser function. Instead of calling the API
 The `Dockerfile` for the webapp is pretty simple. Just copy the app, install the dependencies, build the production version an then run a basic webserver to launch it. 
 
 In order to run the app, we need a server. `npm start` is not good for production so we are going to use [Express](https://expressjs.com/es/). Check [server.js](webapp/server.ts) in the webapp to understand the configuration. As we will run it in port 3000 (in localhost), we have to bind this port with the port in our local machine.
-
-## Team members
-
-Andres Cadenas Blanco UO282276@uniovi.es  
-Pedro Limeres Granado uo282763@uniovi.es  
-Diego Villanueva Berros UO283615@uniovi.es  
-Jorge Joaquín Gancedo Fernández UO282161@uniovi.es  
-
-<p align="center">
-<img src="https://blog.wildix.com/wp-content/uploads/2020/06/react-logo.jpg" height="100">
-<img src="https://miro.medium.com/max/1200/0*RbmfNyhuBb8G3LWh.png" height="100">
-<img src="https://miro.medium.com/max/365/1*Jr3NFSKTfQWRUyjblBSKeg.png" height="100">
-</p>
-
-
-This project is a basic example of website using **React** with **Typescript** and an endpoint using **NodeJS** with **express**.
