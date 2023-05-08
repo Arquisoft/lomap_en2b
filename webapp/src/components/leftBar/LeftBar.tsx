@@ -27,19 +27,19 @@ function LeftBar(): JSX.Element{
             <div className="leftbarWrapper">
                 <ul className="sidebarList">
                     <li className="sidebarListItem">
-                        <Link to={"/main/profile/"+user} style={{ textDecoration: 'none', color: 'inherit' }} id="profileLB">
+                        <Link to={useSession().session.info.isLoggedIn ?"/main/profile/"+user:"/"} style={{ textDecoration: 'none', color: 'inherit' }} id="profileLB">
                         <PersonIcon className="sidebarIcon"/>
                         Profile
                         </Link>
                     </li>
                     <li className="sidebarListItem">
-                            <Link to="/main/landmarks/add" style={{ textDecoration: 'none', color: 'inherit' }} id="addlandmarkLB">
+                            <Link to={useSession().session.info.isLoggedIn ?"/main/landmarks/add":"/"} style={{ textDecoration: 'none', color: 'inherit' }} id="addlandmarkLB">
                             <LocationOnIcon className="sidebarIcon"/>
                             Add a landmark
                             </Link>
                         </li>
                     <li className="sidebarListItem">
-                        <Link to={"/main/landmarks/filter/"+user} style={{ textDecoration: 'none', color: 'inherit' }} id="seelandmarksLB">
+                        <Link to={useSession().session.info.isLoggedIn ? "/main/landmarks/filter/"+user: "/"} style={{ textDecoration: 'none', color: 'inherit' }} id="seelandmarksLB">
                         <LocationOnIcon className="sidebarIcon"/>
                         See friends' landmarks
                         </Link>
@@ -51,7 +51,7 @@ function LeftBar(): JSX.Element{
                         </Link>
                     </li> */}
                     <li className="sidebarListItem">
-                        <Link to={"/main/friends/"+user} style={{ textDecoration: 'none', color: 'inherit' }} id="friendsLB">
+                        <Link to={useSession().session.info.isLoggedIn ?"/main/friends/"+user:"/"} style={{ textDecoration: 'none', color: 'inherit' }} id="friendsLB">
                         <PeopleAltIcon className="sidebarIcon"/>
                         Friends
                         </Link>
