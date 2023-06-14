@@ -19,10 +19,7 @@ This is a website done while we learnt some technologies like **React**, **Types
 
 ## Team members
 
-Andres Cadenas Blanco UO282276@uniovi.es  
 Pedro Limeres Granado uo282763@uniovi.es  
-Diego Villanueva Berros UO283615@uniovi.es  
-Jorge Joaquín Gancedo Fernández UO282161@uniovi.es 
 
 ## Sections
 
